@@ -10,6 +10,8 @@
 		D4BBA534206FB0A400BC96EB /* Elkon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA52A206FB0A400BC96EB /* Elkon.framework */; };
 		D4BBA539206FB0A400BC96EB /* ElkonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA538206FB0A400BC96EB /* ElkonTests.swift */; };
 		D4BBA53B206FB0A400BC96EB /* Elkon.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BBA52D206FB0A400BC96EB /* Elkon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		D4BBA546206FB1BA00BC96EB /* SwiftCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */; };
+		D4BBA548206FB1F800BC96EB /* CWebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA547206FB1F800BC96EB /* CWebP.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +31,8 @@
 		D4BBA533206FB0A400BC96EB /* ElkonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ElkonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BBA538206FB0A400BC96EB /* ElkonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElkonTests.swift; sourceTree = "<group>"; };
 		D4BBA53A206FB0A400BC96EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCache.framework; path = Carthage/Build/iOS/SwiftCache.framework; sourceTree = "<group>"; };
+		D4BBA547206FB1F800BC96EB /* CWebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CWebP.framework; path = Carthage/Build/iOS/CWebP.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +40,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4BBA548206FB1F800BC96EB /* CWebP.framework in Frameworks */,
+				D4BBA546206FB1BA00BC96EB /* SwiftCache.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +62,7 @@
 				D4BBA52C206FB0A400BC96EB /* Elkon */,
 				D4BBA537206FB0A400BC96EB /* ElkonTests */,
 				D4BBA52B206FB0A400BC96EB /* Products */,
+				D4BBA544206FB1BA00BC96EB /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -84,6 +91,15 @@
 				D4BBA53A206FB0A400BC96EB /* Info.plist */,
 			);
 			path = ElkonTests;
+			sourceTree = "<group>";
+		};
+		D4BBA544206FB1BA00BC96EB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D4BBA547206FB1F800BC96EB /* CWebP.framework */,
+				D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,6 +357,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Elkon/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -362,6 +382,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Elkon/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
