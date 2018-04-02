@@ -7,14 +7,36 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D41B24B5207271E9002A38FA /* ImageViewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24B4207271E9002A38FA /* ImageViewBox.swift */; };
+		D41B24B7207273AB002A38FA /* ImageViewBox+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24B6207273AB002A38FA /* ImageViewBox+Load.swift */; };
+		D41B24B920727752002A38FA /* ImageDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24B820727752002A38FA /* ImageDecoder.swift */; };
+		D41B24C120728006002A38FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C020728006002A38FA /* AppDelegate.swift */; };
+		D41B24C320728006002A38FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C220728006002A38FA /* MainViewController.swift */; };
+		D41B24C820728006002A38FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D41B24C720728006002A38FA /* Assets.xcassets */; };
+		D41B24CB20728006002A38FA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D41B24C920728006002A38FA /* LaunchScreen.storyboard */; };
+		D41B24D1207280D1002A38FA /* SwiftLayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41B24D0207280D1002A38FA /* SwiftLayout.framework */; };
+		D41B24D4207281B0002A38FA /* MainViewController+ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24D3207281B0002A38FA /* MainViewController+ImageCell.swift */; };
+		D41B24D5207282C0002A38FA /* Elkon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA52A206FB0A400BC96EB /* Elkon.framework */; };
+		D41B24D6207282C0002A38FA /* Elkon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA52A206FB0A400BC96EB /* Elkon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		D41B24DA207284A2002A38FA /* CWebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA547206FB1F800BC96EB /* CWebP.framework */; };
+		D41B24DB207284B0002A38FA /* SwiftCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */; };
 		D4BBA534206FB0A400BC96EB /* Elkon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA52A206FB0A400BC96EB /* Elkon.framework */; };
 		D4BBA539206FB0A400BC96EB /* ElkonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA538206FB0A400BC96EB /* ElkonTests.swift */; };
 		D4BBA53B206FB0A400BC96EB /* Elkon.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BBA52D206FB0A400BC96EB /* Elkon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4BBA546206FB1BA00BC96EB /* SwiftCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */; };
 		D4BBA548206FB1F800BC96EB /* CWebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA547206FB1F800BC96EB /* CWebP.framework */; };
+		D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA549206FB2B900BC96EB /* ImageType.swift */; };
+		D4BBA54C206FB39900BC96EB /* ImageDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA54B206FB39900BC96EB /* ImageDataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		D41B24D7207282C0002A38FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D4BBA521206FB0A400BC96EB /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D4BBA529206FB0A400BC96EB;
+			remoteInfo = Elkon;
+		};
 		D4BBA535206FB0A400BC96EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D4BBA521206FB0A400BC96EB /* Project object */;
@@ -24,7 +46,32 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		D41B24D9207282C0002A38FA /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				D41B24D6207282C0002A38FA /* Elkon.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		D41B24B4207271E9002A38FA /* ImageViewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewBox.swift; sourceTree = "<group>"; };
+		D41B24B6207273AB002A38FA /* ImageViewBox+Load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageViewBox+Load.swift"; sourceTree = "<group>"; };
+		D41B24B820727752002A38FA /* ImageDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDecoder.swift; sourceTree = "<group>"; };
+		D41B24BE20728006002A38FA /* iOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D41B24C020728006002A38FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D41B24C220728006002A38FA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		D41B24C720728006002A38FA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D41B24CA20728006002A38FA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D41B24CC20728006002A38FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D41B24D0207280D1002A38FA /* SwiftLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftLayout.framework; path = Carthage/Build/iOS/SwiftLayout.framework; sourceTree = "<group>"; };
+		D41B24D3207281B0002A38FA /* MainViewController+ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+ImageCell.swift"; sourceTree = "<group>"; };
 		D4BBA52A206FB0A400BC96EB /* Elkon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Elkon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BBA52D206FB0A400BC96EB /* Elkon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Elkon.h; sourceTree = "<group>"; };
 		D4BBA52E206FB0A400BC96EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -33,9 +80,22 @@
 		D4BBA53A206FB0A400BC96EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCache.framework; path = Carthage/Build/iOS/SwiftCache.framework; sourceTree = "<group>"; };
 		D4BBA547206FB1F800BC96EB /* CWebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CWebP.framework; path = Carthage/Build/iOS/CWebP.framework; sourceTree = "<group>"; };
+		D4BBA549206FB2B900BC96EB /* ImageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageType.swift; sourceTree = "<group>"; };
+		D4BBA54B206FB39900BC96EB /* ImageDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D41B24BB20728006002A38FA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D41B24DB207284B0002A38FA /* SwiftCache.framework in Frameworks */,
+				D41B24DA207284A2002A38FA /* CWebP.framework in Frameworks */,
+				D41B24D5207282C0002A38FA /* Elkon.framework in Frameworks */,
+				D41B24D1207280D1002A38FA /* SwiftLayout.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4BBA526206FB0A400BC96EB /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -56,11 +116,25 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D41B24BF20728006002A38FA /* iOSDemo */ = {
+			isa = PBXGroup;
+			children = (
+				D41B24C020728006002A38FA /* AppDelegate.swift */,
+				D41B24C220728006002A38FA /* MainViewController.swift */,
+				D41B24D3207281B0002A38FA /* MainViewController+ImageCell.swift */,
+				D41B24C720728006002A38FA /* Assets.xcassets */,
+				D41B24C920728006002A38FA /* LaunchScreen.storyboard */,
+				D41B24CC20728006002A38FA /* Info.plist */,
+			);
+			path = iOSDemo;
+			sourceTree = "<group>";
+		};
 		D4BBA520206FB0A400BC96EB = {
 			isa = PBXGroup;
 			children = (
 				D4BBA52C206FB0A400BC96EB /* Elkon */,
 				D4BBA537206FB0A400BC96EB /* ElkonTests */,
+				D41B24BF20728006002A38FA /* iOSDemo */,
 				D4BBA52B206FB0A400BC96EB /* Products */,
 				D4BBA544206FB1BA00BC96EB /* Frameworks */,
 			);
@@ -71,6 +145,7 @@
 			children = (
 				D4BBA52A206FB0A400BC96EB /* Elkon.framework */,
 				D4BBA533206FB0A400BC96EB /* ElkonTests.xctest */,
+				D41B24BE20728006002A38FA /* iOSDemo.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,6 +155,11 @@
 			children = (
 				D4BBA52D206FB0A400BC96EB /* Elkon.h */,
 				D4BBA52E206FB0A400BC96EB /* Info.plist */,
+				D4BBA549206FB2B900BC96EB /* ImageType.swift */,
+				D41B24B4207271E9002A38FA /* ImageViewBox.swift */,
+				D41B24B6207273AB002A38FA /* ImageViewBox+Load.swift */,
+				D4BBA54B206FB39900BC96EB /* ImageDataManager.swift */,
+				D41B24B820727752002A38FA /* ImageDecoder.swift */,
 			);
 			path = Elkon;
 			sourceTree = "<group>";
@@ -96,6 +176,7 @@
 		D4BBA544206FB1BA00BC96EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D41B24D0207280D1002A38FA /* SwiftLayout.framework */,
 				D4BBA547206FB1F800BC96EB /* CWebP.framework */,
 				D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */,
 			);
@@ -116,6 +197,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		D41B24BD20728006002A38FA /* iOSDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D41B24CD20728006002A38FA /* Build configuration list for PBXNativeTarget "iOSDemo" */;
+			buildPhases = (
+				D41B24BA20728006002A38FA /* Sources */,
+				D41B24BB20728006002A38FA /* Frameworks */,
+				D41B24BC20728006002A38FA /* Resources */,
+				D41B24D2207280DF002A38FA /* ShellScript */,
+				D41B24D9207282C0002A38FA /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D41B24D8207282C0002A38FA /* PBXTargetDependency */,
+			);
+			name = iOSDemo;
+			productName = iOSDemo;
+			productReference = D41B24BE20728006002A38FA /* iOSDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
 		D4BBA529206FB0A400BC96EB /* Elkon */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4BBA53E206FB0A400BC96EB /* Build configuration list for PBXNativeTarget "Elkon" */;
@@ -162,8 +263,13 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Zhu Shengqi";
 				TargetAttributes = {
+					D41B24BD20728006002A38FA = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+					};
 					D4BBA529206FB0A400BC96EB = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Automatic;
 					};
 					D4BBA532206FB0A400BC96EB = {
@@ -178,6 +284,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = D4BBA520206FB0A400BC96EB;
 			productRefGroup = D4BBA52B206FB0A400BC96EB /* Products */;
@@ -186,11 +293,21 @@
 			targets = (
 				D4BBA529206FB0A400BC96EB /* Elkon */,
 				D4BBA532206FB0A400BC96EB /* ElkonTests */,
+				D41B24BD20728006002A38FA /* iOSDemo */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D41B24BC20728006002A38FA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D41B24CB20728006002A38FA /* LaunchScreen.storyboard in Resources */,
+				D41B24C820728006002A38FA /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4BBA528206FB0A400BC96EB /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -207,11 +324,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		D41B24D2207280DF002A38FA /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftLayout.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/CWebP.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftCache.framework",
+			);
+			outputPaths = (
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftLayout.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CWebP.framework",
+				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/SwiftCache.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		D41B24BA20728006002A38FA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D41B24D4207281B0002A38FA /* MainViewController+ImageCell.swift in Sources */,
+				D41B24C320728006002A38FA /* MainViewController.swift in Sources */,
+				D41B24C120728006002A38FA /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		D4BBA525206FB0A400BC96EB /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D41B24B920727752002A38FA /* ImageDecoder.swift in Sources */,
+				D41B24B7207273AB002A38FA /* ImageViewBox+Load.swift in Sources */,
+				D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */,
+				D4BBA54C206FB39900BC96EB /* ImageDataManager.swift in Sources */,
+				D41B24B5207271E9002A38FA /* ImageViewBox.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,6 +380,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D41B24D8207282C0002A38FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D4BBA529206FB0A400BC96EB /* Elkon */;
+			targetProxy = D41B24D7207282C0002A38FA /* PBXContainerItemProxy */;
+		};
 		D4BBA536206FB0A400BC96EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = D4BBA529206FB0A400BC96EB /* Elkon */;
@@ -233,7 +392,58 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		D41B24C920728006002A38FA /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D41B24CA20728006002A38FA /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		D41B24CE20728006002A38FA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DHNJ8N28ZZ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = iOSDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zetasq.iOSDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D41B24CF20728006002A38FA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = DHNJ8N28ZZ;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = iOSDemo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.zetasq.iOSDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		D4BBA53C206FB0A400BC96EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -350,6 +560,7 @@
 		D4BBA53F206FB0A400BC96EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -367,6 +578,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.zetasq.Elkon;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -375,6 +587,7 @@
 		D4BBA540206FB0A400BC96EB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -400,6 +613,7 @@
 		D4BBA542206FB0A400BC96EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DHNJ8N28ZZ;
 				INFOPLIST_FILE = ElkonTests/Info.plist;
@@ -414,6 +628,7 @@
 		D4BBA543206FB0A400BC96EB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = DHNJ8N28ZZ;
 				INFOPLIST_FILE = ElkonTests/Info.plist;
@@ -428,6 +643,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D41B24CD20728006002A38FA /* Build configuration list for PBXNativeTarget "iOSDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D41B24CE20728006002A38FA /* Debug */,
+				D41B24CF20728006002A38FA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		D4BBA524206FB0A400BC96EB /* Build configuration list for PBXProject "Elkon" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
