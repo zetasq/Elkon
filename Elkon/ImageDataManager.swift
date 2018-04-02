@@ -21,7 +21,7 @@ public final class ImageDataManager {
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty, it will be used to create cache directory")
     self.imageCache = .init(
-      cacheName: "cache.\(label).Elkon",
+      cacheName: "\(label).cache.com.zetasq.Elkon",
       memoryCacheCostLimit: .max,
       memoryCacheAgeLimit: .greatestFiniteMagnitude,
       diskCacheParentDirectory: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!,
