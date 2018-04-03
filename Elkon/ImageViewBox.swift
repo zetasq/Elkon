@@ -8,6 +8,14 @@
 
 import UIKit
 
+extension UIImageView {
+  
+  public var elkon: ImageViewBox {
+    return ImageViewBox(self)
+  }
+  
+}
+
 public struct ImageViewBox {
   
   internal let imageView: UIImageView
@@ -16,24 +24,17 @@ public struct ImageViewBox {
     self.imageView = imageView
   }
   
+  public func loadImage(at url: URL, animated: Bool = true, placeholder: UIImage? = nil) {
+    imageView._loadImage(at: url, animated: animated, placeholder: placeholder)
+  }
+  
+  public func loadImage(named imageName: String, bundle: Bundle = .main, animated: Bool = true) {
+    imageView._loadImage(named: imageName, bundle: bundle, animated: animated)
+  }
+  
+  public func load(image: UIImage?, animated: Bool = true) {
+    imageView._load(image: image, animated: animated)
+  }
+  
 }
 
-extension UIImageView {
-  
-  public var elkon: ImageViewBox {
-    return ImageViewBox(self)
-  }
-  
-  private static var boundImageURLKey = "com.zetasq.Elkon.boundImageURLKey"
-  
-  internal var currentBoundImageURL: URL? {
-    get {
-      return objc_getAssociatedObject(self, &UIImageView.boundImageURLKey) as? URL
-    }
-    set {
-      objc_setAssociatedObject(self, &UIImageView.boundImageURLKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
-    }
-  }
-  
-  
-}

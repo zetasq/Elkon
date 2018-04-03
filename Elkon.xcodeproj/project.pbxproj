@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D41B24B5207271E9002A38FA /* ImageViewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24B4207271E9002A38FA /* ImageViewBox.swift */; };
-		D41B24B7207273AB002A38FA /* ImageViewBox+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24B6207273AB002A38FA /* ImageViewBox+Load.swift */; };
 		D41B24B920727752002A38FA /* ImageDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24B820727752002A38FA /* ImageDecoder.swift */; };
 		D41B24C120728006002A38FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C020728006002A38FA /* AppDelegate.swift */; };
 		D41B24C320728006002A38FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C220728006002A38FA /* MainViewController.swift */; };
@@ -63,7 +62,6 @@
 
 /* Begin PBXFileReference section */
 		D41B24B4207271E9002A38FA /* ImageViewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewBox.swift; sourceTree = "<group>"; };
-		D41B24B6207273AB002A38FA /* ImageViewBox+Load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageViewBox+Load.swift"; sourceTree = "<group>"; };
 		D41B24B820727752002A38FA /* ImageDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDecoder.swift; sourceTree = "<group>"; };
 		D41B24BE20728006002A38FA /* iOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D41B24C020728006002A38FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -160,7 +158,6 @@
 				D4BBA549206FB2B900BC96EB /* ImageType.swift */,
 				D439C80220731E0000326DAC /* ImageView+Load.swift */,
 				D41B24B4207271E9002A38FA /* ImageViewBox.swift */,
-				D41B24B6207273AB002A38FA /* ImageViewBox+Load.swift */,
 				D4BBA54B206FB39900BC96EB /* ImageDataManager.swift */,
 				D41B24B820727752002A38FA /* ImageDecoder.swift */,
 			);
@@ -365,7 +362,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				D41B24B920727752002A38FA /* ImageDecoder.swift in Sources */,
-				D41B24B7207273AB002A38FA /* ImageViewBox+Load.swift in Sources */,
 				D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */,
 				D4BBA54C206FB39900BC96EB /* ImageDataManager.swift in Sources */,
 				D439C80320731E0000326DAC /* ImageView+Load.swift in Sources */,
