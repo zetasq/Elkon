@@ -46,7 +46,7 @@ extension MainViewController {
     }
     
     func config(with url: URL) {
-      iconView.elkon.loadImage(at: url)
+      iconView.elkon.loadImage(at: url, animated: true)
     }
     
   }

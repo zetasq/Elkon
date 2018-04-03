@@ -7,20 +7,20 @@
 //
 
 import Foundation
+import os.log
 
 extension ImageViewBox {
   
-
-  public func loadImage(at url: URL, placeholder: UIImage? = nil) {
+  private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "ImageViewBox")
+  
+  public func loadImage(at url: URL, animated: Bool = true, placeholder: UIImage? = nil) {
     guard imageView.currentBoundImageURL != url else { return }
     
     imageView.currentBoundImageURL = url
-    imageView.image = placeholder
+    imageView._loadStaticImage(placeholder, animated: animated)
     
     ImageDataManager.default.fetchImageData(at: url) { [weak imageView] imageData in
-      guard let `imageView` = imageView else { return }
-      
-      DispatchQueue.main.async { [weak imageView] in
+      DispatchQueue.main.async {
         guard let `imageView` = imageView else { return }
         
         guard imageView.currentBoundImageURL == url else {
@@ -35,14 +35,29 @@ extension ImageViewBox {
           return
         }
         
-        imageView.image = decodedImage
+        imageView._loadStaticImage(decodedImage, animated: animated)
       }
     }
   }
   
-  public func clearImage() {
+  public func loadImage(named imageName: String, bundle: Bundle = .main, animated: Bool = true) {
+    let url = URL(string: "xcassets://\(bundle.bundleIdentifier!)/\(imageName)") // This url is only for uniquelly identify the image
+    guard imageView.currentBoundImageURL != url else { return }
+    
+    imageView.currentBoundImageURL = url
+    
+    guard let image = UIImage(named: imageName, in: bundle, compatibleWith: nil) else {
+      os_log("%@", log: ImageViewBox.logger, type: .error, "Failed to find image: name = \(imageName), bundle = \(bundle)")
+      imageView._loadStaticImage(nil, animated: animated)
+      return
+    }
+    
+    imageView._loadStaticImage(image, animated: animated)
+  }
+  
+  public func load(image: UIImage?, animated: Bool = true) {
     imageView.currentBoundImageURL = nil
-    imageView.image = nil
+    imageView._loadStaticImage(image, animated: animated)
   }
   
 }
