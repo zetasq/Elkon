@@ -34,8 +34,7 @@ extension UIImageView {
     if animated {
       UIView.transition(with: self,
                         duration: 0.25, 
-                        options: [.transitionCrossDissolve, .curveEaseInOut, .beginFromCurrentState
-        ],
+                        options: [.transitionCrossDissolve, .curveEaseInOut, .beginFromCurrentState],
                         animations: { 
                           self.image = image
       }, completion: nil)

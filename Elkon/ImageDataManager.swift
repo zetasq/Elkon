@@ -15,7 +15,7 @@ public final class ImageDataManager {
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "ImageDataManager")
   
   public static let `default` = ImageDataManager(label: "default")
-
+  
   private let imageCache: SwiftCache<Data>
   
   public init(label: String) {
@@ -36,37 +36,38 @@ public final class ImageDataManager {
     imageCache.asyncFetchObject(forKey: url.absoluteString) { cachedImageData in
       if let cachedImageData = cachedImageData {
         completion(cachedImageData)
-      } else {
-        let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-          if let error = error {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "Transport error occured when downloading data from \(url): \(error)")
-            completion(nil)
-            return
-          }
-          
-          guard let response = response as? HTTPURLResponse else {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "No response when downloading data from \(url)")
-            completion(nil)
-            return
-          }
-          
-          guard response.statusCode == 200 else {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(url)")
-            completion(nil)
-            return
-          }
-          
-          guard let data = data else {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "No data returned when downloading data from \(url)")
-            completion(nil)
-            return
-          }
-          
-          self.imageCache.asyncSetObject(data, forKey: url.absoluteString)
-          completion(data)
-        })
-        dataTask.resume()
+        return
       }
+      
+      let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+        if let error = error {
+          os_log("%@", log: ImageDataManager.logger, type: .error, "Transport error occured when downloading data from \(url): \(error)")
+          completion(nil)
+          return
+        }
+        
+        guard let response = response as? HTTPURLResponse else {
+          os_log("%@", log: ImageDataManager.logger, type: .error, "No response when downloading data from \(url)")
+          completion(nil)
+          return
+        }
+        
+        guard response.statusCode == 200 else {
+          os_log("%@", log: ImageDataManager.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(url)")
+          completion(nil)
+          return
+        }
+        
+        guard let data = data else {
+          os_log("%@", log: ImageDataManager.logger, type: .error, "No data returned when downloading data from \(url)")
+          completion(nil)
+          return
+        }
+        
+        self.imageCache.asyncSetObject(data, forKey: url.absoluteString)
+        completion(data)
+      })
+      dataTask.resume()
     }
   }
   
