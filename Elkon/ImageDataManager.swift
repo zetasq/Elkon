@@ -16,7 +16,7 @@ public final class ImageDataManager {
   
   public static let `default` = ImageDataManager(label: "default")
   
-  private let bitmapImageMemoryCache: SwiftMemoryCache<CGImage>
+  private let bitmapImageMemoryCache: SwiftMemoryCache<BitmapImage>
   private let imageDataCache: SwiftCache<Data>
   
   public init(label: String) {
@@ -40,7 +40,7 @@ public final class ImageDataManager {
     )
   }
   
-  public func fetchPredrawnImage(at url: URL, completion: @escaping (CGImage?) -> Void) {
+  public func fetchBitmapImage(at url: URL, completion: @escaping (BitmapImage?) -> Void) {
     bitmapImageMemoryCache.asyncFetchObject(forKey: url.absoluteString) { cachedBitmapImage in
       if let cachedBitmapImage = cachedBitmapImage {
         completion(cachedBitmapImage)
@@ -49,9 +49,8 @@ public final class ImageDataManager {
       
       self.imageDataCache.asyncFetchObject(forKey: url.absoluteString) { cachedImageData in
         if let cachedImageData = cachedImageData {
-          if let cgImage = cachedImageData.decodeToCGImage() {
-            let bitmapImage = cgImage.generateBitmapImage()
-            self.bitmapImageMemoryCache.asyncSetObject(bitmapImage, forKey: url.absoluteString, cost: bitmapImage.bytesPerRow * bitmapImage.height)
+          if let bitmapImage = cachedImageData.decodeToBitmapImage() {
+            self.bitmapImageMemoryCache.asyncSetObject(bitmapImage, forKey: url.absoluteString, cost: bitmapImage.totalByteSize)
             completion(bitmapImage)
           } else {
             completion(nil)
@@ -87,9 +86,8 @@ public final class ImageDataManager {
           
           self.imageDataCache.asyncSetObject(data, forKey: url.absoluteString)
           
-          if let cgImage = data.decodeToCGImage() {
-            let bitmapImage = cgImage.generateBitmapImage()
-            self.bitmapImageMemoryCache.asyncSetObject(bitmapImage, forKey: url.absoluteString, cost: bitmapImage.bytesPerRow * bitmapImage.height)
+          if let bitmapImage = data.decodeToBitmapImage() {
+            self.bitmapImageMemoryCache.asyncSetObject(bitmapImage, forKey: url.absoluteString, cost: bitmapImage.totalByteSize)
             completion(bitmapImage)
           } else {
             completion(nil)
