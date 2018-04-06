@@ -43,10 +43,10 @@ extension UIImageView {
     }
   }
   
-  internal func _loadImage(at url: URL, animated: Bool = true, placeholder: UIImage? = nil) {
+  internal func _loadImage(at url: URL, placeholder: UIImage? = nil, animated: Bool = true) {
     guard Thread.isMainThread else {
       DispatchQueue.main.async { [weak self] in
-        self?._loadImage(at: url, animated: animated, placeholder: placeholder)
+        self?._loadImage(at: url, placeholder: placeholder, animated: animated)
       }
       return
     }

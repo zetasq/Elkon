@@ -24,8 +24,8 @@ public struct ImageViewBox {
     self.imageView = imageView
   }
   
-  public func loadImage(at url: URL, animated: Bool = true, placeholder: UIImage? = nil) {
-    imageView._loadImage(at: url, animated: animated, placeholder: placeholder)
+  public func loadImage(at url: URL, placeholder: UIImage? = nil, animated: Bool = true) {
+    imageView._loadImage(at: url, placeholder: placeholder, animated: animated)
   }
   
   public func loadImage(named imageName: String, bundle: Bundle = .main, animated: Bool = true) {
