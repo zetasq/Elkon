@@ -16,11 +16,19 @@ public final class ImageDataManager {
   
   public static let `default` = ImageDataManager(label: "default")
   
-  private let imageCache: SwiftCache<Data>
+  private let bitmapImageMemoryCache: SwiftMemoryCache<CGImage>
+  private let imageDataCache: SwiftCache<Data>
   
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty, it will be used to create cache directory")
-    self.imageCache = .init(
+    
+    self.bitmapImageMemoryCache = .init(
+      cacheName: "\(label).predrawnImageCache.com.zetasq.Elkon",
+      costLimit: 50 * 1024 * 1024,
+      ageLimit: 30 * 24 * 60 * 60
+    )
+    
+    self.imageDataCache = .init(
       cacheName: "\(label).cache.com.zetasq.Elkon",
       memoryCacheCostLimit: .max,
       memoryCacheAgeLimit: .greatestFiniteMagnitude,
@@ -32,42 +40,63 @@ public final class ImageDataManager {
     )
   }
   
-  public func fetchImageData(at url: URL, completion: @escaping (Data?) -> Void) {
-    imageCache.asyncFetchObject(forKey: url.absoluteString) { cachedImageData in
-      if let cachedImageData = cachedImageData {
-        completion(cachedImageData)
+  public func fetchPredrawnImage(at url: URL, completion: @escaping (CGImage?) -> Void) {
+    bitmapImageMemoryCache.asyncFetchObject(forKey: url.absoluteString) { cachedBitmapImage in
+      if let cachedBitmapImage = cachedBitmapImage {
+        completion(cachedBitmapImage)
         return
       }
       
-      let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-        if let error = error {
-          os_log("%@", log: ImageDataManager.logger, type: .error, "Transport error occured when downloading data from \(url): \(error)")
-          completion(nil)
+      self.imageDataCache.asyncFetchObject(forKey: url.absoluteString) { cachedImageData in
+        if let cachedImageData = cachedImageData {
+          if let cgImage = cachedImageData.decodeToCGImage() {
+            let bitmapImage = cgImage.generateBitmapImage()
+            self.bitmapImageMemoryCache.asyncSetObject(bitmapImage, forKey: url.absoluteString, cost: bitmapImage.bytesPerRow * bitmapImage.height)
+            completion(bitmapImage)
+          } else {
+            completion(nil)
+          }
+          
           return
         }
         
-        guard let response = response as? HTTPURLResponse else {
-          os_log("%@", log: ImageDataManager.logger, type: .error, "No response when downloading data from \(url)")
-          completion(nil)
-          return
-        }
-        
-        guard response.statusCode == 200 else {
-          os_log("%@", log: ImageDataManager.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(url)")
-          completion(nil)
-          return
-        }
-        
-        guard let data = data else {
-          os_log("%@", log: ImageDataManager.logger, type: .error, "No data returned when downloading data from \(url)")
-          completion(nil)
-          return
-        }
-        
-        self.imageCache.asyncSetObject(data, forKey: url.absoluteString)
-        completion(data)
-      })
-      dataTask.resume()
+        let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
+          if let error = error {
+            os_log("%@", log: ImageDataManager.logger, type: .error, "Transport error occured when downloading data from \(url): \(error)")
+            completion(nil)
+            return
+          }
+          
+          guard let response = response as? HTTPURLResponse else {
+            os_log("%@", log: ImageDataManager.logger, type: .error, "No response when downloading data from \(url)")
+            completion(nil)
+            return
+          }
+          
+          guard response.statusCode == 200 else {
+            os_log("%@", log: ImageDataManager.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(url)")
+            completion(nil)
+            return
+          }
+          
+          guard let data = data else {
+            os_log("%@", log: ImageDataManager.logger, type: .error, "No data returned when downloading data from \(url)")
+            completion(nil)
+            return
+          }
+          
+          self.imageDataCache.asyncSetObject(data, forKey: url.absoluteString)
+          
+          if let cgImage = data.decodeToCGImage() {
+            let bitmapImage = cgImage.generateBitmapImage()
+            self.bitmapImageMemoryCache.asyncSetObject(bitmapImage, forKey: url.absoluteString, cost: bitmapImage.bytesPerRow * bitmapImage.height)
+            completion(bitmapImage)
+          } else {
+            completion(nil)
+          }
+        })
+        dataTask.resume()
+      }
     }
   }
   

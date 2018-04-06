@@ -56,17 +56,17 @@ extension UIImageView {
     currentBoundImageURL = url
     _setStaticImage(placeholder, animated: animated)
     
-    ImageDataManager.default.fetchImageData(at: url) { [weak self] imageData in
+    ImageDataManager.default.fetchPredrawnImage(at: url) { [weak self] predrawnImage in
       DispatchQueue.main.async {
         guard let `self` = self else { return }
         
-        guard self.currentBoundImageURL == url, 
-          let imageData = imageData,
-          let decodedImage = imageData.decodeAsUIImageForDisplay() else {
+        guard self.currentBoundImageURL == url,
+          let predrawnImage = predrawnImage else {
             return
         }
         
-        self._setStaticImage(decodedImage, animated: animated)
+        let uiImage = UIImage(cgImage: predrawnImage, scale: self.contentScaleFactor, orientation: .up)
+        self._setStaticImage(uiImage, animated: animated)
       }
     }
   }

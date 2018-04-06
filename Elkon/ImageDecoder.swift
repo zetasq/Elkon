@@ -13,12 +13,16 @@ private let decodingLogger = OSLog(subsystem: "com.zetasq.Elkon", category: "dec
 
 extension Data {
   
-  internal func decodeAsUIImageForDisplay() -> UIImage? {
+  public func decodeToCGImage() -> CGImage? {
     let imageType = self.imageType
     
     switch imageType {
     case .PNG, .JPG:
-      return UIImage(data: self, scale: UIScreen.main.scale)
+      guard let imageSource = CGImageSourceCreateWithData(self as CFData, nil) else {
+        os_log("%@", log: decodingLogger, type: .error, "Failed to create CGImageSource with data")
+        return nil
+      }
+      return CGImageSourceCreateImageAtIndex(imageSource, 0, nil)
     default:
       os_log("%@", log: decodingLogger, type: .error, "Unsupported image type for decoding: \(imageType)")
       return nil
