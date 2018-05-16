@@ -43,11 +43,21 @@ extension UIImageView {
     }
   }
   
-  internal func _loadImage(at url: URL, placeholder: UIImage? = nil, animated: Bool = true) {
+  internal func _loadImage(at url: URL?, placeholder: UIImage? = nil, animated: Bool = true) {
     guard Thread.isMainThread else {
       DispatchQueue.main.async { [weak self] in
         self?._loadImage(at: url, placeholder: placeholder, animated: animated)
       }
+      return
+    }
+    
+    guard let url = url else {
+      _load(image: placeholder, animated: animated)
+      return
+    }
+    
+    guard url.scheme != "xcassets" else {
+      _loadImage(named: url.host!, animated: animated)
       return
     }
     
@@ -56,7 +66,7 @@ extension UIImageView {
     currentBoundImageURL = url
     _setStaticImage(placeholder, animated: animated)
     
-    ImageDataManager.default.fetchBitmapImage(at: url) { [weak self] bitmapImage in
+    ImageManager.default.fetchBitmapImage(at: url) { [weak self] bitmapImage in
       DispatchQueue.main.async {
         guard let `self` = self else { return }
         

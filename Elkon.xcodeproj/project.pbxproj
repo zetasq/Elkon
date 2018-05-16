@@ -26,7 +26,8 @@
 		D4BBA546206FB1BA00BC96EB /* SwiftCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */; };
 		D4BBA548206FB1F800BC96EB /* CWebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA547206FB1F800BC96EB /* CWebP.framework */; };
 		D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA549206FB2B900BC96EB /* ImageType.swift */; };
-		D4BBA54C206FB39900BC96EB /* ImageDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA54B206FB39900BC96EB /* ImageDataManager.swift */; };
+		D4BBA54C206FB39900BC96EB /* ImageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA54B206FB39900BC96EB /* ImageManager.swift */; };
+		D4E6BF3920AB35B600AF70CD /* ImageDownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6BF3820AB35B600AF70CD /* ImageDownloadTask.swift */; };
 		D4FF14632077853D002AF70D /* CGImage+Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF14622077853D002AF70D /* CGImage+Draw.swift */; };
 		D4FF14672077964D002AF70D /* BitmapImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF14662077964D002AF70D /* BitmapImage.swift */; };
 		D4FF146920779B1A002AF70D /* ImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF146820779B1A002AF70D /* ImageOrientation.swift */; };
@@ -84,7 +85,8 @@
 		D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftCache.framework; path = Carthage/Build/iOS/SwiftCache.framework; sourceTree = "<group>"; };
 		D4BBA547206FB1F800BC96EB /* CWebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CWebP.framework; path = Carthage/Build/iOS/CWebP.framework; sourceTree = "<group>"; };
 		D4BBA549206FB2B900BC96EB /* ImageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageType.swift; sourceTree = "<group>"; };
-		D4BBA54B206FB39900BC96EB /* ImageDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataManager.swift; sourceTree = "<group>"; };
+		D4BBA54B206FB39900BC96EB /* ImageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageManager.swift; sourceTree = "<group>"; };
+		D4E6BF3820AB35B600AF70CD /* ImageDownloadTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadTask.swift; sourceTree = "<group>"; };
 		D4FF14622077853D002AF70D /* CGImage+Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+Draw.swift"; sourceTree = "<group>"; };
 		D4FF14662077964D002AF70D /* BitmapImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BitmapImage.swift; sourceTree = "<group>"; };
 		D4FF146820779B1A002AF70D /* ImageOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOrientation.swift; sourceTree = "<group>"; };
@@ -162,12 +164,13 @@
 				D4BBA52D206FB0A400BC96EB /* Elkon.h */,
 				D4BBA52E206FB0A400BC96EB /* Info.plist */,
 				D4BBA549206FB2B900BC96EB /* ImageType.swift */,
+				D41B24B4207271E9002A38FA /* ImageViewBox.swift */,
 				D439C80220731E0000326DAC /* ImageView+Load.swift */,
 				D4FF14622077853D002AF70D /* CGImage+Draw.swift */,
-				D41B24B4207271E9002A38FA /* ImageViewBox.swift */,
 				D4FF14662077964D002AF70D /* BitmapImage.swift */,
 				D4FF146820779B1A002AF70D /* ImageOrientation.swift */,
-				D4BBA54B206FB39900BC96EB /* ImageDataManager.swift */,
+				D4BBA54B206FB39900BC96EB /* ImageManager.swift */,
+				D4E6BF3820AB35B600AF70CD /* ImageDownloadTask.swift */,
 				D41B24B820727752002A38FA /* ImageDecoder.swift */,
 			);
 			path = Elkon;
@@ -373,9 +376,10 @@
 				D4FF146920779B1A002AF70D /* ImageOrientation.swift in Sources */,
 				D41B24B920727752002A38FA /* ImageDecoder.swift in Sources */,
 				D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */,
-				D4BBA54C206FB39900BC96EB /* ImageDataManager.swift in Sources */,
+				D4BBA54C206FB39900BC96EB /* ImageManager.swift in Sources */,
 				D4FF14632077853D002AF70D /* CGImage+Draw.swift in Sources */,
 				D4FF14672077964D002AF70D /* BitmapImage.swift in Sources */,
+				D4E6BF3920AB35B600AF70CD /* ImageDownloadTask.swift in Sources */,
 				D439C80320731E0000326DAC /* ImageView+Load.swift in Sources */,
 				D41B24B5207271E9002A38FA /* ImageViewBox.swift in Sources */,
 			);

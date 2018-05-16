@@ -1,5 +1,5 @@
 //
-//  ImageDataManager.swift
+//  ImageManager.swift
 //  Elkon
 //
 //  Created by Zhu Shengqi on 31/03/2018.
@@ -10,18 +10,22 @@ import Foundation
 import SwiftCache
 import os.log
 
-public final class ImageDataManager {
+public final class ImageManager {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "ImageDataManager")
   
-  public static let `default` = ImageDataManager(label: "default")
+  public static let `default` = ImageManager(label: "default")
   
   private let bitmapImageMemoryCache: SwiftMemoryCache<BitmapImage>
   private let imageDataCache: SwiftCache<Data>
   
+  private var _urlToDownloadTaskTable: [URL: ImageDownloadTask] = [:]
+  private var _tableLock = os_unfair_lock_s()
+  
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty, it will be used to create cache directory")
     
+    // TODO: Adjust cost limit and cache limit according to memory size
     self.bitmapImageMemoryCache = .init(
       cacheName: "\(label).predrawnImageCache.com.zetasq.Elkon",
       costLimit: 50 * 1024 * 1024,
@@ -59,27 +63,23 @@ public final class ImageDataManager {
           return
         }
         
-        let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-          if let error = error {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "Transport error occured when downloading data from \(url): \(error)")
-            completion(nil)
-            return
-          }
-          
-          guard let response = response as? HTTPURLResponse else {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "No response when downloading data from \(url)")
-            completion(nil)
-            return
-          }
-          
-          guard response.statusCode == 200 else {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(url)")
-            completion(nil)
-            return
-          }
-          
+        os_unfair_lock_lock(&self._tableLock)
+        defer {
+          os_unfair_lock_unlock(&self._tableLock)
+        }
+        
+        let imageDownloadTask: ImageDownloadTask
+        
+        if let existingTask = self._urlToDownloadTaskTable[url] {
+          imageDownloadTask = existingTask
+        } else {
+          imageDownloadTask = ImageDownloadTask(url: url)
+          self._urlToDownloadTaskTable[url] = imageDownloadTask
+          imageDownloadTask.resume()
+        }
+        
+        imageDownloadTask.addFinishHandler { data in
           guard let data = data else {
-            os_log("%@", log: ImageDataManager.logger, type: .error, "No data returned when downloading data from \(url)")
             completion(nil)
             return
           }
@@ -92,8 +92,7 @@ public final class ImageDataManager {
           } else {
             completion(nil)
           }
-        })
-        dataTask.resume()
+        }
       }
     }
   }

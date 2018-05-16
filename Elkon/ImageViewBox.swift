@@ -10,7 +10,7 @@ import UIKit
 
 extension UIImageView {
   
-  public var elkon: ImageViewBox {
+  public final var elkon: ImageViewBox {
     return ImageViewBox(self)
   }
   
@@ -24,7 +24,7 @@ public struct ImageViewBox {
     self.imageView = imageView
   }
   
-  public func loadImage(at url: URL, placeholder: UIImage? = nil, animated: Bool = true) {
+  public func loadImage(at url: URL?, placeholder: UIImage? = nil, animated: Bool = true) {
     imageView._loadImage(at: url, placeholder: placeholder, animated: animated)
   }
   
