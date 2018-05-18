@@ -66,17 +66,23 @@ extension UIImageView {
     currentBoundImageURL = url
     _setStaticImage(placeholder, animated: animated)
     
-    ImageManager.default.fetchBitmapImage(at: url) { [weak self] bitmapImage in
+    ImagePipeline.default.fetchImage(with: url) { [weak self] image in
       DispatchQueue.main.async {
         guard let `self` = self else { return }
         
         guard self.currentBoundImageURL == url,
-          let bitmapImage = bitmapImage else {
+          let image = image else {
             return
         }
         
-        let uiImage = UIImage.init(cgImage: bitmapImage.cgImage, scale: self.contentScaleFactor, orientation: UIImageOrientation(bitmapImage.orientation))
-        self._setStaticImage(uiImage, animated: animated)
+        switch image {
+        case .static(let staticImage):
+          let uiImage = UIImage.init(cgImage: staticImage.cgImage, scale: self.contentScaleFactor, orientation: UIImageOrientation(staticImage.orientation))
+          self._setStaticImage(uiImage, animated: animated)
+        case .animated(_):
+          // TODO: handle animated image
+          break
+        }
       }
     }
   }
