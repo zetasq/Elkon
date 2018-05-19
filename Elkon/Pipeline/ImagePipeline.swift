@@ -12,16 +12,11 @@ import Foundation
 public final class ImagePipeline {
   
   public static let `default`: ImagePipeline = {
-    let imageDownloadStage = ImageDownloadStage()
-    
-    let rawImageDataCachingStage = RawImageDataCachingStage(label: "default")
-    rawImageDataCachingStage.configure(withNextStage: imageDownloadStage)
-    
-    let imageTypeDecodingStage = ImageTypeDecodingStage()
-    imageTypeDecodingStage.configure(withNextStage: rawImageDataCachingStage)
-    
     let typedImageCachingStage = TypedImageCachingStage(label: "default")
-    typedImageCachingStage.configure(withNextStage: imageTypeDecodingStage)
+    typedImageCachingStage
+      .bindNext(ImageTypeDecodingStage())
+      .bindNext(RawImageDataCachingStage(label: "default"))
+      .bindNext(ImageDownloadStage())
     
     let pipeline = ImagePipeline(firstStage: typedImageCachingStage)
     return pipeline

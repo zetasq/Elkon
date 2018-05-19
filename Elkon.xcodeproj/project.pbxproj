@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D41B24B5207271E9002A38FA /* ImageViewBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24B4207271E9002A38FA /* ImageViewBox.swift */; };
 		D41B24C120728006002A38FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C020728006002A38FA /* AppDelegate.swift */; };
 		D41B24C320728006002A38FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C220728006002A38FA /* MainViewController.swift */; };
 		D41B24C820728006002A38FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D41B24C720728006002A38FA /* Assets.xcassets */; };
@@ -18,7 +17,8 @@
 		D41B24D6207282C0002A38FA /* Elkon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA52A206FB0A400BC96EB /* Elkon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D41B24DA207284A2002A38FA /* CWebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA547206FB1F800BC96EB /* CWebP.framework */; };
 		D41B24DB207284B0002A38FA /* SwiftCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */; };
-		D439C80320731E0000326DAC /* ImageView+Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = D439C80220731E0000326DAC /* ImageView+Load.swift */; };
+		D45E582520AFCCAB009659BD /* ImageDisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */; };
+		D45E582720AFCE5F009659BD /* ImageView+DisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E582620AFCE5F009659BD /* ImageView+DisplayCoordinator.swift */; };
 		D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */; };
 		D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */; };
 		D4BAD87D20ADC33A00A7D4D2 /* ImageDownloadStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87C20ADC33A00A7D4D2 /* ImageDownloadStage.swift */; };
@@ -73,7 +73,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		D41B24B4207271E9002A38FA /* ImageViewBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewBox.swift; sourceTree = "<group>"; };
 		D41B24BE20728006002A38FA /* iOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D41B24C020728006002A38FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D41B24C220728006002A38FA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -82,7 +81,8 @@
 		D41B24CC20728006002A38FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D41B24D0207280D1002A38FA /* SwiftLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftLayout.framework; path = Carthage/Build/iOS/SwiftLayout.framework; sourceTree = "<group>"; };
 		D41B24D3207281B0002A38FA /* MainViewController+ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+ImageCell.swift"; sourceTree = "<group>"; };
-		D439C80220731E0000326DAC /* ImageView+Load.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Load.swift"; sourceTree = "<group>"; };
+		D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayCoordinator.swift; sourceTree = "<group>"; };
+		D45E582620AFCE5F009659BD /* ImageView+DisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+DisplayCoordinator.swift"; sourceTree = "<group>"; };
 		D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 		D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineStageProtocol.swift; sourceTree = "<group>"; };
 		D4BAD87C20ADC33A00A7D4D2 /* ImageDownloadStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadStage.swift; sourceTree = "<group>"; };
@@ -173,6 +173,15 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
+		D45E582320AFCC93009659BD /* Display */ = {
+			isa = PBXGroup;
+			children = (
+				D45E582620AFCE5F009659BD /* ImageView+DisplayCoordinator.swift */,
+				D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */,
+			);
+			path = Display;
+			sourceTree = "<group>";
+		};
 		D4BAD87B20ADC2F300A7D4D2 /* Pipeline */ = {
 			isa = PBXGroup;
 			children = (
@@ -223,8 +232,7 @@
 			children = (
 				D4BBA52D206FB0A400BC96EB /* Elkon.h */,
 				D4BBA52E206FB0A400BC96EB /* Info.plist */,
-				D41B24B4207271E9002A38FA /* ImageViewBox.swift */,
-				D439C80220731E0000326DAC /* ImageView+Load.swift */,
+				D45E582320AFCC93009659BD /* Display */,
 				D44A5FC520AF1C0D005420C8 /* Utils */,
 				D4BAD88220ADCA3A00A7D4D2 /* Image */,
 				D4BAD87B20ADC2F300A7D4D2 /* Pipeline */,
@@ -438,14 +446,14 @@
 				D4BAD88420ADCA4400A7D4D2 /* StaticImage.swift in Sources */,
 				D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */,
 				D4FF14632077853D002AF70D /* CGImage+Draw.swift in Sources */,
+				D45E582720AFCE5F009659BD /* ImageView+DisplayCoordinator.swift in Sources */,
 				D4E6BF3920AB35B600AF70CD /* ImageDownloadTask.swift in Sources */,
 				D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */,
-				D439C80320731E0000326DAC /* ImageView+Load.swift in Sources */,
 				D4BAD88C20ADD99700A7D4D2 /* ImagePipelineStageOutputable.swift in Sources */,
 				D4BAD88120ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift in Sources */,
 				D4BAD87D20ADC33A00A7D4D2 /* ImageDownloadStage.swift in Sources */,
 				D4BAD89020AE5BF300A7D4D2 /* TypedImageCachingStage.swift in Sources */,
-				D41B24B5207271E9002A38FA /* ImageViewBox.swift in Sources */,
+				D45E582520AFCCAB009659BD /* ImageDisplayCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

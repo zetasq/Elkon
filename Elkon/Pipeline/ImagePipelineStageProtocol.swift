@@ -24,9 +24,11 @@ public protocol ImagePipelineStageProtocol: AnyObject, ImagePipelineStageOutputa
 
 extension ImagePipelineStageProtocol {
   
-  public func configure<T: ImagePipelineStageProtocol>(withNextStage stage: T)
+  @discardableResult
+  public func bindNext<T: ImagePipelineStageProtocol>(_ stage: T) -> T
     where T.OutputType == Self.InputType {
-    self.nextStage = AnyImagePipelineStage(stage: stage)
+      self.nextStage = AnyImagePipelineStage(stage: stage)
+      return stage
   }
 
   public func fetchDataWithRemainingPipeline(url: URL, completion: @escaping (OutputType?) -> Void) {
