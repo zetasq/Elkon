@@ -21,7 +21,7 @@ public final class ImageDisplayCoordinator {
     self.imageView = imageView
   }
 
-  internal func _setStaticImage(_ image: UIImage?, animated: Bool) {
+  internal func _setUIImage(_ uiImage: UIImage?, animated: Bool) {
     assert(Thread.isMainThread)
     
     guard let imageView = imageView else {
@@ -33,10 +33,32 @@ public final class ImageDisplayCoordinator {
                         duration: 0.25,
                         options: [.transitionCrossDissolve, .curveEaseInOut, .beginFromCurrentState],
                         animations: {
-                          imageView.image = image
+                          imageView.image = uiImage
       }, completion: nil)
     } else {
-      imageView.image = image
+      imageView.image = uiImage
+    }
+  }
+  
+  internal func _setImageResource(_ imageResource: ImageResource?, animated: Bool) {
+    assert(Thread.isMainThread)
+    
+    guard let imageView = imageView else {
+      return
+    }
+    
+    guard let image = imageResource else {
+      _setUIImage(nil, animated: animated)
+      return
+    }
+    
+    switch image {
+    case .static(let staticImage):
+      let uiImage = staticImage.asUIImage(scale: imageView.contentScaleFactor)
+      _setUIImage(uiImage, animated: animated)
+    case .animated(let animatedImage):
+      // TODO: Implement animated image loading
+      break
     }
   }
 

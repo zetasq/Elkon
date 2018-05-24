@@ -17,19 +17,19 @@
 		D41B24D6207282C0002A38FA /* Elkon.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA52A206FB0A400BC96EB /* Elkon.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		D41B24DA207284A2002A38FA /* CWebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA547206FB1F800BC96EB /* CWebP.framework */; };
 		D41B24DB207284B0002A38FA /* SwiftCache.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA545206FB1BA00BC96EB /* SwiftCache.framework */; };
+		D432DF9D20B705EF0092E213 /* ElkonImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432DF9C20B705EF0092E213 /* ElkonImageView.swift */; };
+		D432DFD920BD972C0092E213 /* ImageResource+StaticImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432DFD820BD972C0092E213 /* ImageResource+StaticImage.swift */; };
 		D45E582520AFCCAB009659BD /* ImageDisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */; };
-		D45E582720AFCE5F009659BD /* ImageView+DisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E582620AFCE5F009659BD /* ImageView+DisplayCoordinator.swift */; };
 		D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */; };
 		D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */; };
-		D4BAD87D20ADC33A00A7D4D2 /* ImageDownloadStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87C20ADC33A00A7D4D2 /* ImageDownloadStage.swift */; };
+		D4BAD87D20ADC33A00A7D4D2 /* ImageRetrievingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */; };
 		D4BAD88120ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88020ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift */; };
-		D4BAD88420ADCA4400A7D4D2 /* StaticImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88320ADCA4400A7D4D2 /* StaticImage.swift */; };
-		D4BAD88620ADCA4C00A7D4D2 /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88520ADCA4C00A7D4D2 /* AnimatedImage.swift */; };
-		D4BAD88820ADCC5600A7D4D2 /* ImageTypeDecodingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88720ADCC5600A7D4D2 /* ImageTypeDecodingStage.swift */; };
-		D4BAD88A20ADCD1D00A7D4D2 /* Image.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88920ADCD1D00A7D4D2 /* Image.swift */; };
+		D4BAD88620ADCA4C00A7D4D2 /* ImageResource+AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88520ADCA4C00A7D4D2 /* ImageResource+AnimatedImage.swift */; };
+		D4BAD88820ADCC5600A7D4D2 /* ImageResourceDecodingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88720ADCC5600A7D4D2 /* ImageResourceDecodingStage.swift */; };
+		D4BAD88A20ADCD1D00A7D4D2 /* ImageResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88920ADCD1D00A7D4D2 /* ImageResource.swift */; };
 		D4BAD88C20ADD99700A7D4D2 /* ImagePipelineStageOutputable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88B20ADD99700A7D4D2 /* ImagePipelineStageOutputable.swift */; };
 		D4BAD88E20AE55D500A7D4D2 /* AnyImagePipelineStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88D20AE55D500A7D4D2 /* AnyImagePipelineStage.swift */; };
-		D4BAD89020AE5BF300A7D4D2 /* TypedImageCachingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88F20AE5BF300A7D4D2 /* TypedImageCachingStage.swift */; };
+		D4BAD89020AE5BF300A7D4D2 /* ImageResourceCachingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88F20AE5BF300A7D4D2 /* ImageResourceCachingStage.swift */; };
 		D4BBA534206FB0A400BC96EB /* Elkon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA52A206FB0A400BC96EB /* Elkon.framework */; };
 		D4BBA539206FB0A400BC96EB /* ElkonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA538206FB0A400BC96EB /* ElkonTests.swift */; };
 		D4BBA53B206FB0A400BC96EB /* Elkon.h in Headers */ = {isa = PBXBuildFile; fileRef = D4BBA52D206FB0A400BC96EB /* Elkon.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -37,7 +37,7 @@
 		D4BBA548206FB1F800BC96EB /* CWebP.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4BBA547206FB1F800BC96EB /* CWebP.framework */; };
 		D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BBA549206FB2B900BC96EB /* ImageType.swift */; };
 		D4C0F61620B060B2005E8950 /* ImageDisplayCoordinator+Public.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C0F61520B060B2005E8950 /* ImageDisplayCoordinator+Public.swift */; };
-		D4E6BF3920AB35B600AF70CD /* ImageDownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6BF3820AB35B600AF70CD /* ImageDownloadTask.swift */; };
+		D4E6BF3920AB35B600AF70CD /* RemoteImageDownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6BF3820AB35B600AF70CD /* RemoteImageDownloadTask.swift */; };
 		D4FF14632077853D002AF70D /* CGImage+Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF14622077853D002AF70D /* CGImage+Draw.swift */; };
 		D4FF146920779B1A002AF70D /* ImageOrientation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF146820779B1A002AF70D /* ImageOrientation.swift */; };
 /* End PBXBuildFile section */
@@ -82,19 +82,19 @@
 		D41B24CC20728006002A38FA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D41B24D0207280D1002A38FA /* SwiftLayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftLayout.framework; path = Carthage/Build/iOS/SwiftLayout.framework; sourceTree = "<group>"; };
 		D41B24D3207281B0002A38FA /* MainViewController+ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+ImageCell.swift"; sourceTree = "<group>"; };
+		D432DF9C20B705EF0092E213 /* ElkonImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElkonImageView.swift; sourceTree = "<group>"; };
+		D432DFD820BD972C0092E213 /* ImageResource+StaticImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageResource+StaticImage.swift"; sourceTree = "<group>"; };
 		D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayCoordinator.swift; sourceTree = "<group>"; };
-		D45E582620AFCE5F009659BD /* ImageView+DisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+DisplayCoordinator.swift"; sourceTree = "<group>"; };
 		D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 		D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineStageProtocol.swift; sourceTree = "<group>"; };
-		D4BAD87C20ADC33A00A7D4D2 /* ImageDownloadStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadStage.swift; sourceTree = "<group>"; };
+		D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRetrievingStage.swift; sourceTree = "<group>"; };
 		D4BAD88020ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawImageDataCachingStage.swift; sourceTree = "<group>"; };
-		D4BAD88320ADCA4400A7D4D2 /* StaticImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticImage.swift; sourceTree = "<group>"; };
-		D4BAD88520ADCA4C00A7D4D2 /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
-		D4BAD88720ADCC5600A7D4D2 /* ImageTypeDecodingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageTypeDecodingStage.swift; sourceTree = "<group>"; };
-		D4BAD88920ADCD1D00A7D4D2 /* Image.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Image.swift; sourceTree = "<group>"; };
+		D4BAD88520ADCA4C00A7D4D2 /* ImageResource+AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageResource+AnimatedImage.swift"; sourceTree = "<group>"; };
+		D4BAD88720ADCC5600A7D4D2 /* ImageResourceDecodingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResourceDecodingStage.swift; sourceTree = "<group>"; };
+		D4BAD88920ADCD1D00A7D4D2 /* ImageResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResource.swift; sourceTree = "<group>"; };
 		D4BAD88B20ADD99700A7D4D2 /* ImagePipelineStageOutputable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineStageOutputable.swift; sourceTree = "<group>"; };
 		D4BAD88D20AE55D500A7D4D2 /* AnyImagePipelineStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyImagePipelineStage.swift; sourceTree = "<group>"; };
-		D4BAD88F20AE5BF300A7D4D2 /* TypedImageCachingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypedImageCachingStage.swift; sourceTree = "<group>"; };
+		D4BAD88F20AE5BF300A7D4D2 /* ImageResourceCachingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResourceCachingStage.swift; sourceTree = "<group>"; };
 		D4BBA52A206FB0A400BC96EB /* Elkon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Elkon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BBA52D206FB0A400BC96EB /* Elkon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Elkon.h; sourceTree = "<group>"; };
 		D4BBA52E206FB0A400BC96EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		D4BBA547206FB1F800BC96EB /* CWebP.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CWebP.framework; path = Carthage/Build/iOS/CWebP.framework; sourceTree = "<group>"; };
 		D4BBA549206FB2B900BC96EB /* ImageType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageType.swift; sourceTree = "<group>"; };
 		D4C0F61520B060B2005E8950 /* ImageDisplayCoordinator+Public.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDisplayCoordinator+Public.swift"; sourceTree = "<group>"; };
-		D4E6BF3820AB35B600AF70CD /* ImageDownloadTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloadTask.swift; sourceTree = "<group>"; };
+		D4E6BF3820AB35B600AF70CD /* RemoteImageDownloadTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageDownloadTask.swift; sourceTree = "<group>"; };
 		D4FF14622077853D002AF70D /* CGImage+Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+Draw.swift"; sourceTree = "<group>"; };
 		D4FF146820779B1A002AF70D /* ImageOrientation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageOrientation.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -158,11 +158,11 @@
 		D44A5FC420AF1B60005420C8 /* Stages */ = {
 			isa = PBXGroup;
 			children = (
-				D4BAD87C20ADC33A00A7D4D2 /* ImageDownloadStage.swift */,
-				D4E6BF3820AB35B600AF70CD /* ImageDownloadTask.swift */,
+				D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */,
+				D4E6BF3820AB35B600AF70CD /* RemoteImageDownloadTask.swift */,
 				D4BAD88020ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift */,
-				D4BAD88720ADCC5600A7D4D2 /* ImageTypeDecodingStage.swift */,
-				D4BAD88F20AE5BF300A7D4D2 /* TypedImageCachingStage.swift */,
+				D4BAD88720ADCC5600A7D4D2 /* ImageResourceDecodingStage.swift */,
+				D4BAD88F20AE5BF300A7D4D2 /* ImageResourceCachingStage.swift */,
 			);
 			path = Stages;
 			sourceTree = "<group>";
@@ -178,7 +178,7 @@
 		D45E582320AFCC93009659BD /* Display */ = {
 			isa = PBXGroup;
 			children = (
-				D45E582620AFCE5F009659BD /* ImageView+DisplayCoordinator.swift */,
+				D432DF9C20B705EF0092E213 /* ElkonImageView.swift */,
 				D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */,
 				D4C0F61520B060B2005E8950 /* ImageDisplayCoordinator+Public.swift */,
 			);
@@ -200,9 +200,9 @@
 		D4BAD88220ADCA3A00A7D4D2 /* Image */ = {
 			isa = PBXGroup;
 			children = (
-				D4BAD88320ADCA4400A7D4D2 /* StaticImage.swift */,
-				D4BAD88520ADCA4C00A7D4D2 /* AnimatedImage.swift */,
-				D4BAD88920ADCD1D00A7D4D2 /* Image.swift */,
+				D4BAD88920ADCD1D00A7D4D2 /* ImageResource.swift */,
+				D432DFD820BD972C0092E213 /* ImageResource+StaticImage.swift */,
+				D4BAD88520ADCA4C00A7D4D2 /* ImageResource+AnimatedImage.swift */,
 				D4BBA549206FB2B900BC96EB /* ImageType.swift */,
 				D4FF146820779B1A002AF70D /* ImageOrientation.swift */,
 			);
@@ -441,22 +441,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4FF146920779B1A002AF70D /* ImageOrientation.swift in Sources */,
-				D4BAD88A20ADCD1D00A7D4D2 /* Image.swift in Sources */,
+				D432DFD920BD972C0092E213 /* ImageResource+StaticImage.swift in Sources */,
+				D4BAD88A20ADCD1D00A7D4D2 /* ImageResource.swift in Sources */,
 				D4BAD88E20AE55D500A7D4D2 /* AnyImagePipelineStage.swift in Sources */,
-				D4BAD88820ADCC5600A7D4D2 /* ImageTypeDecodingStage.swift in Sources */,
+				D4BAD88820ADCC5600A7D4D2 /* ImageResourceDecodingStage.swift in Sources */,
 				D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */,
-				D4BAD88620ADCA4C00A7D4D2 /* AnimatedImage.swift in Sources */,
-				D4BAD88420ADCA4400A7D4D2 /* StaticImage.swift in Sources */,
+				D4BAD88620ADCA4C00A7D4D2 /* ImageResource+AnimatedImage.swift in Sources */,
+				D432DF9D20B705EF0092E213 /* ElkonImageView.swift in Sources */,
 				D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */,
 				D4FF14632077853D002AF70D /* CGImage+Draw.swift in Sources */,
-				D45E582720AFCE5F009659BD /* ImageView+DisplayCoordinator.swift in Sources */,
 				D4C0F61620B060B2005E8950 /* ImageDisplayCoordinator+Public.swift in Sources */,
-				D4E6BF3920AB35B600AF70CD /* ImageDownloadTask.swift in Sources */,
+				D4E6BF3920AB35B600AF70CD /* RemoteImageDownloadTask.swift in Sources */,
 				D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */,
 				D4BAD88C20ADD99700A7D4D2 /* ImagePipelineStageOutputable.swift in Sources */,
 				D4BAD88120ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift in Sources */,
-				D4BAD87D20ADC33A00A7D4D2 /* ImageDownloadStage.swift in Sources */,
-				D4BAD89020AE5BF300A7D4D2 /* TypedImageCachingStage.swift in Sources */,
+				D4BAD87D20ADC33A00A7D4D2 /* ImageRetrievingStage.swift in Sources */,
+				D4BAD89020AE5BF300A7D4D2 /* ImageResourceCachingStage.swift in Sources */,
 				D45E582520AFCCAB009659BD /* ImageDisplayCoordinator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

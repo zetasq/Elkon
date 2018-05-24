@@ -9,29 +9,29 @@
 import Foundation
 import SwiftCache
 
-public final class TypedImageCachingStage: ImagePipelineStageProtocol {
+public final class ImageResourceCachingStage: ImagePipelineStageProtocol {
 
-  public var nextStage: AnyImagePipelineStage<Image>? = nil
+  public var nextStage: AnyImagePipelineStage<ImageResource>? = nil
   
-  private let imageCache: SwiftMemoryCache<Image>
+  private let imageCache: SwiftMemoryCache<ImageResource>
   
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty")
 
     // TODO: Adjust cost limit and cache limit according to memory size
     self.imageCache = .init(
-      cacheName: "\(label).\(TypedImageCachingStage.self).com.zetasq.Elkon",
+      cacheName: "\(label).\(ImageResourceCachingStage.self).com.zetasq.Elkon",
       costLimit: 100 * 1024 * 1024,
       ageLimit: 30 * 24 * 60 * 60
     )
   }
   
-  public func searchDataAtThisStage(for url: URL, completion: @escaping (Image?) -> Void) {
+  public func searchDataAtThisStage(for url: URL, completion: @escaping (ImageResource?) -> Void) {
     let cachedImage = imageCache.fetchObject(forKey: url.absoluteString)
     completion(cachedImage)
   }
   
-  public func processDataFromNextStage(url: URL, data: Image, completion: @escaping (Image?) -> Void) {
+  public func processDataFromNextStage(url: URL, data: ImageResource, completion: @escaping (ImageResource?) -> Void) {
     imageCache.setObject(data, forKey: url.absoluteString, cost: data.totalByteSize)
     completion(data)
   }

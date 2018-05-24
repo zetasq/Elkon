@@ -14,8 +14,8 @@ extension MainViewController {
   
   final class ImageCell: UITableViewCell {
     
-    private let iconView: UIImageView = {
-      let iconView = UIImageView()
+    private let iconView: ElkonImageView = {
+      let iconView = ElkonImageView()
       
       iconView.contentMode = .scaleAspectFit
       

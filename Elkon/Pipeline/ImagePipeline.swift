@@ -12,24 +12,24 @@ import Foundation
 public final class ImagePipeline {
   
   public static let `default`: ImagePipeline = {
-    let typedImageCachingStage = TypedImageCachingStage(label: "default")
+    let typedImageCachingStage = ImageResourceCachingStage(label: "default")
     typedImageCachingStage
-      .bindNext(ImageTypeDecodingStage())
+      .bindNext(ImageResourceDecodingStage())
       .bindNext(RawImageDataCachingStage(label: "default"))
-      .bindNext(ImageDownloadStage())
+      .bindNext(ImageRetrievingStage())
     
     let pipeline = ImagePipeline(firstStage: typedImageCachingStage)
     return pipeline
   }()
   
-  private let firstStage: AnyImagePipelineStage<Image>
+  private let firstStage: AnyImagePipelineStage<ImageResource>
   
   public init<T: ImagePipelineStageProtocol>(firstStage: T)
-    where T.OutputType == Image {
+    where T.OutputType == ImageResource {
     self.firstStage = AnyImagePipelineStage(stage: firstStage)
   }
   
-  public func fetchImage(with url: URL, completion: @escaping (Image?) -> Void) {
+  public func fetchImage(with url: URL, completion: @escaping (ImageResource?) -> Void) {
     firstStage.fetchDataWithRemainingPipeline(url: url, completion: completion)
   }
   

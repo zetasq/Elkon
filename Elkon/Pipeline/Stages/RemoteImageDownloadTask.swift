@@ -9,7 +9,7 @@
 import Foundation
 import os.log
 
-internal final class ImageDownloadTask {
+internal final class RemoteImageDownloadTask {
   
   internal enum State {
     case ready
@@ -73,25 +73,25 @@ internal final class ImageDownloadTask {
 
     let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
       if let error = error {
-        os_log("%@", log: ImageDownloadTask.logger, type: .error, "Transport error occured when downloading data from \(self.url): \(error)")
+        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "Transport error occured when downloading data from \(self.url): \(error)")
         self._finishFetchingData(nil)
         return
       }
       
       guard let response = response as? HTTPURLResponse else {
-        os_log("%@", log: ImageDownloadTask.logger, type: .error, "No response when downloading data from \(self.url)")
+        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "No response when downloading data from \(self.url)")
         self._finishFetchingData(nil)
         return
       }
       
       guard response.statusCode == 200 else {
-        os_log("%@", log: ImageDownloadTask.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(self.url)")
+        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(self.url)")
         self._finishFetchingData(nil)
         return
       }
       
       guard let data = data else {
-        os_log("%@", log: ImageDownloadTask.logger, type: .error, "No data returned when downloading data from \(self.url)")
+        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "No data returned when downloading data from \(self.url)")
         self._finishFetchingData(nil)
         return
       }

@@ -26,29 +26,29 @@ extension ImageDisplayCoordinator {
     }
   }
   
-  
   public func loadImage(at url: URL?, placeholder: UIImage? = nil, animated: Bool = true) {
     assert(Thread.isMainThread)
     
     guard let url = url else {
-      load(image: placeholder, animated: animated)
+      load(uiImage: placeholder, animated: animated)
       return
     }
     
     guard url.scheme != "xcassets" else {
       // If the scheme is xcassets, we treat the host has the image name in the assets
-      loadImage(named: url.host!, animated: animated)
+      loadUIImage(named: url.host!, animated: animated)
       return
     }
     
     guard currentBoundImageURL != url else { return }
     
     currentBoundImageURL = url
-    _setStaticImage(placeholder, animated: animated)
+    
+    _setUIImage(placeholder, animated: animated)
     
     ImagePipeline.default.fetchImage(with: url) { [weak self] image in
       DispatchQueue.main.async {
-        guard let `self` = self, let imageView = self.imageView else {
+        guard let `self` = self else {
           return
         }
         
@@ -57,40 +57,33 @@ extension ImageDisplayCoordinator {
             return
         }
         
-        switch image {
-        case .static(let staticImage):
-          let uiImage = UIImage(cgImage: staticImage.cgImage, scale: imageView.contentScaleFactor, orientation: UIImageOrientation(staticImage.orientation))
-          self._setStaticImage(uiImage, animated: animated)
-        case .animated(_):
-          // TODO: handle animated image
-          break
-        }
+        self._setImageResource(image, animated: animated)
       }
     }
   }
   
-  public func loadImage(named imageName: String, bundle: Bundle = .main, animated: Bool = true) {
+  public func loadUIImage(named imageName: String, bundle: Bundle = .main, animated: Bool = true) {
     assert(Thread.isMainThread)
     
-    let url = URL(string: "xcassets://\(bundle.bundleIdentifier!)/\(imageName)") // This url is only for uniquelly identify the image
+    let url = URL(string: "xcassets-store://\(bundle.bundleIdentifier!)/\(imageName)") // This url is only for uniquelly identify the image
     guard currentBoundImageURL != url else { return }
     
     currentBoundImageURL = url
     
-    guard let image = UIImage(named: imageName, in: bundle, compatibleWith: nil) else {
+    guard let uiImage = UIImage(named: imageName, in: bundle, compatibleWith: nil) else {
       os_log("%@", log: ImageDisplayCoordinator.logger, type: .error, "Failed to find image: name = \(imageName), bundle = \(bundle)")
-      _setStaticImage(nil, animated: animated)
+      _setUIImage(nil, animated: animated)
       return
     }
     
-    _setStaticImage(image, animated: animated)
+    _setUIImage(uiImage, animated: animated)
   }
   
-  public func load(image: UIImage?, animated: Bool = true) {
+  public func load(uiImage: UIImage?, animated: Bool = true) {
     assert(Thread.isMainThread)
     
     currentBoundImageURL = nil
-    _setStaticImage(image, animated: animated)
+    _setUIImage(uiImage, animated: animated)
   }
     
 }
