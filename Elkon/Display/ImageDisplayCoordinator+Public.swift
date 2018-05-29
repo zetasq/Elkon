@@ -44,7 +44,7 @@ extension ImageDisplayCoordinator {
     
     currentBoundImageURL = url
     
-    _setUIImage(placeholder, animated: animated)
+    setCurrentPlaceholderImage(placeholder, animated: animated)
     
     ImagePipeline.default.fetchImage(with: url) { [weak self] image in
       DispatchQueue.main.async {
@@ -72,18 +72,24 @@ extension ImageDisplayCoordinator {
     
     guard let uiImage = UIImage(named: imageName, in: bundle, compatibleWith: nil) else {
       os_log("%@", log: ImageDisplayCoordinator.logger, type: .error, "Failed to find image: name = \(imageName), bundle = \(bundle)")
-      _setUIImage(nil, animated: animated)
+      _setImageResource(nil, animated: animated)
       return
     }
     
-    _setUIImage(uiImage, animated: animated)
+    _setImageResource(.static(.uiImage(uiImage)), animated: animated)
   }
   
   public func load(uiImage: UIImage?, animated: Bool = true) {
     assert(Thread.isMainThread)
     
     currentBoundImageURL = nil
-    _setUIImage(uiImage, animated: animated)
+    
+    guard let uiImage = uiImage else {
+      _setImageResource(nil, animated: animated)
+      return
+    }
+    
+    _setImageResource(.static(.uiImage(uiImage)), animated: animated)
   }
     
 }

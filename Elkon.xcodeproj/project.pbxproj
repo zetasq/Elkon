@@ -20,6 +20,7 @@
 		D432DF9D20B705EF0092E213 /* ElkonImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432DF9C20B705EF0092E213 /* ElkonImageView.swift */; };
 		D432DFD920BD972C0092E213 /* ImageResource+StaticImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432DFD820BD972C0092E213 /* ImageResource+StaticImage.swift */; };
 		D45E582520AFCCAB009659BD /* ImageDisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */; };
+		D486679520BE10AB00F4DA28 /* ImageDisplayStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */; };
 		D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */; };
 		D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */; };
 		D4BAD87D20ADC33A00A7D4D2 /* ImageRetrievingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */; };
@@ -85,6 +86,7 @@
 		D432DF9C20B705EF0092E213 /* ElkonImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElkonImageView.swift; sourceTree = "<group>"; };
 		D432DFD820BD972C0092E213 /* ImageResource+StaticImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageResource+StaticImage.swift"; sourceTree = "<group>"; };
 		D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayCoordinator.swift; sourceTree = "<group>"; };
+		D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayStack.swift; sourceTree = "<group>"; };
 		D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 		D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineStageProtocol.swift; sourceTree = "<group>"; };
 		D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRetrievingStage.swift; sourceTree = "<group>"; };
@@ -181,6 +183,7 @@
 				D432DF9C20B705EF0092E213 /* ElkonImageView.swift */,
 				D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */,
 				D4C0F61520B060B2005E8950 /* ImageDisplayCoordinator+Public.swift */,
+				D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -445,6 +448,7 @@
 				D4BAD88A20ADCD1D00A7D4D2 /* ImageResource.swift in Sources */,
 				D4BAD88E20AE55D500A7D4D2 /* AnyImagePipelineStage.swift in Sources */,
 				D4BAD88820ADCC5600A7D4D2 /* ImageResourceDecodingStage.swift in Sources */,
+				D486679520BE10AB00F4DA28 /* ImageDisplayStack.swift in Sources */,
 				D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */,
 				D4BAD88620ADCA4C00A7D4D2 /* ImageResource+AnimatedImage.swift in Sources */,
 				D432DF9D20B705EF0092E213 /* ElkonImageView.swift in Sources */,
