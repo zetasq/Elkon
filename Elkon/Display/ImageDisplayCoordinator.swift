@@ -21,6 +21,8 @@ public final class ImageDisplayCoordinator {
     }
   }
   
+  private var displayDriver: ImageDisplayDriverProtocol?
+  
   internal init(imageView: UIImageView) {
     assert(Thread.isMainThread)
     
@@ -55,25 +57,6 @@ public final class ImageDisplayCoordinator {
       displayStack.currentPlaceholderImage = image
     }
   }
-
-  private func _setUIImage(_ uiImage: UIImage?, animated: Bool) {
-    assert(Thread.isMainThread)
-    
-    guard let imageView = imageView else {
-      return
-    }
-    
-    if animated {
-      UIView.transition(with: imageView,
-                        duration: 0.25,
-                        options: [.transitionCrossDissolve, .curveEaseInOut, .beginFromCurrentState],
-                        animations: {
-                          imageView.image = uiImage
-      }, completion: nil)
-    } else {
-      imageView.image = uiImage
-    }
-  }
   
   internal func _setImageResource(_ imageResource: ImageResource?, animated: Bool) {
     assert(Thread.isMainThread)
@@ -82,19 +65,9 @@ public final class ImageDisplayCoordinator {
       return
     }
     
-    guard let image = imageResource else {
-      _setUIImage(nil, animated: animated)
-      return
-    }
-    
-    switch image {
-    case .static(let staticImage):
-      let uiImage = staticImage.asUIImage(scale: imageView.contentScaleFactor)
-      _setUIImage(uiImage, animated: animated)
-    case .animated(let animatedImage):
-      // TODO: Implement animated image loading
-      break
-    }
+    displayDriver = ImageDisplayDriverMakeWithResource(imageResource, config: .init(imageScaleFactor: imageView.contentScaleFactor, shouldAnimate: animated))
+    displayDriver?.delegate = self
+    displayDriver?.startDisplay()
   }
   
   // MARK: - Private methods
@@ -112,4 +85,22 @@ public final class ImageDisplayCoordinator {
     }, completion: nil)
   }
 
+}
+
+extension ImageDisplayCoordinator: ImageDisplayDriverDelegate {
+  
+  func imageDisplayDriverRequestDisplayingImage(_ driver: ImageDisplayDriverProtocol, image: UIImage?, animated: Bool) {
+    guard driver === self.displayDriver else {
+      return
+    }
+    
+    if animated {
+      animateWithChange {
+        self.displayStack.currentDisplayImage = image
+      }
+    } else {
+      self.displayStack.currentDisplayImage = image
+    }
+  }
+  
 }
