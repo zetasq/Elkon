@@ -13,7 +13,7 @@ public final class RawImageDataCachingStage: ImagePipelineStageProtocol {
   
   public var nextStage: AnyImagePipelineStage<Data>?
 
-  private let imageDataCache: SwiftCache<Data>
+  private let imageDataCache: SwiftDiskCache<Data>
   
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty, it will be used to create cache directory")
@@ -21,13 +21,10 @@ public final class RawImageDataCachingStage: ImagePipelineStageProtocol {
     // TODO: Adjust cost limit and cache limit according to memory size
     self.imageDataCache = .init(
       cacheName: "\(label).\(RawImageDataCachingStage.self).com.zetasq.Elkon",
-      memoryCacheCostLimit: .max,
-      memoryCacheAgeLimit: .greatestFiniteMagnitude,
-      diskCacheParentDirectory: FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!,
-      diskCacheByteLimit: 100 * 1024 * 1024,
-      diskCacheAgeLimit: 30 * 24 * 60 * 60,
-      diskObjectEncoder: { $0 },
-      diskObjectDecoder: { $0 }
+      byteLimit: 100 * 1024 * 1024,
+      ageLimit: 30 * 24 * 60 * 60,
+      objectEncoder: { $0 }, 
+      objectDecoder: { $0 }
     )
   }
   
@@ -38,7 +35,7 @@ public final class RawImageDataCachingStage: ImagePipelineStageProtocol {
   }
   
   public func processDataFromNextStage(url: URL, data: Data, completion: @escaping (Data?) -> Void) {
-    imageDataCache.asyncSetObject(data, forKey: url.absoluteString, memoryCacheCost: data.count)
+    imageDataCache.asyncSetObject(data, forKey: url.absoluteString)
     completion(data)
   }
   
