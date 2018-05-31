@@ -14,7 +14,6 @@ public final class AnimatedImage {
     return _imageSource.posterImage.bytesPerRow * _imageSource.posterImage.height * _imageSource.frameCount
   }
   
-  // MARK: - Public Properties
   public var posterImage: CGImage {
     return _imageSource.posterImage
   }
@@ -39,38 +38,32 @@ public final class AnimatedImage {
     return _imageSource.frameDelays
   }
   
-  public private(set) lazy var frameDelayGCD: TimeInterval = {
-    let kGCDPrecision: TimeInterval = 2.0 / 0.02
-    
-    var scaledGCD = lrint(_imageSource.frameDelays[0] * kGCDPrecision)
-    
-    for delay in _imageSource.frameDelays {
-      scaledGCD = GCD(lrint(delay * kGCDPrecision), scaledGCD)
-    }
-    
-    return TimeInterval(scaledGCD) / kGCDPrecision
-  }()
+  public let frameDelayGCD: TimeInterval
   
   // MARK: - Private Properties
   private let _imageSource: AnimatedImageDataSource
   
-  private let _queue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.serialQueue")
-  
+  private let _imagePreparingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imagePreparingQueue")
+  private let _imageAccessingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imageAccessingQueue")
+    
   private var _frameIndexToImageCache: [Int: CGImage] = [:]
-  
-  private var _backgroundLastRequestedFrameIndex: Int?
-  private var _backgroundCachedFrameIndices: IndexSet = IndexSet()
-  private var _backgroundMaxCachedFrameCount: Int
-  private var _backgroundExpandCacheSafePivot: CFTimeInterval?
+  private var _maxCachedFrameCount: Int
+  private var _lastRequestedFrameIndex: Int?
+  private var _expandCacheSafePivot: CFTimeInterval?
   
   // MARK: - Init & Deinit
   public init(dataSource: AnimatedImageDataSource) {
+    let kGCDPrecision: TimeInterval = 2.0 / 0.02
+    var scaledGCD = lrint(dataSource.frameDelays[0] * kGCDPrecision)
+    for delay in dataSource.frameDelays {
+      scaledGCD = GCD(lrint(delay * kGCDPrecision), scaledGCD)
+    }
+    self.frameDelayGCD = TimeInterval(scaledGCD) / kGCDPrecision
+    
     _imageSource = dataSource
     
     _frameIndexToImageCache[0] = _imageSource.posterImage
-    _backgroundCachedFrameIndices.insert(0)
-    
-    _backgroundMaxCachedFrameCount = _imageSource.frameCount
+    _maxCachedFrameCount = _imageSource.frameCount
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveMemoryWarning(_:)), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
   }
@@ -108,85 +101,96 @@ public final class AnimatedImage {
   
   
   // MARK: - Public Methods
-  public func imageCached(at index: Int) -> CGImage? {
+  public func imageCached(at index: Int, previousFetchedImage: CGImage?) -> CGImage? {
     assert(Thread.isMainThread)
     assert(index < _imageSource.frameCount)
     
-    guard index < _imageSource.frameCount else {
-      return nil
+    prepareImages(from: index, previousImageBeforeIndex: index > 0 ? previousFetchedImage : nil)
+    
+    var cachedImage: CGImage? = nil
+    _imageAccessingQueue.sync {
+      cachedImage = _frameIndexToImageCache[index]
     }
-    
-    prepareImages(from: index)
-    
-    return _frameIndexToImageCache[index]
+    return cachedImage
   }
   
   public func prepareImagesAfterPosterImage() {
     assert(Thread.isMainThread)
-    prepareImages(from: 0)
+    prepareImages(from: 0, previousImageBeforeIndex: nil)
   }
   
   // MARK: - Private Methods
-  private func prepareImages(from index: Int) {
+  private func prepareImages(from index: Int, previousImageBeforeIndex: CGImage?) {
     assert(Thread.isMainThread)
     
-    _queue.async { [weak self] in
+    _imageAccessingQueue.async {
+      self._lastRequestedFrameIndex = index
+    }
+    
+    _imagePreparingQueue.async { [weak self] in
       guard let `self` = self else {
         return
       }
       
-      guard self._backgroundLastRequestedFrameIndex != index else {
-        return
-      }
-      
-      let adjustedIndex = max(1, index)
-      
-      guard adjustedIndex < self._imageSource.frameCount else {
-        return
-      }
-
-      self._backgroundLastRequestedFrameIndex = adjustedIndex
-      
-      let couldIncreaseThreshold = self._backgroundMaxCachedFrameCount < self._imageSource.frameCount
-      
-      if couldIncreaseThreshold {
-        if let safePivot = self._backgroundExpandCacheSafePivot {
-          if CACurrentMediaTime() > safePivot {
-            self._backgroundMaxCachedFrameCount += 1
+      var currentMaxCachedFrameCount: Int = 1
+      self._imageAccessingQueue.sync {
+        let couldIncreaseThreshold = self._maxCachedFrameCount < self._imageSource.frameCount
+        
+        if couldIncreaseThreshold {
+          if let safePivot = self._expandCacheSafePivot {
+            if CACurrentMediaTime() > safePivot {
+              self._maxCachedFrameCount += 1
+            }
+          } else {
+            self._maxCachedFrameCount += 1
           }
-        } else {
-          self._backgroundMaxCachedFrameCount += 1
+        }
+        
+        currentMaxCachedFrameCount = self._maxCachedFrameCount
+      }
+      
+      let preferredPrefetchCount = max(1, min(currentMaxCachedFrameCount, Int(ceil(1 / self._imageSource.frameDelays[index]))))
+      
+      var cacheWindow: [Int: CGImage] = [:]
+      if index > 0 {
+        cacheWindow[index - 1] = previousImageBeforeIndex
+      }
+      
+      self._imageAccessingQueue.sync {
+        for i in index..<index+preferredPrefetchCount {
+          let validIdx = i % self._imageSource.frameCount
+          cacheWindow[validIdx] = self._frameIndexToImageCache[validIdx]
         }
       }
       
-      let preferredPrefetchCount = max(1, min(self._backgroundMaxCachedFrameCount, Int(ceil(1 / self._imageSource.frameDelays[adjustedIndex]))))
-      
-      for i in adjustedIndex..<adjustedIndex+preferredPrefetchCount {
+      for i in index..<index+preferredPrefetchCount {
         let validIdx = i % self._imageSource.frameCount
         
-        guard !self._backgroundCachedFrameIndices.contains(validIdx) else {
+        guard cacheWindow[validIdx] == nil else {
           continue
         }
         
-        guard let image = self.generateImage(at: validIdx) else {
-          continue
+        if validIdx > 0 && cacheWindow[validIdx - 1] == nil {
+          break
         }
         
-        self._backgroundCachedFrameIndices.insert(validIdx)
+        guard let image = self.generateImage(at: validIdx, previousImage: cacheWindow[validIdx - 1]) else {
+          break
+        }
         
-        DispatchQueue.main.async { [validIdx, weak self] in
-          guard let `self` = self else {
-            return
-          }
-          
-          self._frameIndexToImageCache[validIdx] = image
+        cacheWindow[validIdx] = image
+      }
+      
+      self._imageAccessingQueue.sync {
+        for (index, image) in cacheWindow {
+          self._frameIndexToImageCache[index] = image
         }
       }
-    }
+    }   
   }
   
-  private func generateImage(at index: Int) -> CGImage? {
-    guard let cgImage = _imageSource.image(at: index) else {
+  private func generateImage(at index: Int, previousImage: CGImage?) -> CGImage? {
+    guard let cgImage = _imageSource.image(at: index, previousImage: previousImage) else {
       return nil
     }
     
@@ -198,58 +202,48 @@ public final class AnimatedImage {
   private func didReceiveMemoryWarning(_ notification: Notification) {
     assert(Thread.isMainThread)
     
-    _queue.async { [weak self] in
+    _imageAccessingQueue.async { [weak self] in
       guard let `self` = self else {
         return
       }
       
-      self._backgroundExpandCacheSafePivot = CACurrentMediaTime() + CFTimeInterval(5 + arc4random_uniform(10))
+      self._expandCacheSafePivot = CACurrentMediaTime() + CFTimeInterval(5 + arc4random_uniform(10))
       
-      guard self._backgroundCachedFrameIndices.count > 1 else {
+      guard self._frameIndexToImageCache.count > 1 else {
         return
       }
       
-      self._backgroundMaxCachedFrameCount = max(1, self._backgroundMaxCachedFrameCount / 2)
+      self._maxCachedFrameCount = max(1, self._maxCachedFrameCount / 2)
       self.purgeCachedFramesIfNeeded()
     }
   }
   
-  /// Must be called from the internal queue
+  /// Must be called from _imageAccessingQueue
   private func purgeCachedFramesIfNeeded() {
-    guard _backgroundCachedFrameIndices.count > _backgroundMaxCachedFrameCount else {
+    guard _frameIndexToImageCache.count > _maxCachedFrameCount else {
       return
     }
     
-    guard let lastRequestedFrameIndex = self._backgroundLastRequestedFrameIndex else {
+    guard let lastRequestedFrameIndex = _lastRequestedFrameIndex else {
       return
     }
     
     let reservedFrameIndices: IndexSet
     
     let pivotIndex = lastRequestedFrameIndex
-    if pivotIndex + self._backgroundMaxCachedFrameCount > self._imageSource.frameCount {
+    if pivotIndex + self._maxCachedFrameCount > self._imageSource.frameCount {
       let firstPart = IndexSet(integersIn: pivotIndex..<self._imageSource.frameCount)
-      let secondPart = IndexSet(integersIn: 0..<(pivotIndex + self._backgroundMaxCachedFrameCount - self._imageSource.frameCount))
+      let secondPart = IndexSet(integersIn: 0..<(pivotIndex + self._maxCachedFrameCount - self._imageSource.frameCount))
       
       reservedFrameIndices = firstPart.union(secondPart)
     } else {
-      reservedFrameIndices = IndexSet(integersIn: pivotIndex..<pivotIndex+self._backgroundMaxCachedFrameCount)
+      reservedFrameIndices = IndexSet(integersIn: pivotIndex..<pivotIndex+self._maxCachedFrameCount)
     }
     
     let redundantIndices = IndexSet(integersIn: 1..<self._imageSource.frameCount).subtracting(reservedFrameIndices)
     
     for i in redundantIndices {
-      if self._backgroundCachedFrameIndices.contains(i) {
-        self._backgroundCachedFrameIndices.remove(i)
-        
-        DispatchQueue.main.async { [i, weak self] in
-          guard let `self` = self else {
-            return
-          }
-          
-          self._frameIndexToImageCache[i] = nil
-        }
-      }
+      _frameIndexToImageCache[i] = nil
     }
   }
   

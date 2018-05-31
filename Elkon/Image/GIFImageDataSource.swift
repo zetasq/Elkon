@@ -112,7 +112,7 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
   }
   
   // MARK: - Public Methods
-  public func image(at index: Int) -> CGImage? {
+  public func image(at index: Int, previousImage: CGImage?) -> CGImage? {
     return CGImageSourceCreateImageAtIndex(_imageSource, index, nil)
   }
   

@@ -26,6 +26,8 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
   
   private var _needsRequestDisplayingWhenImageBecomesAvailable: Bool
   
+  private var _lastFetchedImage: CGImage?
+  
   internal init(animatedImage: AnimatedImage, config: ImageDisplayDriverConfig) {
     self.config = config
     self.animatedImage = animatedImage
@@ -46,6 +48,7 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
     }
     
     let posterImage = animatedImage.posterImage
+    self._lastFetchedImage = posterImage
     animatedImage.prepareImagesAfterPosterImage()
     
     delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: posterImage, scale: config.imageScaleFactor, orientation: .up), animated: config.shouldAnimate)
@@ -81,13 +84,13 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
     
     _accumulator += displayLinkFireInterval
     
-    guard let cachedImage = animatedImage.imageCached(at: currentFrameIndex) else {
-      // This means the CPU usage may be high, so we reset the accumulator
-      _accumulator = 0
-      return
-    }
-    
     if _needsRequestDisplayingWhenImageBecomesAvailable {
+      guard let cachedImage = animatedImage.imageCached(at: currentFrameIndex, previousFetchedImage: _lastFetchedImage) else {
+        // This means the CPU usage may be high, so we reset the accumulator
+        _accumulator = 0
+        return
+      }
+      
       delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: cachedImage, scale: config.imageScaleFactor, orientation: .up), animated: false)
 
       _needsRequestDisplayingWhenImageBecomesAvailable = false
