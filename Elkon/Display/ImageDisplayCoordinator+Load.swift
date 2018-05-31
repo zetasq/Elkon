@@ -47,7 +47,7 @@ extension ImageDisplayCoordinator {
     setCurrentPlaceholderImage(placeholder, animated: animated)
     
     ImagePipeline.default.fetchImage(with: url) { [weak self] image in
-      DispatchQueue.main.async {
+      let block = {
         guard let `self` = self else {
           return
         }
@@ -58,6 +58,12 @@ extension ImageDisplayCoordinator {
         }
         
         self._setImageResource(image, animated: animated)
+      }
+      
+      if Thread.isMainThread {
+        block()
+      } else {
+        DispatchQueue.main.async(execute: block)
       }
     }
   }
