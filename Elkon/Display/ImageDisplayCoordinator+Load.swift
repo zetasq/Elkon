@@ -91,5 +91,5 @@ extension ImageDisplayCoordinator {
     
     _setImageResource(.static(.uiImage(uiImage)), animated: animated)
   }
-    
+
 }

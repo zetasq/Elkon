@@ -12,13 +12,13 @@ internal final class EmptyImageDisplayDriver: ImageDisplayDriverProtocol {
   
   internal weak var delegate: ImageDisplayDriverDelegate?
   
-  private let config: ImageDisplayDriverConfig
+  internal let config: ImageDisplayDriverConfig
   
   internal init(config: ImageDisplayDriverConfig) {
     self.config = config
   }
   
-  func startDisplay() {
+  internal func startDisplay() {
     delegate?.imageDisplayDriverRequestDisplayingImage(self, image: nil, animated: config.shouldAnimate)
   }
   

@@ -13,6 +13,7 @@ public final class ImageDisplayCoordinator {
   
   internal static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "ImageDisplayCoordinator")
   
+  // MARK: - Properties
   private weak var imageView: UIImageView?
   
   private var displayStack: ImageDisplayStack {
@@ -23,6 +24,7 @@ public final class ImageDisplayCoordinator {
   
   private var displayDriver: ImageDisplayDriverProtocol?
   
+  // MARK: - Init & deinit
   internal init(imageView: UIImageView) {
     assert(Thread.isMainThread)
     
@@ -30,6 +32,7 @@ public final class ImageDisplayCoordinator {
     self.displayStack = ImageDisplayStack()
   }
   
+  // MARK: - Internal interface for placeholder
   internal var defaultPlaceholderImage: UIImage? {
     get {
       return displayStack.defaultPlaceholderImage
@@ -58,6 +61,7 @@ public final class ImageDisplayCoordinator {
     }
   }
   
+  // MARK: - Internal interface for loading ImageResource
   internal func _setImageResource(_ imageResource: ImageResource?, animated: Bool) {
     assert(Thread.isMainThread)
     
@@ -68,9 +72,20 @@ public final class ImageDisplayCoordinator {
     displayDriver = ImageDisplayDriverMakeWithResource(imageResource, config: .init(imageScaleFactor: imageView.contentScaleFactor, shouldAnimate: animated))
     displayDriver?.delegate = self
     displayDriver?.startDisplay()
+
+    updateAnimatingStatus()
   }
   
-  // MARK: - Private methods
+  // MARK: - Internal interface for ElkonImageView
+  internal func updateAnimatingStatus() {
+    guard let imageView = imageView else {
+      return
+    }
+    
+    isAnimating = imageView.window != nil && imageView.alpha > 0 && !imageView.isHidden
+  }
+
+  // MARK: - Helper methods
   private func animateWithChange(_ block: @escaping () -> Void) {
     guard let imageView = imageView else {
       block()
@@ -84,9 +99,25 @@ public final class ImageDisplayCoordinator {
                         block()
     }, completion: nil)
   }
+  
+  private var isAnimating: Bool {
+    get {
+      guard let animatedImageDisplayDriver = displayDriver as? AnimatedImageDisplayDriver else {
+        return false
+      }
+      return animatedImageDisplayDriver.isAnimating
+    }
+    set {
+      guard let animatedImageDisplayDriver = displayDriver as? AnimatedImageDisplayDriver else {
+        return
+      }
+      animatedImageDisplayDriver.isAnimating = newValue
+    }
+  }
 
 }
 
+// MARK: - ImageDisplayDriverDelegate
 extension ImageDisplayCoordinator: ImageDisplayDriverDelegate {
   
   func imageDisplayDriverRequestDisplayingImage(_ driver: ImageDisplayDriverProtocol, image: UIImage?, animated: Bool) {

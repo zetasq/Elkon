@@ -27,6 +27,11 @@ public enum ImageResource {
       }
       
       self = .static(staticImage)
+    case .GIF, .WebP:
+      guard let animatedImage = AnimatedImage(data: data) else {
+        return nil
+      }
+      self = .animated(animatedImage)
     default:
       os_log("%@", log: ImageResource.logger, type: .error, "Unsupported image type for decoding: \(imageType)")
       return nil

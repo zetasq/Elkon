@@ -29,4 +29,31 @@ public final class ElkonImageView: UIImageView {
     }
   }
   
+  public override var isHighlighted: Bool {
+    // TODO: if we have the animated image, highlighted should be false
+    get {
+      return super.isHighlighted
+    }
+    set {
+      super.isHighlighted = newValue
+    }
+  }
+  
+  public override func didMoveToWindow() {
+    super.didMoveToWindow()
+    
+    elkon.updateAnimatingStatus()
+  }
+  
+  public override var alpha: CGFloat {
+    didSet {
+      elkon.updateAnimatingStatus()
+    }
+  }
+  
+  public override var isHidden: Bool {
+    didSet {
+      elkon.updateAnimatingStatus()
+    }
+  }
 }

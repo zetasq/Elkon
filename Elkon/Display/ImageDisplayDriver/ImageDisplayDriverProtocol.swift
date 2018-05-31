@@ -31,7 +31,6 @@ internal func ImageDisplayDriverMakeWithResource(_ imageResource: ImageResource?
   case .static(let staticImage):
     return StaticImageDisplayDriver(staticImage: staticImage, config: config)
   case .animated(let animatedImage):
-    // TODO: Handle animated image
-    fatalError()
+    return AnimatedImageDisplayDriver(animatedImage: animatedImage, config: config)
   }
 }

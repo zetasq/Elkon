@@ -10,18 +10,18 @@ import Foundation
 
 internal final class StaticImageDisplayDriver: ImageDisplayDriverProtocol {
   
-  private let staticImage: ImageResource.StaticImage
+  internal weak var delegate: ImageDisplayDriverDelegate?
   
-  private let config: ImageDisplayDriverConfig
+  internal let config: ImageDisplayDriverConfig
   
-  internal init(staticImage: ImageResource.StaticImage, config: ImageDisplayDriverConfig) {
+  private let staticImage: StaticImage
+  
+  internal init(staticImage: StaticImage, config: ImageDisplayDriverConfig) {
     self.staticImage = staticImage
     self.config = config
   }
   
-  internal weak var delegate: ImageDisplayDriverDelegate?
-  
-  func startDisplay() {
+  internal func startDisplay() {
     delegate?.imageDisplayDriverRequestDisplayingImage(self, image: staticImage.asUIImage(scale: config.imageScaleFactor), animated: config.shouldAnimate)
   }
   
