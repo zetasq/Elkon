@@ -17,7 +17,7 @@ public final class ImageRetrievingStage: ImagePipelineStageProtocol {
   
   public func searchDataAtThisStage(for url: URL, completion: @escaping (Data?) -> Void) {
     guard url.scheme != "file" else {
-      let localImageData = try? Data.init(contentsOf: url, options: .mappedIfSafe)
+      let localImageData = try? Data(contentsOf: url, options: .mappedIfSafe)
       completion(localImageData)
       return
     }

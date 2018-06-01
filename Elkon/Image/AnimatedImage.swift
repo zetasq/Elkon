@@ -61,21 +61,6 @@ public final class AnimatedImage {
     }
   }
   
-  // TODO: Init AnimatedImage from local file
-//  public convenience init?(fileName: String, bundle: Bundle = .main) {
-//    guard let url = bundle.url(forResource: fileName, withExtension: "gif") else {
-//      return nil
-//    }
-//
-//    guard let gifData = try? Data(contentsOf: url, options: .mappedIfSafe) else {
-//      return nil
-//    }
-//
-//    self.init(gifData: gifData, frameCachePolicy: frameCachePolicy)
-//  }
-//
-  
-  
   // MARK: - Public Methods
   public func imageCached(at index: Int, previousFetchedImage: CGImage?) -> CGImage? {
     assert(Thread.isMainThread)
