@@ -24,7 +24,6 @@
 		D466682220BE3EA60092A100 /* ImageDisplayDriverConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D466682120BE3EA60092A100 /* ImageDisplayDriverConfig.swift */; };
 		D466682420BE405E0092A100 /* EmptyImageDisplayDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D466682320BE405E0092A100 /* EmptyImageDisplayDriver.swift */; };
 		D486679520BE10AB00F4DA28 /* ImageDisplayStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */; };
-		D486679720BE212E00F4DA28 /* AnimatedImageDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D486679620BE212E00F4DA28 /* AnimatedImageDriver.swift */; };
 		D486679A20BE230A00F4DA28 /* ImageDisplayDriverProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D486679920BE230A00F4DA28 /* ImageDisplayDriverProtocol.swift */; };
 		D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */; };
 		D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */; };
@@ -101,7 +100,6 @@
 		D466682120BE3EA60092A100 /* ImageDisplayDriverConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayDriverConfig.swift; sourceTree = "<group>"; };
 		D466682320BE405E0092A100 /* EmptyImageDisplayDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyImageDisplayDriver.swift; sourceTree = "<group>"; };
 		D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayStack.swift; sourceTree = "<group>"; };
-		D486679620BE212E00F4DA28 /* AnimatedImageDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageDriver.swift; sourceTree = "<group>"; };
 		D486679920BE230A00F4DA28 /* ImageDisplayDriverProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayDriverProtocol.swift; sourceTree = "<group>"; };
 		D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 		D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineStageProtocol.swift; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 				D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */,
 				D4C0F61520B060B2005E8950 /* ImageDisplayCoordinator+Load.swift */,
 				D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */,
-				D486679620BE212E00F4DA28 /* AnimatedImageDriver.swift */,
 				D486679820BE22B900F4DA28 /* ImageDisplayDriver */,
 			);
 			path = Display;
@@ -487,7 +484,6 @@
 				D4E18E5820BED7C000BAD8B0 /* LoopCounter.swift in Sources */,
 				D4FF146920779B1A002AF70D /* ImageOrientation+Conversion.swift in Sources */,
 				D432DFD920BD972C0092E213 /* StaticImage.swift in Sources */,
-				D486679720BE212E00F4DA28 /* AnimatedImageDriver.swift in Sources */,
 				D4BAD88A20ADCD1D00A7D4D2 /* ImageResource.swift in Sources */,
 				D4BAD88E20AE55D500A7D4D2 /* AnyImagePipelineStage.swift in Sources */,
 				D4E18E6820BF755100BAD8B0 /* AnimatedImageDisplayDriver.swift in Sources */,

@@ -102,7 +102,7 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
       os_log("%@", log: GIFImageDataSource.logger, type: .error, "GIF image is corrupted: cannnot get first frame when calling \(#function)")
       return nil
     }
-    posterImage = image.getPredrawnImage()
+    posterImage = image
     
     guard frameCount == tempFrameDelays.count else {
       os_log("%@", log: GIFImageDataSource.logger, type: .error, "GIF image is corrupted: some frames are missing when calling \(#function)")

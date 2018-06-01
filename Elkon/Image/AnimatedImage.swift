@@ -9,35 +9,9 @@
 import Foundation
 
 public final class AnimatedImage {
-  
-  public var totalByteSize: Int {
-    return _imageSource.posterImage.bytesPerRow * _imageSource.posterImage.height * _imageSource.frameCount
-  }
-  
-  public var posterImage: CGImage {
-    return _imageSource.posterImage
-  }
-  
-  public var size: CGSize {
-    return CGSize(width: _imageSource.posterImage.width, height: _imageSource.posterImage.height)
-  }
-  
-  public var memoryUsage: Int {
-    return _imageSource.posterImage.bytesPerRow * _imageSource.posterImage.height * _frameIndexToImageCache.count
-  }
-  
-  public var loopCount: LoopCount {
-    return _imageSource.loopCount
-  }
-  
-  public var frameCount: Int {
-    return _imageSource.frameCount
-  }
-  
-  public var frameDelays: [Double] {
-    return _imageSource.frameDelays
-  }
-  
+
+  public let posterImage: CGImage
+
   public let frameDelayGCD: TimeInterval
   
   // MARK: - Private Properties
@@ -53,6 +27,8 @@ public final class AnimatedImage {
   
   // MARK: - Init & Deinit
   public init(dataSource: AnimatedImageDataSource) {
+    self.posterImage = dataSource.posterImage.getPredrawnImage()
+    
     let kGCDPrecision: TimeInterval = 2.0 / 0.02
     var scaledGCD = lrint(dataSource.frameDelays[0] * kGCDPrecision)
     for delay in dataSource.frameDelays {
@@ -117,6 +93,31 @@ public final class AnimatedImage {
   public func prepareImagesAfterPosterImage() {
     assert(Thread.isMainThread)
     prepareImages(from: 0, previousImageBeforeIndex: nil)
+  }
+  
+  
+  public var totalByteSize: Int {
+    return _imageSource.posterImage.bytesPerRow * _imageSource.posterImage.height * _imageSource.frameCount
+  }
+  
+  public var size: CGSize {
+    return CGSize(width: _imageSource.posterImage.width, height: _imageSource.posterImage.height)
+  }
+  
+  public var memoryUsage: Int {
+    return _imageSource.posterImage.bytesPerRow * _imageSource.posterImage.height * _frameIndexToImageCache.count
+  }
+  
+  public var loopCount: LoopCount {
+    return _imageSource.loopCount
+  }
+  
+  public var frameCount: Int {
+    return _imageSource.frameCount
+  }
+  
+  public var frameDelays: [Double] {
+    return _imageSource.frameDelays
   }
   
   // MARK: - Private Methods
