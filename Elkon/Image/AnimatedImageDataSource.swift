@@ -10,8 +10,6 @@ import Foundation
 
 public protocol AnimatedImageDataSource {
   
-  var posterImage: CGImage { get }
-  
   var loopCount: LoopCount { get }
   
   var frameCount: Int { get }

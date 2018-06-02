@@ -91,6 +91,8 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
         return
       }
       
+      _lastFetchedImage = cachedImage
+      
       delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: cachedImage, scale: config.imageScaleFactor, orientation: .up), animated: false)
 
       _needsRequestDisplayingWhenImageBecomesAvailable = false

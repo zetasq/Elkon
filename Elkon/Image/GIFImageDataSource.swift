@@ -14,8 +14,6 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "GIFImageDataSource")
   
-  internal let posterImage: CGImage
-  
   internal let loopCount: LoopCount
   
   internal let frameCount: Int
@@ -64,18 +62,8 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
     }
     
     var tempFrameDelays: [TimeInterval] = []
-    var firstFrameImage: CGImage?
     
     for i in 0..<frameCount {
-      if i == 0 {
-        guard let frameCGImage = CGImageSourceCreateImageAtIndex(_imageSource, 0, nil) else {
-          os_log("%@", log: GIFImageDataSource.logger, type: .error, "GIF image is corrupted: cannnot get first frame in `CGImageSourceCreateImageAtIndex` when calling \(#function)")
-          return nil
-        }
-        
-        firstFrameImage = frameCGImage
-      }
-      
       guard let frameProperties = CGImageSourceCopyPropertiesAtIndex(_imageSource, i, nil) as? [String: Any], let gifDictionary = frameProperties[kCGImagePropertyGIFDictionary as String] as? [String: Any] else {
         os_log("%@", log: GIFImageDataSource.logger, type: .error, "GIF image is corrupted: cannnot get GIF properties of frame \(i) when calling \(#function)")
         return nil
@@ -97,12 +85,6 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
       
       tempFrameDelays.append(delayTime)
     }
-    
-    guard let image = firstFrameImage else {
-      os_log("%@", log: GIFImageDataSource.logger, type: .error, "GIF image is corrupted: cannnot get first frame when calling \(#function)")
-      return nil
-    }
-    posterImage = image
     
     guard frameCount == tempFrameDelays.count else {
       os_log("%@", log: GIFImageDataSource.logger, type: .error, "GIF image is corrupted: some frames are missing when calling \(#function)")

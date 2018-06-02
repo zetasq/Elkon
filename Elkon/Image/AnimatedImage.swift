@@ -7,8 +7,11 @@
 //
 
 import Foundation
+import os.log
 
 public final class AnimatedImage {
+  
+  private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "AnimatedImage")
 
   public let posterImage: CGImage
 
@@ -26,8 +29,12 @@ public final class AnimatedImage {
   private var _expandCacheSafePivot: CFTimeInterval?
   
   // MARK: - Init & Deinit
-  public init(dataSource: AnimatedImageDataSource) {
-    self.posterImage = dataSource.posterImage.getPredrawnImage()
+  public init?(dataSource: AnimatedImageDataSource) {
+    guard let firstImage = dataSource.image(at: 0, previousImage: nil) else {
+      os_log("%@", log: AnimatedImage.logger, type: .error, "Failed to get first image from dataSource: \(dataSource)")
+      return nil
+    }
+    self.posterImage = firstImage.getPredrawnImage()
     
     let kGCDPrecision: TimeInterval = 2.0 / 0.02
     var scaledGCD = lrint(dataSource.frameDelays[0] * kGCDPrecision)
@@ -38,27 +45,10 @@ public final class AnimatedImage {
     
     _imageSource = dataSource
     
-    _frameIndexToImageCache[0] = _imageSource.posterImage
+    _frameIndexToImageCache[0] = self.posterImage
     _maxCachedFrameCount = _imageSource.frameCount
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveMemoryWarning(_:)), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
-  }
-  
-  public convenience init?(data: Data) {
-    let imageType = data.imageType
-    
-    switch imageType {
-    case .GIF:
-      guard let gifImageSource = GIFImageDataSource(data: data) else {
-        return nil
-      }
-      self.init(dataSource: gifImageSource)
-    case .WebP:
-    // TODO: Add WebP support
-      return nil
-    default:
-      return nil
-    }
   }
   
   // MARK: - Public Methods
@@ -72,6 +62,7 @@ public final class AnimatedImage {
     _imageAccessingQueue.sync {
       cachedImage = _frameIndexToImageCache[index]
     }
+
     return cachedImage
   }
   
@@ -82,15 +73,15 @@ public final class AnimatedImage {
   
   
   public var totalByteSize: Int {
-    return _imageSource.posterImage.bytesPerRow * _imageSource.posterImage.height * _imageSource.frameCount
+    return posterImage.bytesPerRow * posterImage.height * _imageSource.frameCount
   }
   
   public var size: CGSize {
-    return CGSize(width: _imageSource.posterImage.width, height: _imageSource.posterImage.height)
+    return CGSize(width: posterImage.width, height: posterImage.height)
   }
   
   public var memoryUsage: Int {
-    return _imageSource.posterImage.bytesPerRow * _imageSource.posterImage.height * _frameIndexToImageCache.count
+    return posterImage.bytesPerRow * posterImage.height * _frameIndexToImageCache.count
   }
   
   public var loopCount: LoopCount {
@@ -159,7 +150,7 @@ public final class AnimatedImage {
         if validIdx > 0 && cacheWindow[validIdx - 1] == nil {
           break
         }
-        
+
         guard let image = self.generateImage(at: validIdx, previousImage: cacheWindow[validIdx - 1]) else {
           break
         }

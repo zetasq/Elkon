@@ -17,7 +17,7 @@ class MainViewController: UIViewController {
     URL(string: "https://via.placeholder.com/100x100")!,
     URL(string: "https://via.placeholder.com/100x150")!,
     URL(string: "https://via.placeholder.com/150x150")!,
-    URL(string: "https://via.placeholder.com/150x200")!,
+    URL(string: "https://media.giphy.com/media/fnVWfMrQtdOcPvlotJ/giphy.webp")!,
     URL(string: "https://media.giphy.com/media/QeuIjgyfsHp6w/giphy.gif")!,
     URL(string: "https://media.giphy.com/media/a9A3HLylBz2yA/giphy.gif")!,
   ]

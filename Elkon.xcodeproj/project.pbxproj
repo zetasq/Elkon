@@ -48,6 +48,8 @@
 		D4E18E6420BEE9F400BAD8B0 /* AnimatedImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18E6320BEE9F400BAD8B0 /* AnimatedImageDataSource.swift */; };
 		D4E18E6620BEF09C00BAD8B0 /* GIFImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18E6520BEF09C00BAD8B0 /* GIFImageDataSource.swift */; };
 		D4E18E6820BF755100BAD8B0 /* AnimatedImageDisplayDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18E6720BF755100BAD8B0 /* AnimatedImageDisplayDriver.swift */; };
+		D4E18E9F20C1979500BAD8B0 /* WebPImageDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18E9E20C1979500BAD8B0 /* WebPImageDataSource.swift */; };
+		D4E18EA120C2095C00BAD8B0 /* WebPFrameInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E18EA020C2095C00BAD8B0 /* WebPFrameInfo.swift */; };
 		D4E6BF3920AB35B600AF70CD /* RemoteImageDownloadTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4E6BF3820AB35B600AF70CD /* RemoteImageDownloadTask.swift */; };
 		D4FF14632077853D002AF70D /* CGImage+Draw.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF14622077853D002AF70D /* CGImage+Draw.swift */; };
 		D4FF146920779B1A002AF70D /* ImageOrientation+Conversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4FF146820779B1A002AF70D /* ImageOrientation+Conversion.swift */; };
@@ -127,6 +129,8 @@
 		D4E18E6320BEE9F400BAD8B0 /* AnimatedImageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageDataSource.swift; sourceTree = "<group>"; };
 		D4E18E6520BEF09C00BAD8B0 /* GIFImageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GIFImageDataSource.swift; sourceTree = "<group>"; };
 		D4E18E6720BF755100BAD8B0 /* AnimatedImageDisplayDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImageDisplayDriver.swift; sourceTree = "<group>"; };
+		D4E18E9E20C1979500BAD8B0 /* WebPImageDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPImageDataSource.swift; sourceTree = "<group>"; };
+		D4E18EA020C2095C00BAD8B0 /* WebPFrameInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPFrameInfo.swift; sourceTree = "<group>"; };
 		D4E6BF3820AB35B600AF70CD /* RemoteImageDownloadTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteImageDownloadTask.swift; sourceTree = "<group>"; };
 		D4FF14622077853D002AF70D /* CGImage+Draw.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGImage+Draw.swift"; sourceTree = "<group>"; };
 		D4FF146820779B1A002AF70D /* ImageOrientation+Conversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageOrientation+Conversion.swift"; sourceTree = "<group>"; };
@@ -246,6 +250,8 @@
 				D4BAD88520ADCA4C00A7D4D2 /* AnimatedImage.swift */,
 				D4E18E6320BEE9F400BAD8B0 /* AnimatedImageDataSource.swift */,
 				D4E18E6520BEF09C00BAD8B0 /* GIFImageDataSource.swift */,
+				D4E18E9E20C1979500BAD8B0 /* WebPImageDataSource.swift */,
+				D4E18EA020C2095C00BAD8B0 /* WebPFrameInfo.swift */,
 			);
 			path = Image;
 			sourceTree = "<group>";
@@ -492,7 +498,9 @@
 				D486679520BE10AB00F4DA28 /* ImageDisplayStack.swift in Sources */,
 				D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */,
 				D4E18E5920BED7C000BAD8B0 /* WeakProxy.swift in Sources */,
+				D4E18EA120C2095C00BAD8B0 /* WebPFrameInfo.swift in Sources */,
 				D4BAD88620ADCA4C00A7D4D2 /* AnimatedImage.swift in Sources */,
+				D4E18E9F20C1979500BAD8B0 /* WebPImageDataSource.swift in Sources */,
 				D432DF9D20B705EF0092E213 /* ElkonImageView.swift in Sources */,
 				D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */,
 				D4E18E6220BED7C000BAD8B0 /* Int+GCD.swift in Sources */,
