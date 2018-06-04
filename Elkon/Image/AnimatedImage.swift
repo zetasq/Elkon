@@ -53,7 +53,6 @@ public final class AnimatedImage {
   
   // MARK: - Public Methods
   public func imageCached(at index: Int, previousFetchedImage: CGImage?) -> CGImage? {
-    assert(Thread.isMainThread)
     assert(index < _imageSource.frameCount)
     
     prepareImages(from: index, previousImageBeforeIndex: index > 0 ? previousFetchedImage : nil)
@@ -67,7 +66,6 @@ public final class AnimatedImage {
   }
   
   public func prepareImagesAfterPosterImage() {
-    assert(Thread.isMainThread)
     prepareImages(from: 0, previousImageBeforeIndex: nil)
   }
   
@@ -98,8 +96,6 @@ public final class AnimatedImage {
   
   // MARK: - Private Methods
   private func prepareImages(from index: Int, previousImageBeforeIndex: CGImage?) {
-    assert(Thread.isMainThread)
-    
     _imageAccessingQueue.async {
       self._lastRequestedFrameIndex = index
     }
@@ -177,8 +173,6 @@ public final class AnimatedImage {
   // MARK: - Notification Handlers
   @objc
   private func didReceiveMemoryWarning(_ notification: Notification) {
-    assert(Thread.isMainThread)
-    
     _imageAccessingQueue.async { [weak self] in
       guard let `self` = self else {
         return
