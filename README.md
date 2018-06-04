@@ -12,7 +12,7 @@ To integrate **Elkon** into your Xcode project using [Carthage](https://github.c
 github "zetasq/Elkon"
 ```
 
-Run `carthage update` to build the framework. **Elkon** has [SwiftCache](https://github.com/Carthage/SwiftCache) and [CWebP](https://github.com/Carthage/CWebP) as dependencies. Drag the built `Elkon.framework`, `SwiftCache.framework` and `CWebP.framework` into your Xcode project.
+Run `carthage update` to build the framework. **Elkon** has [SwiftCache](https://github.com/zetasq/SwiftCache) and [CWebP](https://github.com/zetasq/CWebP) as dependencies. Drag the built `Elkon.framework`, `SwiftCache.framework` and `CWebP.framework` into your Xcode project.
 
 ## Usage
 
