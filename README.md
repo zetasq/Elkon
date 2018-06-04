@@ -27,7 +27,7 @@ iconView.elkon.loadImage(at: URL(string: "my-image-url", placeholder: UIImage(na
 // load image in bundle
 iconView.elkon.loadUIImage(named: "myImageName", bundle: .main, animated: true)
 
-// load custom **UIImage** object directly
+// load custom UIImage object directly
 let myCustomImage: UIImage = MakeCustomUIImage()
 iconView.elkon.load(uiImage: myCustomImage, animated: true)
 ```
