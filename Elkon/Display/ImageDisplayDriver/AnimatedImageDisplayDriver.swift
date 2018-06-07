@@ -26,7 +26,7 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
   
   private var _needsRequestDisplayingWhenImageBecomesAvailable: Bool
   
-  private var _lastFetchedImage: CGImage?
+  private var _lastFetchedFrame: AnimatedImage.FrameResult?
   
   internal init(animatedImage: AnimatedImage, config: ImageDisplayDriverConfig) {
     self.config = config
@@ -47,11 +47,11 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
       return
     }
     
-    let posterImage = animatedImage.posterImage
-    self._lastFetchedImage = posterImage
-    animatedImage.prepareImagesAfterPosterImage()
+    let firstFrame = animatedImage.firstFrame
+    self._lastFetchedFrame = firstFrame
+    animatedImage.prepareFramesFollowingFirst()
     
-    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: posterImage, scale: config.imageScaleFactor, orientation: .up), animated: config.shouldAnimate)
+    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: firstFrame.frameImage, scale: config.imageScaleFactor, orientation: .up), animated: config.shouldAnimate)
     
     let weakProxy = WeakProxy(target: self)
     _animationDisplayLink = CADisplayLink(target: weakProxy, selector: #selector(self.displayLinkDidRefresh(_:)))
@@ -85,15 +85,15 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
     _accumulator += displayLinkFireInterval
     
     if _needsRequestDisplayingWhenImageBecomesAvailable {
-      guard let cachedImage = animatedImage.imageCached(at: currentFrameIndex, previousFetchedImage: _lastFetchedImage) else {
+      guard let cachedFrame = animatedImage.frameCached(at: currentFrameIndex, lastFetchedFrame: _lastFetchedFrame) else {
         // This means the CPU usage may be high, so we reset the accumulator
         _accumulator = 0
         return
       }
       
-      _lastFetchedImage = cachedImage
+      _lastFetchedFrame = cachedFrame
       
-      delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: cachedImage, scale: config.imageScaleFactor, orientation: .up), animated: false)
+      delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: cachedFrame.frameImage, scale: config.imageScaleFactor, orientation: .up), animated: false)
 
       _needsRequestDisplayingWhenImageBecomesAvailable = false
     }

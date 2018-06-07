@@ -13,7 +13,7 @@ public final class AnimatedImage {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "AnimatedImage")
 
-  public let posterImage: CGImage
+  public let firstFrame: FrameResult
 
   public let frameDelayGCD: TimeInterval
   
@@ -34,7 +34,7 @@ public final class AnimatedImage {
       os_log("%@", log: AnimatedImage.logger, type: .error, "Failed to get first image from dataSource: \(dataSource)")
       return nil
     }
-    self.posterImage = firstImage.getPredrawnImage()
+    self.firstFrame = FrameResult(frameIndex: 0, frameImage: firstImage.getPredrawnImage())
     
     let kGCDPrecision: TimeInterval = 2.0 / 0.02
     var scaledGCD = lrint(dataSource.frameDelays[0] * kGCDPrecision)
@@ -45,41 +45,44 @@ public final class AnimatedImage {
     
     _imageSource = dataSource
     
-    _frameIndexToImageCache[0] = self.posterImage
+    _frameIndexToImageCache[0] = self.firstFrame.frameImage
     _maxCachedFrameCount = _imageSource.frameCount
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveMemoryWarning(_:)), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
   }
   
   // MARK: - Public Methods
-  public func imageCached(at index: Int, previousFetchedImage: CGImage?) -> CGImage? {
+  public func frameCached(at index: Int, lastFetchedFrame: FrameResult?) -> FrameResult? {
     assert(index < _imageSource.frameCount)
     
-    prepareImages(from: index, previousImageBeforeIndex: index > 0 ? previousFetchedImage : nil)
+    prepareFrames(from: index, lastFetchedFrame: lastFetchedFrame)
     
     var cachedImage: CGImage? = nil
     _imageAccessingQueue.sync {
       cachedImage = _frameIndexToImageCache[index]
     }
-
-    return cachedImage
+    
+    if let image = cachedImage {
+      return FrameResult(frameIndex: index, frameImage: image)
+    } else {
+      return nil
+    }
   }
   
-  public func prepareImagesAfterPosterImage() {
-    prepareImages(from: 0, previousImageBeforeIndex: nil)
+  public func prepareFramesFollowingFirst() {
+    prepareFrames(from: 0, lastFetchedFrame: nil)
   }
-  
   
   public var totalByteSize: Int {
-    return posterImage.bytesPerRow * posterImage.height * _imageSource.frameCount
+    return firstFrame.frameImage.bytesPerRow * firstFrame.frameImage.height * _imageSource.frameCount
   }
   
   public var size: CGSize {
-    return CGSize(width: posterImage.width, height: posterImage.height)
+    return CGSize(width: firstFrame.frameImage.width, height: firstFrame.frameImage.height)
   }
   
   public var memoryUsage: Int {
-    return posterImage.bytesPerRow * posterImage.height * _frameIndexToImageCache.count
+    return firstFrame.frameImage.bytesPerRow * firstFrame.frameImage.height * _frameIndexToImageCache.count
   }
   
   public var loopCount: LoopCount {
@@ -95,7 +98,7 @@ public final class AnimatedImage {
   }
   
   // MARK: - Private Methods
-  private func prepareImages(from index: Int, previousImageBeforeIndex: CGImage?) {
+  private func prepareFrames(from index: Int, lastFetchedFrame: FrameResult?) {
     _imageAccessingQueue.async {
       self._lastRequestedFrameIndex = index
     }
@@ -125,8 +128,8 @@ public final class AnimatedImage {
       let preferredPrefetchCount = max(1, min(currentMaxCachedFrameCount, Int(ceil(1 / self._imageSource.frameDelays[index]))))
       
       var cacheWindow: [Int: CGImage] = [:]
-      if index > 0 {
-        cacheWindow[index - 1] = previousImageBeforeIndex
+      if let frame = lastFetchedFrame {
+        cacheWindow[frame.frameIndex] = frame.frameImage
       }
       
       self._imageAccessingQueue.sync {
