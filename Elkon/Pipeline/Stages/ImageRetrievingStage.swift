@@ -9,15 +9,23 @@
 import Foundation
 
 public final class ImageRetrievingStage: ImagePipelineStageProtocol {
+  
+  public typealias OutputKeyType = URL
 
-  public var nextStage: AnyImagePipelineStage<Void>? = nil // This should be the last stage of the image pipeline
+  public typealias OutputDataType = Data
+
+  public var nextStage: AnyImagePipelineStage<URL, Void>? = nil // This should be the last stage of the image pipeline
   
   private var _urlToRemoteImageDownloadTaskTable: [URL: RemoteImageDownloadTask] = [:]
   private var _tableLock = os_unfair_lock_s()
   
-  public func searchDataAtThisStage(for url: URL, completion: @escaping (Data?) -> Void) {
-    guard url.scheme != "file" else {
-      let localImageData = try? Data(contentsOf: url, options: .mappedIfSafe)
+  public func transformOutputKeyToInputKey(_ outputKey: URL) -> URL {
+    return outputKey
+  }
+  
+  public func searchDataAtThisStage(key: URL, completion: @escaping (Data?) -> Void) {
+    guard key.scheme != "file" else {
+      let localImageData = try? Data(contentsOf: key, options: .mappedIfSafe)
       completion(localImageData)
       return
     }
@@ -29,11 +37,11 @@ public final class ImageRetrievingStage: ImagePipelineStageProtocol {
     
     let imageDownloadTask: RemoteImageDownloadTask
     
-    if let existingTask = _urlToRemoteImageDownloadTaskTable[url] {
+    if let existingTask = _urlToRemoteImageDownloadTaskTable[key] {
       imageDownloadTask = existingTask
     } else {
-      imageDownloadTask = RemoteImageDownloadTask(url: url)
-      _urlToRemoteImageDownloadTaskTable[url] = imageDownloadTask
+      imageDownloadTask = RemoteImageDownloadTask(url: key)
+      _urlToRemoteImageDownloadTaskTable[key] = imageDownloadTask
       
       imageDownloadTask.addFinishHandler { _ in
         os_unfair_lock_lock(&self._tableLock)
@@ -41,7 +49,7 @@ public final class ImageRetrievingStage: ImagePipelineStageProtocol {
           os_unfair_lock_unlock(&self._tableLock)
         }
         
-        self._urlToRemoteImageDownloadTaskTable.removeValue(forKey: url)
+        self._urlToRemoteImageDownloadTaskTable.removeValue(forKey: key)
       }
       
       imageDownloadTask.resume()
@@ -52,7 +60,12 @@ public final class ImageRetrievingStage: ImagePipelineStageProtocol {
     }
   }
   
-  public func processDataFromNextStage(url: URL, data: Void, completion: @escaping (Data?) -> Void) {
+  public func processDataFromNextStage(
+    inputKey: URL,
+    inputData: Void,
+    outputKey: URL,
+    completion: @escaping (Data?) -> Void)
+  {
     fatalError("\(type(of: self)) is the last working stage of the image pipeline, we don't expect data from next stage")
   }
   

@@ -10,8 +10,10 @@ import Foundation
 
 public protocol ImagePipelineStageOutputable {
   
-  associatedtype OutputType
+  associatedtype OutputKeyType: Hashable
   
-  func fetchDataWithRemainingPipeline(url: URL, completion: @escaping (OutputType?) -> Void)
+  associatedtype OutputDataType
+  
+  func fetchDataWithRemainingPipeline(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void)
   
 }

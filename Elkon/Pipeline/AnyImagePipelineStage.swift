@@ -8,17 +8,17 @@
 
 import Foundation
 
-public struct AnyImagePipelineStage<OutputType>: ImagePipelineStageOutputable {
+public struct AnyImagePipelineStage<OutputKeyType: Hashable, OutputDataType>: ImagePipelineStageOutputable {
   
-  private let fetchMethod: (URL, @escaping (OutputType?) -> Void) -> Void
+  private let fetchMethod: (OutputKeyType, @escaping (OutputDataType?) -> Void) -> Void
   
   public init<T: ImagePipelineStageProtocol>(stage: T)
-    where T.OutputType == OutputType {
+    where T.OutputKeyType == OutputKeyType, T.OutputDataType == OutputDataType {
       self.fetchMethod = stage.fetchDataWithRemainingPipeline
   }
   
-  public func fetchDataWithRemainingPipeline(url: URL, completion: @escaping (OutputType?) -> Void) {
-    self.fetchMethod(url, completion)
+  public func fetchDataWithRemainingPipeline(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void) {
+    self.fetchMethod(key, completion)
   }
   
 }

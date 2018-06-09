@@ -22,15 +22,15 @@ public final class ImagePipeline {
     return pipeline
   }()
   
-  private let firstStage: AnyImagePipelineStage<ImageResource>
+  private let firstStage: AnyImagePipelineStage<URL, ImageResource>
   
   public init<T: ImagePipelineStageProtocol>(firstStage: T)
-    where T.OutputType == ImageResource {
+    where T.OutputKeyType == URL, T.OutputDataType == ImageResource {
     self.firstStage = AnyImagePipelineStage(stage: firstStage)
   }
   
   public func fetchImage(with url: URL, completion: @escaping (ImageResource?) -> Void) {
-    firstStage.fetchDataWithRemainingPipeline(url: url, completion: completion)
+    firstStage.fetchDataWithRemainingPipeline(key: url, completion: completion)
   }
   
 }

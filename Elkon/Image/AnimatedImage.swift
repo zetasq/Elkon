@@ -194,6 +194,8 @@ public final class AnimatedImage {
   
   /// Must be called from _imageAccessingQueue
   private func purgeCachedFramesIfNeeded() {
+    dispatchPrecondition(condition: .onQueue(_imageAccessingQueue))
+    
     guard _frameIndexToImageCache.count > _maxCachedFrameCount else {
       return
     }

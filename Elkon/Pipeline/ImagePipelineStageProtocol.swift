@@ -10,15 +10,22 @@ import Foundation
 
 public protocol ImagePipelineStageProtocol: AnyObject, ImagePipelineStageOutputable {
   
-  associatedtype InputType
+  associatedtype InputKeyType: Hashable
   
-  associatedtype OutputType
+  associatedtype InputDataType
 
-  var nextStage: AnyImagePipelineStage<InputType>? { get set }
+  var nextStage: AnyImagePipelineStage<InputKeyType, InputDataType>? { get set }
   
-  func searchDataAtThisStage(for url: URL, completion: @escaping (OutputType?) -> Void)
+  func transformOutputKeyToInputKey(_ outputKey: OutputKeyType) -> InputKeyType
   
-  func processDataFromNextStage(url: URL, data: InputType, completion: @escaping (OutputType?) -> Void)
+  func searchDataAtThisStage(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void)
+  
+  func processDataFromNextStage(
+    inputKey: InputKeyType,
+    inputData: InputDataType,
+    outputKey: OutputKeyType,
+    completion: @escaping (OutputDataType?) -> Void
+  )
   
 }
 
@@ -26,13 +33,13 @@ extension ImagePipelineStageProtocol {
   
   @discardableResult
   public func bindNext<T: ImagePipelineStageProtocol>(_ stage: T) -> T
-    where T.OutputType == Self.InputType {
+    where T.OutputKeyType == Self.InputKeyType, T.OutputDataType == Self.InputDataType {
       self.nextStage = AnyImagePipelineStage(stage: stage)
       return stage
   }
 
-  public func fetchDataWithRemainingPipeline(url: URL, completion: @escaping (OutputType?) -> Void) {
-    searchDataAtThisStage(for: url) { cachedData in
+  public func fetchDataWithRemainingPipeline(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void) {
+    searchDataAtThisStage(key: key) { cachedData in
       if let cachedData = cachedData {
         completion(cachedData)
         return
@@ -44,13 +51,15 @@ extension ImagePipelineStageProtocol {
         return
       }
       
-      nextStage.fetchDataWithRemainingPipeline(url: url) { dataFromNextStage in
+      let inputKey = self.transformOutputKeyToInputKey(key)
+      
+      nextStage.fetchDataWithRemainingPipeline(key: inputKey) { dataFromNextStage in
         guard let dataFromNextStage = dataFromNextStage else {
           completion(nil)
           return
         }
         
-        self.processDataFromNextStage(url: url, data: dataFromNextStage) { processedData in
+        self.processDataFromNextStage(inputKey: inputKey, inputData: dataFromNextStage, outputKey: key) { processedData in
           completion(processedData)
         }
       }
