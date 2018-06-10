@@ -38,4 +38,7 @@ extension CGImage {
     return context.makeImage()!
   }
   
+  public func predrawnImage(with config: ImageRenderConfig?) -> CGImage {
+    fatalError()
+  }
 }

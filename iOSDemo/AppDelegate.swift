@@ -19,11 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     let mainWindow = UIWindow()
     self.window = mainWindow
     
-    let navigationController = UINavigationController(rootViewController: MainViewController())
-    mainWindow.rootViewController = navigationController
+//    let navigationController = UINavigationController(rootViewController: MainViewController())
+//    mainWindow.rootViewController = navigationController
+//
+
+    mainWindow.rootViewController = PDFImageTestViewController()
+    
     
     mainWindow.makeKeyAndVisible()
-    
+
     return true
   }
 

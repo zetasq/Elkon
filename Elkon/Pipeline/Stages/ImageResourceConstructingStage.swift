@@ -8,20 +8,19 @@
 
 import Foundation
 
-public final class ImageResourceDecodingStage: ImagePipelineStageProtocol {
+public final class ImageResourceConstructingStage: ImagePipelineStageProtocol {
 
-  public typealias OutputKeyType = URL
+  public typealias OutputKeyType = ImageResource.Descriptor
   
   public typealias OutputDataType = ImageResource
   
-  
   public var nextStage: AnyImagePipelineStage<URL, Data>?
   
-  public func transformOutputKeyToInputKey(_ outputKey: URL) -> URL {
-    return outputKey
+  public func transformOutputKeyToInputKey(_ outputKey: ImageResource.Descriptor) -> URL {
+    return outputKey.url
   }
   
-  public func searchDataAtThisStage(key: URL, completion: @escaping (ImageResource?) -> Void) {
+  public func searchDataAtThisStage(key: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
     // We don't cache output at this stage
     completion(nil)
   }
@@ -29,10 +28,10 @@ public final class ImageResourceDecodingStage: ImagePipelineStageProtocol {
   public func processDataFromNextStage(
     inputKey: URL,
     inputData: Data,
-    outputKey: URL,
+    outputKey: ImageResource.Descriptor,
     completion: @escaping (ImageResource?) -> Void)
   {
-    let image = ImageResource(data: inputData)
+    let image = ImageResource(data: inputData, renderConfig: outputKey.renderConfig)
     completion(image)
   }
   

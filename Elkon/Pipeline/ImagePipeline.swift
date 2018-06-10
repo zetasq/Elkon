@@ -14,7 +14,7 @@ public final class ImagePipeline {
   public static let `default`: ImagePipeline = {
     let typedImageCachingStage = ImageResourceCachingStage(label: "default")
     typedImageCachingStage
-      .bindNext(ImageResourceDecodingStage())
+      .bindNext(ImageResourceConstructingStage())
       .bindNext(RawImageDataCachingStage(label: "default"))
       .bindNext(ImageRetrievingStage())
     
@@ -22,15 +22,15 @@ public final class ImagePipeline {
     return pipeline
   }()
   
-  private let firstStage: AnyImagePipelineStage<URL, ImageResource>
+  private let firstStage: AnyImagePipelineStage<ImageResource.Descriptor, ImageResource>
   
   public init<T: ImagePipelineStageProtocol>(firstStage: T)
-    where T.OutputKeyType == URL, T.OutputDataType == ImageResource {
+    where T.OutputKeyType == ImageResource.Descriptor, T.OutputDataType == ImageResource {
     self.firstStage = AnyImagePipelineStage(stage: firstStage)
   }
   
-  public func fetchImage(with url: URL, completion: @escaping (ImageResource?) -> Void) {
-    firstStage.fetchDataWithRemainingPipeline(key: url, completion: completion)
+  public func fetchImage(with descriptor: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
+    firstStage.fetchDataWithRemainingPipeline(key: descriptor, completion: completion)
   }
   
 }

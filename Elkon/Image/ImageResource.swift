@@ -17,26 +17,26 @@ public enum ImageResource {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "image")
 
-  public init?(data: Data) {
+  public init?(data: Data, renderConfig: ImageRenderConfig?) {
     let imageType = data.imageType
     
     switch imageType {
     case .PNG, .JPG:
-      guard let staticImage = StaticImage(data: data) else {
+      guard let staticImage = StaticImage(data: data, renderConfig: renderConfig) else {
         return nil
       }
       
       self = .static(staticImage)
     case .GIF:
       guard let gifImageDataSource = GIFImageDataSource(data: data),
-        let animatedImage = AnimatedImage(dataSource: gifImageDataSource) else {
+        let animatedImage = AnimatedImage(dataSource: gifImageDataSource, renderConfig: renderConfig) else {
         return nil
       }
       
       self = .animated(animatedImage)
     case .WebP:
       guard let webpImageDataSource = WebPImageDataSource(data: data),
-        let animatedImage = AnimatedImage(dataSource: webpImageDataSource) else {
+        let animatedImage = AnimatedImage(dataSource: webpImageDataSource, renderConfig: renderConfig) else {
         return nil
       }
       
@@ -45,6 +45,10 @@ public enum ImageResource {
       os_log("%@", log: ImageResource.logger, type: .error, "Unsupported image type for decoding: \(imageType)")
       return nil
     }
+  }
+  
+  public init(uiImage: UIImage) {
+    self = .static(StaticImage(uiImage: uiImage))
   }
   
   public var totalByteSize: Int {

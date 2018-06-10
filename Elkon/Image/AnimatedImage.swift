@@ -29,7 +29,7 @@ public final class AnimatedImage {
   private var _expandCacheSafePivot: CFTimeInterval?
   
   // MARK: - Init & Deinit
-  public init?(dataSource: AnimatedImageDataSource) {
+  public init?(dataSource: AnimatedImageDataSource, renderConfig: ImageRenderConfig?) {
     guard let firstImage = dataSource.image(at: 0, previousImage: nil) else {
       os_log("%@", log: AnimatedImage.logger, type: .error, "Failed to get first image from dataSource: \(dataSource)")
       return nil

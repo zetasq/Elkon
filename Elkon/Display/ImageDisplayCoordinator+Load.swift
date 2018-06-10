@@ -11,18 +11,18 @@ import os.log
 
 extension ImageDisplayCoordinator {
   
-  private static var boundImageURLKey = "boundImageURLKey.com.zetasq.Elkon"
+  private static var boundImageResourceDescriptorKey = "boundImageResourceDescriptorKey.com.zetasq.Elkon"
   
-  private var currentBoundImageURL: URL? {
+  private var currentBoundImageResourceDescriptor: ImageResource.Descriptor? {
     get {
       assert(Thread.isMainThread)
       
-      return objc_getAssociatedObject(self, &ImageDisplayCoordinator.boundImageURLKey) as? URL
+      return objc_getAssociatedObject(self, &ImageDisplayCoordinator.boundImageResourceDescriptorKey) as? ImageResource.Descriptor
     }
     set {
       assert(Thread.isMainThread)
       
-      objc_setAssociatedObject(self, &ImageDisplayCoordinator.boundImageURLKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+      objc_setAssociatedObject(self, &ImageDisplayCoordinator.boundImageResourceDescriptorKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
   }
   
@@ -40,19 +40,20 @@ extension ImageDisplayCoordinator {
       return
     }
     
-    guard currentBoundImageURL != url else { return }
+    let newDescriptor = ImageResource.Descriptor(url: url, renderConfig: nil)
+    guard currentBoundImageResourceDescriptor != newDescriptor else { return }
     
-    currentBoundImageURL = url
+    currentBoundImageResourceDescriptor = newDescriptor
     
     setCurrentPlaceholderImage(placeholder, animated: animated)
     
-    ImagePipeline.default.fetchImage(with: url) { [weak self] image in
+    ImagePipeline.default.fetchImage(with: ImageResource.Descriptor(url: url, renderConfig: nil)) { [weak self] image in
       let block = {
         guard let `self` = self else {
           return
         }
         
-        guard self.currentBoundImageURL == url,
+        guard self.currentBoundImageResourceDescriptor == newDescriptor,
           let image = image else {
             return
         }
@@ -71,10 +72,12 @@ extension ImageDisplayCoordinator {
   public func loadUIImage(named imageName: String, bundle: Bundle = .main, animated: Bool = true) {
     assert(Thread.isMainThread)
     
-    let url = URL(string: "xcassets-store://\(bundle.bundleIdentifier!)/\(imageName)") // This url is only for uniquelly identify the image
-    guard currentBoundImageURL != url else { return }
+    let url = URL(string: "xcassets-store://\(bundle.bundleIdentifier!)/\(imageName)")! // This url is only for uniquelly identify the image
+    let newDescriptor = ImageResource.Descriptor(url: url, renderConfig: nil)
     
-    currentBoundImageURL = url
+    guard currentBoundImageResourceDescriptor != newDescriptor else { return }
+    
+    currentBoundImageResourceDescriptor = newDescriptor
     
     guard let uiImage = UIImage(named: imageName, in: bundle, compatibleWith: nil) else {
       os_log("%@", log: ImageDisplayCoordinator.logger, type: .error, "Failed to find image: name = \(imageName), bundle = \(bundle)")
@@ -82,20 +85,22 @@ extension ImageDisplayCoordinator {
       return
     }
     
-    _setImageResource(.static(.uiImage(uiImage)), animated: animated)
+    let imageResource = ImageResource(uiImage: uiImage)
+    _setImageResource(imageResource, animated: animated)
   }
   
   public func load(uiImage: UIImage?, animated: Bool = true) {
     assert(Thread.isMainThread)
     
-    currentBoundImageURL = nil
+    currentBoundImageResourceDescriptor = nil
     
     guard let uiImage = uiImage else {
       _setImageResource(nil, animated: animated)
       return
     }
     
-    _setImageResource(.static(.uiImage(uiImage)), animated: animated)
+    let imageResource = ImageResource(uiImage: uiImage)
+    _setImageResource(imageResource, animated: animated)
   }
 
 }

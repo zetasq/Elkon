@@ -9,21 +9,40 @@
 import Foundation
 import os.log
 
-public enum StaticImage {
+public struct StaticImage {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "ImageResource.StaticImage")
   
-  case cgImage(CGImage, CGImagePropertyOrientation)
+  private enum _Storage {
+    case cgImage(CGImage, CGImagePropertyOrientation)
+    case uiImage(UIImage)
+  }
   
-  case uiImage(UIImage)
+  private let _storage: _Storage
   
-  public init?(data: Data) {
-    guard let imageSource = CGImageSourceCreateWithData(data as CFData, [kCGImageSourceShouldCache: false] as CFDictionary) else {
+  public init?(data: Data, renderConfig: ImageRenderConfig?) {
+    let imageSourceOptions = [kCGImageSourceShouldCache: false] as CFDictionary
+    
+    guard let imageSource = CGImageSourceCreateWithData(data as CFData, imageSourceOptions) else {
       os_log("%@", log: StaticImage.logger, type: .error, "Failed to create CGImageSource with data")
       return nil
     }
     
-    guard let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, nil) else {
+    let imageOptions: CFDictionary
+    if let config = renderConfig {
+      imageOptions = [
+        kCGImageSourceCreateThumbnailFromImageAlways: true,
+        kCGImageSourceCreateThumbnailWithTransform: true,
+        kCGImageSourceShouldCacheImmediately: false,
+        kCGImageSourceThumbnailMaxPixelSize: max(config.pixelSize.width, config.pixelSize.height)
+      ] as CFDictionary
+    } else {
+      imageOptions = [
+        kCGImageSourceShouldCacheImmediately: false,
+        ] as CFDictionary
+    }
+    
+    guard let cgImage = CGImageSourceCreateImageAtIndex(imageSource, 0, imageOptions) else {
       os_log("%@", log: StaticImage.logger, type: .error, "Failed to create create image at index 0 from CGImageSource")
       return nil
     }
@@ -36,11 +55,15 @@ public enum StaticImage {
       orientation = .up
     }
     
-    self = .cgImage(cgImage.getPredrawnImage(), orientation)
+    self._storage = .cgImage(cgImage.predrawnImage(with: renderConfig), orientation)
+  }
+  
+  public init(uiImage: UIImage) {
+    self._storage = .uiImage(uiImage)
   }
   
   public var totalByteSize: Int {
-    switch self {
+    switch _storage {
     case .cgImage(let cgImage, _):
       return cgImage.bytesPerRow * cgImage.height
     case .uiImage(let uiImage):
@@ -52,19 +75,11 @@ public enum StaticImage {
   }
   
   public func asUIImage(scale: CGFloat) -> UIImage {
-    switch self {
-    case .cgImage(let cgImage, let cgImagePropertyOrientation):
-      return UIImage(cgImage: cgImage, scale: scale, orientation: UIImageOrientation(cgImagePropertyOrientation))
+    switch _storage {
+    case .cgImage(let cgImage, let orientation):
+      return UIImage(cgImage: cgImage, scale: scale, orientation: UIImageOrientation(orientation))
     case .uiImage(let uiImage):
-      if uiImage.scale == scale {
-        return uiImage
-      }
-      
-      guard let cgImage = uiImage.cgImage else {
-        return uiImage
-      }
-      
-      return UIImage(cgImage: cgImage, scale: scale, orientation: uiImage.imageOrientation)
+      return uiImage
     }
   }
   

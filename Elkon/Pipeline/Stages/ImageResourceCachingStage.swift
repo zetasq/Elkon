@@ -11,14 +11,13 @@ import SwiftCache
 
 public final class ImageResourceCachingStage: ImagePipelineStageProtocol {
   
-  public typealias OutputKeyType = URL
+  public typealias OutputKeyType = ImageResource.Descriptor
   
   public typealias OutputDataType = ImageResource
-  
 
-  public var nextStage: AnyImagePipelineStage<URL, ImageResource>? = nil
+  public var nextStage: AnyImagePipelineStage<ImageResource.Descriptor, ImageResource>? = nil
   
-  private let _resourceCache: SwiftMemoryCache<String, ImageResource>
+  private let _resourceCache: SwiftMemoryCache<ImageResource.Descriptor, ImageResource>
   
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty")
@@ -31,22 +30,22 @@ public final class ImageResourceCachingStage: ImagePipelineStageProtocol {
     )
   }
   
-  public func transformOutputKeyToInputKey(_ outputKey: URL) -> URL {
+  public func transformOutputKeyToInputKey(_ outputKey: ImageResource.Descriptor) -> ImageResource.Descriptor {
     return outputKey
   }
   
-  public func searchDataAtThisStage(key: URL, completion: @escaping (ImageResource?) -> Void) {
-    let cachedImage = _resourceCache.fetchObject(forKey: key.absoluteString)
+  public func searchDataAtThisStage(key: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
+    let cachedImage = _resourceCache.fetchObject(forKey: key)
     completion(cachedImage)
   }
   
   public func processDataFromNextStage(
-    inputKey: URL,
+    inputKey: ImageResource.Descriptor,
     inputData: ImageResource,
-    outputKey: URL,
+    outputKey: ImageResource.Descriptor,
     completion: @escaping (ImageResource?) -> Void)
   {
-    _resourceCache.setObject(inputData, forKey: outputKey.absoluteString, cost: inputData.totalByteSize)
+    _resourceCache.setObject(inputData, forKey: outputKey, cost: inputData.totalByteSize)
     completion(inputData)
   }
   
