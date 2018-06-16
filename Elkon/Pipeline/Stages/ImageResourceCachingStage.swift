@@ -22,10 +22,11 @@ public final class ImageResourceCachingStage: ImagePipelineStageProtocol {
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty")
 
-    // TODO: Adjust cost limit and cache limit according to memory size
+    let deviceMemorySize = ProcessInfo.processInfo.physicalMemory
+    
     self._resourceCache = .init(
       cacheName: "\(label).\(ImageResourceCachingStage.self).com.zetasq.Elkon",
-      costLimit: 100 * 1024 * 1024,
+      costLimit: Int(deviceMemorySize / 10),
       ageLimit: 30 * 24 * 60 * 60
     )
   }

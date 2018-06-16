@@ -21,8 +21,7 @@ public final class RawImageDataCachingStage: ImagePipelineStageProtocol {
   
   public init(label: String) {
     assert(!label.isEmpty, "label should not be empty, it will be used to create cache directory")
-
-    // TODO: Adjust cost limit and cache limit according to memory size
+    
     self._imageDataCache = .init(
       cacheName: "\(label).\(RawImageDataCachingStage.self).com.zetasq.Elkon",
       byteLimit: 100 * 1024 * 1024,
