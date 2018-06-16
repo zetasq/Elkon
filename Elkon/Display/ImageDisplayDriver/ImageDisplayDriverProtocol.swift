@@ -22,15 +22,11 @@ internal protocol ImageDisplayDriverProtocol: AnyObject {
   
 }
 
-internal func ImageDisplayDriverMakeWithResource(_ imageResource: ImageResource?, config: ImageDisplayDriverConfig) -> ImageDisplayDriverProtocol {
-  guard let imageResource = imageResource else {
-    return EmptyImageDisplayDriver(config: config)
-  }
-  
+internal func ImageDisplayDriverMakeWithResource(_ imageResource: ImageResource, driverConfig: ImageDisplayDriverConfig) -> ImageDisplayDriverProtocol {
   switch imageResource {
   case .static(let staticImage):
-    return StaticImageDisplayDriver(staticImage: staticImage, config: config)
+    return StaticImageDisplayDriver(staticImage: staticImage, driverConfig: driverConfig)
   case .animated(let animatedImage):
-    return AnimatedImageDisplayDriver(animatedImage: animatedImage, config: config)
+    return AnimatedImageDisplayDriver(animatedImage: animatedImage, driverConfig: driverConfig)
   }
 }

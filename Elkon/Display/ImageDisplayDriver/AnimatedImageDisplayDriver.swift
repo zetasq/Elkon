@@ -12,7 +12,7 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
   
   internal weak var delegate: ImageDisplayDriverDelegate?
   
-  internal let config: ImageDisplayDriverConfig
+  internal let driverConfig: ImageDisplayDriverConfig
 
   private let animatedImage: AnimatedImage
   
@@ -28,8 +28,8 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
   
   private var _lastFetchedFrame: AnimatedImage.FrameResult?
   
-  internal init(animatedImage: AnimatedImage, config: ImageDisplayDriverConfig) {
-    self.config = config
+  internal init(animatedImage: AnimatedImage, driverConfig: ImageDisplayDriverConfig) {
+    self.driverConfig = driverConfig
     self.animatedImage = animatedImage
     
     self.currentFrameIndex = 0
@@ -51,7 +51,7 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
     self._lastFetchedFrame = firstFrame
     animatedImage.prepareFramesFollowingFirst()
     
-    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: firstFrame.frameImage, scale: config.imageScaleFactor, orientation: .up), animated: config.shouldAnimate)
+    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: firstFrame.frameImage, scale: MAIN_SCREEN_SCALE, orientation: .up), animated: driverConfig.shouldAnimate)
     
     let weakProxy = WeakProxy(target: self)
     _animationDisplayLink = CADisplayLink(target: weakProxy, selector: #selector(self.displayLinkDidRefresh(_:)))
@@ -93,7 +93,7 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
       
       _lastFetchedFrame = cachedFrame
       
-      delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: cachedFrame.frameImage, scale: config.imageScaleFactor, orientation: .up), animated: false)
+      delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: cachedFrame.frameImage, scale: MAIN_SCREEN_SCALE, orientation: .up), animated: false)
 
       _needsRequestDisplayingWhenImageBecomesAvailable = false
     }

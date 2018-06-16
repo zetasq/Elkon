@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D409FC2820CE0C5D00900851 /* DisplayConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = D409FC2720CE0C5D00900851 /* DisplayConstants.swift */; };
 		D41B24C120728006002A38FA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C020728006002A38FA /* AppDelegate.swift */; };
 		D41B24C320728006002A38FA /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D41B24C220728006002A38FA /* MainViewController.swift */; };
 		D41B24C820728006002A38FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D41B24C720728006002A38FA /* Assets.xcassets */; };
@@ -23,12 +24,11 @@
 		D45E582520AFCCAB009659BD /* ImageDisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */; };
 		D466682020BE3D750092A100 /* StaticImageDisplayDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D466681F20BE3D750092A100 /* StaticImageDisplayDriver.swift */; };
 		D466682220BE3EA60092A100 /* ImageDisplayDriverConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D466682120BE3EA60092A100 /* ImageDisplayDriverConfig.swift */; };
-		D466682420BE405E0092A100 /* EmptyImageDisplayDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D466682320BE405E0092A100 /* EmptyImageDisplayDriver.swift */; };
+		D47E9D3C20D50ADE0034F9A7 /* CoreGraphics+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E9D3B20D50ADE0034F9A7 /* CoreGraphics+Utils.swift */; };
 		D486679520BE10AB00F4DA28 /* ImageDisplayStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */; };
 		D486679A20BE230A00F4DA28 /* ImageDisplayDriverProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D486679920BE230A00F4DA28 /* ImageDisplayDriverProtocol.swift */; };
 		D499A51A20CC018B0069DEEC /* ImageResource+Descriptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499A51920CC018B0069DEEC /* ImageResource+Descriptor.swift */; };
 		D499A51C20CC01D30069DEEC /* ImageRenderConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499A51B20CC01D30069DEEC /* ImageRenderConfig.swift */; };
-		D499A51E20CD676A0069DEEC /* PDFImageTestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D499A51D20CD676A0069DEEC /* PDFImageTestViewController.swift */; };
 		D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */; };
 		D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */; };
 		D4BAD87D20ADC33A00A7D4D2 /* ImageRetrievingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */; };
@@ -91,6 +91,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D409FC2720CE0C5D00900851 /* DisplayConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DisplayConstants.swift; sourceTree = "<group>"; };
 		D41B24BE20728006002A38FA /* iOSDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D41B24C020728006002A38FA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D41B24C220728006002A38FA /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
@@ -105,12 +106,11 @@
 		D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayCoordinator.swift; sourceTree = "<group>"; };
 		D466681F20BE3D750092A100 /* StaticImageDisplayDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticImageDisplayDriver.swift; sourceTree = "<group>"; };
 		D466682120BE3EA60092A100 /* ImageDisplayDriverConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayDriverConfig.swift; sourceTree = "<group>"; };
-		D466682320BE405E0092A100 /* EmptyImageDisplayDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyImageDisplayDriver.swift; sourceTree = "<group>"; };
+		D47E9D3B20D50ADE0034F9A7 /* CoreGraphics+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Utils.swift"; sourceTree = "<group>"; };
 		D486679420BE10AB00F4DA28 /* ImageDisplayStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayStack.swift; sourceTree = "<group>"; };
 		D486679920BE230A00F4DA28 /* ImageDisplayDriverProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayDriverProtocol.swift; sourceTree = "<group>"; };
 		D499A51920CC018B0069DEEC /* ImageResource+Descriptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageResource+Descriptor.swift"; sourceTree = "<group>"; };
 		D499A51B20CC01D30069DEEC /* ImageRenderConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRenderConfig.swift; sourceTree = "<group>"; };
-		D499A51D20CD676A0069DEEC /* PDFImageTestViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFImageTestViewController.swift; sourceTree = "<group>"; };
 		D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 		D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineStageProtocol.swift; sourceTree = "<group>"; };
 		D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRetrievingStage.swift; sourceTree = "<group>"; };
@@ -182,7 +182,6 @@
 				D41B24C020728006002A38FA /* AppDelegate.swift */,
 				D41B24C220728006002A38FA /* MainViewController.swift */,
 				D41B24D3207281B0002A38FA /* MainViewController+ImageCell.swift */,
-				D499A51D20CD676A0069DEEC /* PDFImageTestViewController.swift */,
 				D41B24C720728006002A38FA /* Assets.xcassets */,
 				D41B24C920728006002A38FA /* LaunchScreen.storyboard */,
 				D41B24CC20728006002A38FA /* Info.plist */,
@@ -210,6 +209,8 @@
 				D4E18E4D20BED7BF00BAD8B0 /* WeakProxy.swift */,
 				D4FF14622077853D002AF70D /* CGImage+Draw.swift */,
 				D4FF146820779B1A002AF70D /* ImageOrientation+Conversion.swift */,
+				D409FC2720CE0C5D00900851 /* DisplayConstants.swift */,
+				D47E9D3B20D50ADE0034F9A7 /* CoreGraphics+Utils.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -231,7 +232,6 @@
 			children = (
 				D486679920BE230A00F4DA28 /* ImageDisplayDriverProtocol.swift */,
 				D466682120BE3EA60092A100 /* ImageDisplayDriverConfig.swift */,
-				D466682320BE405E0092A100 /* EmptyImageDisplayDriver.swift */,
 				D466681F20BE3D750092A100 /* StaticImageDisplayDriver.swift */,
 				D4E18E6720BF755100BAD8B0 /* AnimatedImageDisplayDriver.swift */,
 			);
@@ -491,7 +491,6 @@
 			files = (
 				D41B24D4207281B0002A38FA /* MainViewController+ImageCell.swift in Sources */,
 				D41B24C320728006002A38FA /* MainViewController.swift in Sources */,
-				D499A51E20CD676A0069DEEC /* PDFImageTestViewController.swift in Sources */,
 				D41B24C120728006002A38FA /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -504,12 +503,14 @@
 				D4FF146920779B1A002AF70D /* ImageOrientation+Conversion.swift in Sources */,
 				D432DFD920BD972C0092E213 /* StaticImage.swift in Sources */,
 				D4BAD88A20ADCD1D00A7D4D2 /* ImageResource.swift in Sources */,
+				D409FC2820CE0C5D00900851 /* DisplayConstants.swift in Sources */,
 				D4BAD88E20AE55D500A7D4D2 /* AnyImagePipelineStage.swift in Sources */,
 				D4E18E6820BF755100BAD8B0 /* AnimatedImageDisplayDriver.swift in Sources */,
 				D4E18E6620BEF09C00BAD8B0 /* GIFImageDataSource.swift in Sources */,
 				D4BAD88820ADCC5600A7D4D2 /* ImageResourceConstructingStage.swift in Sources */,
 				D486679520BE10AB00F4DA28 /* ImageDisplayStack.swift in Sources */,
 				D499A51C20CC01D30069DEEC /* ImageRenderConfig.swift in Sources */,
+				D47E9D3C20D50ADE0034F9A7 /* CoreGraphics+Utils.swift in Sources */,
 				D4BBA54A206FB2B900BC96EB /* ImageType.swift in Sources */,
 				D4E18E5920BED7C000BAD8B0 /* WeakProxy.swift in Sources */,
 				D4E18EA120C2095C00BAD8B0 /* WebPFrameInfo.swift in Sources */,
@@ -529,7 +530,6 @@
 				D4BAD88C20ADD99700A7D4D2 /* ImagePipelineStageOutputable.swift in Sources */,
 				D4BAD88120ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift in Sources */,
 				D4BAD87D20ADC33A00A7D4D2 /* ImageRetrievingStage.swift in Sources */,
-				D466682420BE405E0092A100 /* EmptyImageDisplayDriver.swift in Sources */,
 				D466682220BE3EA60092A100 /* ImageDisplayDriverConfig.swift in Sources */,
 				D4E18E6420BEE9F400BAD8B0 /* AnimatedImageDataSource.swift in Sources */,
 				D4BAD89020AE5BF300A7D4D2 /* ImageResourceCachingStage.swift in Sources */,

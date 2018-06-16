@@ -18,6 +18,9 @@ extension MainViewController {
       let iconView = ElkonImageView()
       
       iconView.contentMode = .scaleAspectFit
+      iconView.layer.borderWidth = 1
+      iconView.layer.borderColor = UIColor.green.cgColor
+      iconView.layer.cornerRadius = 5
       
       return iconView
     }()
@@ -33,7 +36,7 @@ extension MainViewController {
     }
     
     private func setupUI() {
-      backgroundColor = .white
+      backgroundColor = .darkGray
       
       addSubview(iconView)
       iconView.slt.layout {
@@ -46,7 +49,9 @@ extension MainViewController {
     }
     
     func config(with url: URL) {
-      iconView.elkon.loadImage(at: url, animated: true)
+//      iconView.elkon.loadImage(at: url, animated: true)
+      let config = ImageRenderConfig(sizeInPoints: CGSize(width: 50, height: 50), cornerRadiusInPoints: 5, scaleMode: .fill )
+      iconView.elkon.loadImage(at: url, renderConfig: config, placeholder: nil, animated: true)
     }
     
   }

@@ -10,35 +10,43 @@ import Foundation
 
 extension CGImage {
   
-  public func getPredrawnImage() -> CGImage {
-    let hasAlpha: Bool
+  public func predrawnImage(with renderConfig: ImageRenderConfig?) -> CGImage {
+    let imageSize = CGSize(width: self.width, height: self.height)
+    let bitmapSize = imageSize.adjustedCanvasSize(for: renderConfig)
     
-    switch self.alphaInfo {
-    case .none, .noneSkipFirst, .noneSkipLast:
-      hasAlpha = false
-    default:
-      hasAlpha = true
-    }
-    
-    let size = CGSize(width: self.width, height: self.height)
-    UIGraphicsBeginImageContextWithOptions(size, !hasAlpha, 1)
+    UIGraphicsBeginImageContextWithOptions(bitmapSize, false, 1)
     defer {
       UIGraphicsEndImageContext()
     }
     
-    let context = UIGraphicsGetCurrentContext()!
+    let bitmapContext = UIGraphicsGetCurrentContext()!
     
     // Flip the context because UIKit coordinate system is upside down to Quartz coordinate system
     // https://developer.apple.com/library/content/qa/qa1708/_index.html
-    context.translateBy(x: 0, y: CGFloat(height))
-    context.scaleBy(x: 1, y: -1)
+    bitmapContext.translateBy(x: 0, y: bitmapSize.height)
+    bitmapContext.scaleBy(x: 1, y: -1)
     
-    context.draw(self, in: CGRect(origin: .zero, size: CGSize(width: self.width, height: self.height)))
+    if let renderConfig = renderConfig, renderConfig.needsToClipWithCornerRadius {
+      let roundedSize = renderConfig.sizeInPixels
+      let roundedRect = CGRect(origin: CGPoint(x: (bitmapSize.width - roundedSize.width) / 2,
+                                               y: (bitmapSize.height - roundedSize.height) / 2),
+                               size: roundedSize)
+      
+      let bezierPath = UIBezierPath(roundedRect: roundedRect, cornerRadius: renderConfig.cornerRadiusInPixels)
+      bitmapContext.addPath(bezierPath.cgPath)
+      bitmapContext.clip()
+    }
     
-    return context.makeImage()!
+    let scaleFactor = imageSize.scaleFactor(for: renderConfig)
+    let sizeToDraw = CGSize(width: imageSize.width * scaleFactor, height: imageSize.height * scaleFactor)
+    
+    bitmapContext.draw(
+      self, 
+      in: CGRect(origin: CGPoint(x: (bitmapSize.width - sizeToDraw.width) / 2,
+                                 y: (bitmapSize.height - sizeToDraw.height) / 2),
+                 size: sizeToDraw))
+    
+    return bitmapContext.makeImage()!
   }
   
-  public func predrawnImage(with config: ImageRenderConfig?) -> CGImage {
-    fatalError()
-  }
 }

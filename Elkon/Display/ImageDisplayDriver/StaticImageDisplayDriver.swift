@@ -12,17 +12,17 @@ internal final class StaticImageDisplayDriver: ImageDisplayDriverProtocol {
   
   internal weak var delegate: ImageDisplayDriverDelegate?
   
-  internal let config: ImageDisplayDriverConfig
+  internal let driverConfig: ImageDisplayDriverConfig
   
   private let staticImage: StaticImage
   
-  internal init(staticImage: StaticImage, config: ImageDisplayDriverConfig) {
+  internal init(staticImage: StaticImage, driverConfig: ImageDisplayDriverConfig) {
     self.staticImage = staticImage
-    self.config = config
+    self.driverConfig = driverConfig
   }
   
   internal func startDisplay() {
-    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: staticImage.asUIImage(scale: config.imageScaleFactor), animated: config.shouldAnimate)
+    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: staticImage.asUIImage(), animated: driverConfig.shouldAnimate)
   }
   
 }

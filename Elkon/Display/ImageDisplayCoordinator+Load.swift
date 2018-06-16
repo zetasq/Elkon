@@ -26,39 +26,57 @@ extension ImageDisplayCoordinator {
     }
   }
   
-  public func loadImage(at url: URL?, placeholder: UIImage? = nil, animated: Bool = true) {
+  public func loadImage(
+    at url: URL?, 
+    renderConfig: ImageRenderConfig? = nil, 
+    placeholder: UIImage? = nil,
+    animated: Bool = true)
+  {
+    assert(Thread.isMainThread)
+    if let url = url {
+      loadImage(with: .init(url: url, renderConfig: renderConfig), placeholder: placeholder, animated: animated)
+    } else {
+      loadImage(with: nil, placeholder: placeholder, animated: animated)
+    }
+  }
+  
+  public func loadImage(
+    with descriptor: ImageResource.Descriptor?,  
+    placeholder: UIImage? = nil,
+    animated: Bool = true)
+  {
     assert(Thread.isMainThread)
     
-    guard let url = url else {
-      load(uiImage: placeholder, animated: animated)
+    guard let descriptor = descriptor else {
+      currentBoundImageResourceDescriptor = nil
+      
+      setCurrentPlaceholderImage(placeholder)
+      clearImageResource()
+      
       return
     }
     
-    guard url.scheme != "xcassets" else {
-      // If the scheme is xcassets, we treat the host has the image name in the assets
-      loadUIImage(named: url.host!, animated: animated)
-      return
-    }
+    guard currentBoundImageResourceDescriptor != descriptor else { return }
+    currentBoundImageResourceDescriptor = descriptor
     
-    let newDescriptor = ImageResource.Descriptor(url: url, renderConfig: nil)
-    guard currentBoundImageResourceDescriptor != newDescriptor else { return }
+    setCurrentPlaceholderImage(placeholder)
+    clearImageResource()
     
-    currentBoundImageResourceDescriptor = newDescriptor
-    
-    setCurrentPlaceholderImage(placeholder, animated: animated)
-    
-    ImagePipeline.default.fetchImage(with: ImageResource.Descriptor(url: url, renderConfig: nil)) { [weak self] image in
+    ImagePipeline.default.fetchImageResource(with: descriptor) { [weak self] imageResource in
       let block = {
         guard let `self` = self else {
           return
         }
         
-        guard self.currentBoundImageResourceDescriptor == newDescriptor,
-          let image = image else {
-            return
+        guard self.currentBoundImageResourceDescriptor == descriptor else {
+          return
         }
         
-        self._setImageResource(image, animated: animated)
+        guard let imageResource = imageResource else {
+          return
+        }
+        
+        self.setImageResource(imageResource, animated: animated)
       }
       
       if Thread.isMainThread {
@@ -69,38 +87,25 @@ extension ImageDisplayCoordinator {
     }
   }
   
-  public func loadUIImage(named imageName: String, bundle: Bundle = .main, animated: Bool = true) {
-    assert(Thread.isMainThread)
-    
-    let url = URL(string: "xcassets-store://\(bundle.bundleIdentifier!)/\(imageName)")! // This url is only for uniquelly identify the image
-    let newDescriptor = ImageResource.Descriptor(url: url, renderConfig: nil)
-    
-    guard currentBoundImageResourceDescriptor != newDescriptor else { return }
-    
-    currentBoundImageResourceDescriptor = newDescriptor
-    
-    guard let uiImage = UIImage(named: imageName, in: bundle, compatibleWith: nil) else {
-      os_log("%@", log: ImageDisplayCoordinator.logger, type: .error, "Failed to find image: name = \(imageName), bundle = \(bundle)")
-      _setImageResource(nil, animated: animated)
-      return
-    }
-    
-    let imageResource = ImageResource(uiImage: uiImage)
-    _setImageResource(imageResource, animated: animated)
-  }
-  
-  public func load(uiImage: UIImage?, animated: Bool = true) {
+  public func load(
+    uiImage: UIImage?, 
+    placeholder: UIImage? = nil, 
+    animated: Bool = true
+    )
+  {
     assert(Thread.isMainThread)
     
     currentBoundImageResourceDescriptor = nil
     
+    setCurrentPlaceholderImage(placeholder)
+    
     guard let uiImage = uiImage else {
-      _setImageResource(nil, animated: animated)
+      clearImageResource()
       return
     }
     
     let imageResource = ImageResource(uiImage: uiImage)
-    _setImageResource(imageResource, animated: animated)
+    setImageResource(imageResource, animated: animated)
   }
 
 }

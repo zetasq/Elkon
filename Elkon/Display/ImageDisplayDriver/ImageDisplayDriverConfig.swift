@@ -10,8 +10,7 @@ import Foundation
 
 internal struct ImageDisplayDriverConfig {
   
-  internal var imageScaleFactor: CGFloat
-  
+  // TODO: rename to shouldDisplayImageAnimatedly
   internal var shouldAnimate: Bool
   
 }

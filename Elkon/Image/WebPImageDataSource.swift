@@ -89,6 +89,7 @@ internal final class WebPImageDataSource: AnimatedImageDataSource {
       let hasAlpha = iterator.has_alpha != 0
       
       let frameInfo = WebPFrameInfo(
+        canvasSize: canvasSize,
         frameIndex: frameIndex,
         frameRect: frameRect,
         disposeToBackground: dispostToBackground,
@@ -114,7 +115,7 @@ internal final class WebPImageDataSource: AnimatedImageDataSource {
     WebPDemuxDelete(_demuxer)
   }
   
-  internal func image(at index: Int, previousImage: CGImage?) -> CGImage? {
+  internal func image(at index: Int, previousImage: CGImage?, renderConfig: ImageRenderConfig?) -> CGImage? {
     var iterator = WebPIterator()
     
     // 1-based index!!!
@@ -186,36 +187,48 @@ internal final class WebPImageDataSource: AnimatedImageDataSource {
     )!
     
     let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
-    let offsreenContext = CGContext(
+    
+    let bitmapSize = _canvasSize.adjustedCanvasSize(for: renderConfig)
+    
+    let bitmapContext = CGContext(
       data: nil,
-      width: Int(_canvasSize.width),
-      height: Int(_canvasSize.height),
+      width: Int(bitmapSize.width),
+      height: Int(bitmapSize.height),
       bitsPerComponent: 8,
       bytesPerRow: 0,
       space: colorSpace,
       bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
     )!
     
+    if let renderConfig = renderConfig, renderConfig.needsToClipWithCornerRadius {
+      let roundedSize = renderConfig.sizeInPixels
+      let roundedRect = CGRect(origin: CGPoint(x: (bitmapSize.width - roundedSize.width) / 2, y: (bitmapSize.height - roundedSize.height) / 2), size: roundedSize)
+      
+      let bezierPath = UIBezierPath(roundedRect: roundedRect, cornerRadius: renderConfig.cornerRadiusInPixels)
+      bitmapContext.addPath(bezierPath.cgPath)
+      bitmapContext.clip()
+    }
+    
     if !isKeyFrameAtCurrentIndex {
       assert(previousImage != nil)
       if let previousImage = previousImage {
         let previousFrameInfo = _frameInfos[index - 1]
         
-        offsreenContext.draw(previousImage, in: CGRect(origin: .zero, size: _canvasSize))
+        bitmapContext.draw(previousImage, in: CGRect(origin: .zero, size: bitmapSize))
         
         if previousFrameInfo.disposeToBackground {
-          offsreenContext.clear(previousFrameInfo.frameRect)
+          bitmapContext.clear(previousFrameInfo.adjustedFrameRect(for: renderConfig))
         }
         
         if !frameInfo.blendWithPreviousFrame {
-          offsreenContext.clear(frameInfo.frameRect)
+          bitmapContext.clear(frameInfo.adjustedFrameRect(for: renderConfig))
         }
       }
     }
     
-    offsreenContext.draw(cgImage, in: frameInfo.frameRect)
+    bitmapContext.draw(cgImage, in: frameInfo.adjustedFrameRect(for: renderConfig))
     
-    let finalImage = offsreenContext.makeImage()!
+    let finalImage = bitmapContext.makeImage()!
     return finalImage
   }
   

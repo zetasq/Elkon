@@ -18,6 +18,7 @@ public final class ImageDisplayCoordinator {
   
   private var displayStack: ImageDisplayStack {
     didSet {
+      assert(Thread.isMainThread)
       imageView?.image = displayStack.currentDisplayImage ?? displayStack.currentPlaceholderImage ?? displayStack.defaultPlaceholderImage
     }
   }
@@ -51,25 +52,24 @@ public final class ImageDisplayCoordinator {
     }
   }
   
-  internal func setCurrentPlaceholderImage(_ image: UIImage?, animated: Bool) {
-    if animated {
-      animateWithChange {
-        self.displayStack.currentPlaceholderImage = image
-      }
-    } else {
-      displayStack.currentPlaceholderImage = image
-    }
+  // MARK: - Internal interface for loading ImageResource
+  internal func setCurrentPlaceholderImage(_ image: UIImage?) {
+    displayStack.currentPlaceholderImage = image
   }
   
-  // MARK: - Internal interface for loading ImageResource
-  internal func _setImageResource(_ imageResource: ImageResource?, animated: Bool) {
+  internal func clearImageResource() {
+    displayDriver = nil
+    displayStack.currentDisplayImage = nil
+  }
+  
+  internal func setImageResource(_ imageResource: ImageResource, animated: Bool) {
     assert(Thread.isMainThread)
     
-    guard let imageView = imageView else {
+    guard let _ = imageView else {
       return
     }
     
-    displayDriver = ImageDisplayDriverMakeWithResource(imageResource, config: .init(imageScaleFactor: imageView.contentScaleFactor, shouldAnimate: animated))
+    displayDriver = ImageDisplayDriverMakeWithResource(imageResource, driverConfig: .init(shouldAnimate: animated))
     displayDriver?.delegate = self
     displayDriver?.startDisplay()
 

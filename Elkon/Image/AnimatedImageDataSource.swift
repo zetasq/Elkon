@@ -18,6 +18,6 @@ public protocol AnimatedImageDataSource {
   
   init?(data: Data)
   
-  func image(at index: Int, previousImage: CGImage?) -> CGImage?
+  func image(at index: Int, previousImage: CGImage?, renderConfig: ImageRenderConfig?) -> CGImage?
   
 }

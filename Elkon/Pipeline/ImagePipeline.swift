@@ -29,7 +29,7 @@ public final class ImagePipeline {
     self.firstStage = AnyImagePipelineStage(stage: firstStage)
   }
   
-  public func fetchImage(with descriptor: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
+  public func fetchImageResource(with descriptor: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
     firstStage.fetchDataWithRemainingPipeline(key: descriptor, completion: completion)
   }
   

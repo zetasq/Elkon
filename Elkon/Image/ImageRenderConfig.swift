@@ -18,14 +18,40 @@ public struct ImageRenderConfig: Hashable {
     
   }
   
-  public var pixelSize: CGSize
+  public var sizeInPoints: CGSize
+    
+  public var cornerRadiusInPoints: CGFloat
   
   public var scaleMode: ScaleMode
   
-  public var cornerRadius: CGFloat
+  public init(sizeInPoints: CGSize, cornerRadiusInPoints: CGFloat, scaleMode: ScaleMode) {
+    self.sizeInPoints = sizeInPoints
+    self.cornerRadiusInPoints = cornerRadiusInPoints
+    self.scaleMode = scaleMode
+  }
+  
+  public var maxDimensionInPixels: CGFloat {
+    return max(sizeInPoints.width * MAIN_SCREEN_SCALE, sizeInPoints.height * MAIN_SCREEN_SCALE)
+  }
+  
+  public var sizeInPixels: CGSize {
+    return CGSize(
+      width: sizeInPoints.width * MAIN_SCREEN_SCALE,
+      height: sizeInPoints.height * MAIN_SCREEN_SCALE
+    )
+  }
+  
+  public var cornerRadiusInPixels: CGFloat {
+    return cornerRadiusInPoints * MAIN_SCREEN_SCALE
+  }
+  
+  public var needsToClipWithCornerRadius: Bool {
+    return cornerRadiusInPoints > 0
+  }
   
   public var hashValue: Int {
-    return pixelSize.width.hashValue ^ pixelSize.height.hashValue ^ scaleMode.hashValue ^ cornerRadius.hashValue
+    return sizeInPoints.width.hashValue ^ sizeInPoints.height.hashValue ^ scaleMode.hashValue ^ cornerRadiusInPoints.hashValue
   }
   
 }
+

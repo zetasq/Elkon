@@ -19,6 +19,7 @@ public final class AnimatedImage {
   
   // MARK: - Private Properties
   private let _imageSource: AnimatedImageDataSource
+  private let _renderConfig: ImageRenderConfig?
   
   private let _imagePreparingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imagePreparingQueue")
   private let _imageAccessingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imageAccessingQueue")
@@ -30,11 +31,11 @@ public final class AnimatedImage {
   
   // MARK: - Init & Deinit
   public init?(dataSource: AnimatedImageDataSource, renderConfig: ImageRenderConfig?) {
-    guard let firstImage = dataSource.image(at: 0, previousImage: nil) else {
+    guard let firstImage = dataSource.image(at: 0, previousImage: nil, renderConfig: renderConfig) else {
       os_log("%@", log: AnimatedImage.logger, type: .error, "Failed to get first image from dataSource: \(dataSource)")
       return nil
     }
-    self.firstFrame = FrameResult(frameIndex: 0, frameImage: firstImage.getPredrawnImage())
+    self.firstFrame = FrameResult(frameIndex: 0, frameImage: firstImage)
     
     let kGCDPrecision: TimeInterval = 2.0 / 0.02
     var scaledGCD = lrint(dataSource.frameDelays[0] * kGCDPrecision)
@@ -43,10 +44,11 @@ public final class AnimatedImage {
     }
     self.frameDelayGCD = TimeInterval(scaledGCD) / kGCDPrecision
     
-    _imageSource = dataSource
+    self._imageSource = dataSource
+    self._renderConfig = renderConfig
     
-    _frameIndexToImageCache[0] = self.firstFrame.frameImage
-    _maxCachedFrameCount = _imageSource.frameCount
+    self._frameIndexToImageCache[0] = self.firstFrame.frameImage
+    self._maxCachedFrameCount = _imageSource.frameCount
 
     NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveMemoryWarning(_:)), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
   }
@@ -149,8 +151,8 @@ public final class AnimatedImage {
         if validIdx > 0 && cacheWindow[validIdx - 1] == nil {
           break
         }
-
-        guard let image = self.generateImage(at: validIdx, previousImage: cacheWindow[validIdx - 1]) else {
+        
+        guard let image = self._imageSource.image(at: validIdx, previousImage: cacheWindow[validIdx - 1], renderConfig: self._renderConfig) else {
           break
         }
         
@@ -163,14 +165,6 @@ public final class AnimatedImage {
         }
       }
     }   
-  }
-  
-  private func generateImage(at index: Int, previousImage: CGImage?) -> CGImage? {
-    guard let cgImage = _imageSource.image(at: index, previousImage: previousImage) else {
-      return nil
-    }
-    
-    return cgImage.getPredrawnImage()
   }
   
   // MARK: - Notification Handlers

@@ -94,8 +94,36 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
   }
   
   // MARK: - Public Methods
-  public func image(at index: Int, previousImage: CGImage?) -> CGImage? {
-    return CGImageSourceCreateImageAtIndex(_imageSource, index, nil)
+  public func image(at index: Int, previousImage: CGImage?, renderConfig: ImageRenderConfig?) -> CGImage? {
+    
+    let cgImage: CGImage
+    
+    if let config = renderConfig {
+      let imageOptions = [
+        kCGImageSourceCreateThumbnailFromImageAlways: true,
+        kCGImageSourceCreateThumbnailWithTransform: true,
+        kCGImageSourceShouldCacheImmediately: false,
+        kCGImageSourceThumbnailMaxPixelSize: config.maxDimensionInPixels
+        ] as CFDictionary
+      
+      guard let thumbnailImage = CGImageSourceCreateThumbnailAtIndex(_imageSource, index, imageOptions) else {
+        return nil
+      }
+      
+      cgImage = thumbnailImage
+    } else {
+      let imageOptions = [
+        kCGImageSourceShouldCacheImmediately: false,
+        ] as CFDictionary
+      
+      guard let image = CGImageSourceCreateImageAtIndex(_imageSource, index, imageOptions) else {
+        return nil
+      }
+      
+      cgImage = image
+    }
+    
+    return cgImage.predrawnImage(with: renderConfig)
   }
   
 }
