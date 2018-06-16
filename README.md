@@ -30,6 +30,10 @@ iconView.elkon.loadUIImage(named: "myImageName", bundle: .main, animated: true)
 // load custom UIImage object directly
 let myCustomImage: UIImage = MakeCustomUIImage()
 iconView.elkon.load(uiImage: myCustomImage, animated: true)
+
+// Image resizing and cornerRadius support
+let renderConfig = ImageRenderConfig(sizeInPoints: CGSize(width: 50, height: 50), cornerRadiusInPoints: 5, scaleMode: .fill)
+iconView.elkon.loadImage(at: url, renderConfig: renderConfig, placeholder: nil, animated: true)
 ```
 
 ## License
