@@ -57,11 +57,26 @@ public final class AnimatedImage {
   public func frameCached(at index: Int, lastFetchedFrame: FrameResult?) -> FrameResult? {
     assert(index < _imageSource.frameCount)
     
-    prepareFrames(from: index, lastFetchedFrame: lastFetchedFrame)
-    
     var cachedImage: CGImage? = nil
+    var needsPrepareFrames = false
+    
     _imageAccessingQueue.sync {
       cachedImage = _frameIndexToImageCache[index]
+      
+      if _frameIndexToImageCache.count < _imageSource.frameCount {
+        let peekCount = max(2, Int(ceil(1 / _imageSource.frameDelays[index])) / 10)
+        for i in index..<index+peekCount {
+          let validIndex = i % _imageSource.frameCount
+          if _frameIndexToImageCache[validIndex] == nil {
+            needsPrepareFrames = true
+            break
+          }
+        }
+      }
+    }
+    
+    if needsPrepareFrames {
+      prepareFrames(from: index, lastFetchedFrame: lastFetchedFrame)
     }
     
     if let image = cachedImage {
