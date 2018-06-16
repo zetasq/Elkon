@@ -23,10 +23,11 @@ public final class AnimatedImage {
   
   private let _imagePreparingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imagePreparingQueue")
   private let _imageAccessingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imageAccessingQueue")
-    
+  
+  // The following stored properties should be accessed on _imageAccessingQueue
   private var _frameIndexToImageCache: [Int: CGImage] = [:]
-  private var _maxCachedFrameCount: Int
   private var _lastRequestedFrameIndex: Int?
+  private var _maxCachedFrameCount: Int
   private var _expandCacheSafePivot: CFTimeInterval?
   
   // MARK: - Init & Deinit
@@ -190,7 +191,7 @@ public final class AnimatedImage {
         return
       }
       
-      self._expandCacheSafePivot = CACurrentMediaTime() + CFTimeInterval(5 + arc4random_uniform(10))
+      self._expandCacheSafePivot = CACurrentMediaTime() + CFTimeInterval(10 + arc4random_uniform(10))
       
       guard self._frameIndexToImageCache.count > 1 else {
         return
