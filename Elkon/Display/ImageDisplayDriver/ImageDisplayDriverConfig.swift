@@ -10,7 +10,6 @@ import Foundation
 
 internal struct ImageDisplayDriverConfig {
   
-  // TODO: rename to shouldDisplayImageAnimatedly
-  internal var shouldAnimate: Bool
+  internal let shouldDisplayImageAnimatedly: Bool
   
 }

@@ -22,7 +22,7 @@ internal final class StaticImageDisplayDriver: ImageDisplayDriverProtocol {
   }
   
   internal func startDisplay() {
-    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: staticImage.asUIImage(), animated: driverConfig.shouldAnimate)
+    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: staticImage.asUIImage(), animated: driverConfig.shouldDisplayImageAnimatedly)
   }
   
 }

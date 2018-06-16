@@ -69,7 +69,7 @@ public final class ImageDisplayCoordinator {
       return
     }
     
-    displayDriver = ImageDisplayDriverMakeWithResource(imageResource, driverConfig: .init(shouldAnimate: animated))
+    displayDriver = ImageDisplayDriverMakeWithResource(imageResource, driverConfig: .init(shouldDisplayImageAnimatedly: animated))
     displayDriver?.delegate = self
     displayDriver?.startDisplay()
 

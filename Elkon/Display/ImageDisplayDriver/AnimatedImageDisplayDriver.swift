@@ -51,7 +51,7 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
     self._lastFetchedFrame = firstFrame
     animatedImage.prepareFramesFollowingFirst()
     
-    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: firstFrame.frameImage, scale: MAIN_SCREEN_SCALE, orientation: .up), animated: driverConfig.shouldAnimate)
+    delegate?.imageDisplayDriverRequestDisplayingImage(self, image: UIImage(cgImage: firstFrame.frameImage, scale: MAIN_SCREEN_SCALE, orientation: .up), animated: driverConfig.shouldDisplayImageAnimatedly)
     
     let weakProxy = WeakProxy(target: self)
     _animationDisplayLink = CADisplayLink(target: weakProxy, selector: #selector(self.displayLinkDidRefresh(_:)))
