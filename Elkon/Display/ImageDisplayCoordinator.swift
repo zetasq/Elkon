@@ -33,6 +33,13 @@ public final class ImageDisplayCoordinator {
     self.displayStack = ImageDisplayStack()
   }
   
+  // MARK: - Public API
+  public var allowsAnimating = true {
+    didSet {
+      updateAnimatingStatus()
+    }
+  }
+  
   // MARK: - Internal interface for placeholder
   internal var defaultPlaceholderImage: UIImage? {
     get {
@@ -82,7 +89,7 @@ public final class ImageDisplayCoordinator {
       return
     }
     
-    isAnimating = imageView.window != nil && imageView.alpha > 0 && !imageView.isHidden
+    isAnimating = allowsAnimating && imageView.window != nil && imageView.alpha > 0 && !imageView.isHidden
   }
 
   // MARK: - Helper methods
