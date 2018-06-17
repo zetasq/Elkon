@@ -14,6 +14,8 @@ internal final class WebPImageDataSource: AnimatedImageDataSource {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "WebPImageDataSource")
   
+  private static let demuxerDeleteQueue = DispatchQueue(label: "com.zetasq.Elkon.WebPImageDataSource.demuxerDeleteQueue")
+  
   internal let loopCount: LoopCount
   
   internal let frameCount: Int
@@ -112,7 +114,11 @@ internal final class WebPImageDataSource: AnimatedImageDataSource {
   }
   
   deinit {
-    WebPDemuxDelete(_demuxer)
+    let demuxer = _demuxer
+    
+    WebPImageDataSource.demuxerDeleteQueue.async {
+      WebPDemuxDelete(demuxer)
+    }
   }
   
   internal func image(at index: Int, previousImage: CGImage?, renderConfig: ImageRenderConfig?) -> CGImage? {

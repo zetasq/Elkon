@@ -14,6 +14,8 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "GIFImageDataSource")
   
+  private static let imageSourceDeallocationQueue = DispatchQueue(label: "com.zetasq.Elkon.GIFImageDataSource.imageSourceDeallocationQueue")
+  
   internal let loopCount: LoopCount
   
   internal let frameCount: Int
@@ -91,6 +93,14 @@ internal final class GIFImageDataSource: AnimatedImageDataSource {
       return nil
     }
     frameDelays = tempFrameDelays
+  }
+  
+  deinit {
+    let imageSource = _imageSource
+    
+    GIFImageDataSource.imageSourceDeallocationQueue.async {
+      _ = imageSource
+    }
   }
   
   // MARK: - Public Methods
