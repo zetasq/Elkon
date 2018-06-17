@@ -128,12 +128,11 @@ public final class AnimatedImage {
       
       var currentMaxCachedFrameCount: Int = 1
       self._imageAccessingQueue.sync {
-        let couldIncreaseThreshold = self._maxCachedFrameCount < self._imageSource.frameCount
-        
-        if couldIncreaseThreshold {
+        if self._maxCachedFrameCount < self._imageSource.frameCount {
           if let safePivot = self._expandCacheSafePivot {
             if CACurrentMediaTime() > safePivot {
               self._maxCachedFrameCount += 1
+              self._expandCacheSafePivot = CACurrentMediaTime() + CFTimeInterval(10 + arc4random_uniform(10))
             }
           } else {
             self._maxCachedFrameCount += 1
