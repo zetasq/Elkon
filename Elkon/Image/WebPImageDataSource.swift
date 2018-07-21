@@ -192,49 +192,48 @@ internal final class WebPImageDataSource: AnimatedImageDataSource {
       intent: .defaultIntent
     )!
     
-    let colorSpace = CGColorSpace(name: CGColorSpace.sRGB)!
-    
     let bitmapSize = _canvasSize.adjustedCanvasSize(for: renderConfig)
     
-    let bitmapContext = CGContext(
-      data: nil,
-      width: Int(bitmapSize.width),
-      height: Int(bitmapSize.height),
-      bitsPerComponent: 8,
-      bytesPerRow: 0,
-      space: colorSpace,
-      bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue
-    )!
+    let renderer = UIGraphicsImageRenderer(size: bitmapSize)
     
-    if let renderConfig = renderConfig, renderConfig.needsToClipWithCornerRadius {
-      let roundedSize = renderConfig.sizeInPixels
-      let roundedRect = CGRect(origin: CGPoint(x: (bitmapSize.width - roundedSize.width) / 2, y: (bitmapSize.height - roundedSize.height) / 2), size: roundedSize)
+    let drawnImage = renderer.image { rendererContext in
+      let bitmapContext = rendererContext.cgContext
       
-      let bezierPath = UIBezierPath(roundedRect: roundedRect, cornerRadius: renderConfig.cornerRadiusInPixels)
-      bitmapContext.addPath(bezierPath.cgPath)
-      bitmapContext.clip()
-    }
-    
-    if !isKeyFrameAtCurrentIndex {
-      assert(previousImage != nil)
-      if let previousImage = previousImage {
-        let previousFrameInfo = _frameInfos[index - 1]
+      // Flip the context because UIKit coordinate system is upside down to Quartz coordinate system
+      // https://developer.apple.com/library/content/qa/qa1708/_index.html
+      bitmapContext.translateBy(x: 0, y: bitmapSize.height)
+      bitmapContext.scaleBy(x: 1, y: -1)
+      
+      if let renderConfig = renderConfig, renderConfig.needsToClipWithCornerRadius {
+        let roundedSize = renderConfig.sizeInPixels
+        let roundedRect = CGRect(origin: CGPoint(x: (bitmapSize.width - roundedSize.width) / 2, y: (bitmapSize.height - roundedSize.height) / 2), size: roundedSize)
         
-        bitmapContext.draw(previousImage, in: CGRect(origin: .zero, size: bitmapSize))
-        
-        if previousFrameInfo.disposeToBackground {
-          bitmapContext.clear(previousFrameInfo.adjustedFrameRect(for: renderConfig))
-        }
-        
-        if !frameInfo.blendWithPreviousFrame {
-          bitmapContext.clear(frameInfo.adjustedFrameRect(for: renderConfig))
+        let bezierPath = UIBezierPath(roundedRect: roundedRect, cornerRadius: renderConfig.cornerRadiusInPixels)
+        bitmapContext.addPath(bezierPath.cgPath)
+        bitmapContext.clip()
+      }
+      
+      if !isKeyFrameAtCurrentIndex {
+        assert(previousImage != nil)
+        if let previousImage = previousImage {
+          let previousFrameInfo = _frameInfos[index - 1]
+          
+          bitmapContext.draw(previousImage, in: CGRect(origin: .zero, size: bitmapSize))
+          
+          if previousFrameInfo.disposeToBackground {
+            bitmapContext.clear(previousFrameInfo.adjustedFrameRect(for: renderConfig))
+          }
+          
+          if !frameInfo.blendWithPreviousFrame {
+            bitmapContext.clear(frameInfo.adjustedFrameRect(for: renderConfig))
+          }
         }
       }
+      
+      bitmapContext.draw(cgImage, in: frameInfo.adjustedFrameRect(for: renderConfig))
     }
-    
-    bitmapContext.draw(cgImage, in: frameInfo.adjustedFrameRect(for: renderConfig))
-    
-    let finalImage = bitmapContext.makeImage()!
+
+    let finalImage = drawnImage.cgImage!
     return finalImage
   }
   
