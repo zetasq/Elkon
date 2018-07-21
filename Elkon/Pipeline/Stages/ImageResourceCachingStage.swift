@@ -44,6 +44,7 @@ public final class ImageResourceCachingStage: ImagePipelineStageProtocol {
     inputKey: ImageResource.Descriptor,
     inputData: ImageResource,
     outputKey: ImageResource.Descriptor,
+    task: ImagePipelineFetchingTask,
     completion: @escaping (ImageResource?) -> Void)
   {
     _resourceCache.setObject(inputData, forKey: outputKey, cost: inputData.totalByteSize)

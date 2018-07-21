@@ -64,6 +64,7 @@ public final class ImageRetrievingStage: ImagePipelineStageProtocol {
     inputKey: URL,
     inputData: Void,
     outputKey: URL,
+    task: ImagePipelineFetchingTask,
     completion: @escaping (Data?) -> Void)
   {
     fatalError("\(type(of: self)) is the last working stage of the image pipeline, we don't expect data from next stage")

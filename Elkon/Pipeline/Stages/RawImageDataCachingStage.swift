@@ -45,6 +45,7 @@ public final class RawImageDataCachingStage: ImagePipelineStageProtocol {
     inputKey: URL,
     inputData: Data,
     outputKey: URL,
+    task: ImagePipelineFetchingTask,
     completion: @escaping (Data?) -> Void)
   {
     _imageDataCache.asyncSetObject(inputData, forKey: outputKey.absoluteString)

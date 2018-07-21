@@ -29,8 +29,14 @@ public final class ImageResourceConstructingStage: ImagePipelineStageProtocol {
     inputKey: URL,
     inputData: Data,
     outputKey: ImageResource.Descriptor,
+    task: ImagePipelineFetchingTask,
     completion: @escaping (ImageResource?) -> Void)
   {
+    guard !task.isCanceled else {
+      completion(nil)
+      return
+    }
+    
     let image = ImageResource(data: inputData, renderConfig: outputKey.renderConfig)
     completion(image)
   }

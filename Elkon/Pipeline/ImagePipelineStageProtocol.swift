@@ -24,6 +24,7 @@ public protocol ImagePipelineStageProtocol: AnyObject, ImagePipelineStageOutputa
     inputKey: InputKeyType,
     inputData: InputDataType,
     outputKey: OutputKeyType,
+    task: ImagePipelineFetchingTask,
     completion: @escaping (OutputDataType?) -> Void
   )
   
@@ -64,7 +65,8 @@ extension ImagePipelineStageProtocol {
           return
         }
         
-        self.processDataFromNextStage(inputKey: inputKey, inputData: dataFromNextStage, outputKey: key) { processedData in
+        // let the stage object to handle if the task is cancelled. We'd better cache the data downloaded even the task is canceled
+        self.processDataFromNextStage(inputKey: inputKey, inputData: dataFromNextStage, outputKey: key, task: task) { processedData in
           completion?(processedData)
         }
       }

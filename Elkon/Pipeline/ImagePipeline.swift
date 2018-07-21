@@ -30,7 +30,7 @@ public final class ImagePipeline {
   }
   
   @discardableResult
-  public func fetchImageResource(with descriptor: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) -> ImagePipelineFetchingTask  {
+  public func fetchImageResource(with descriptor: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) -> ImagePipelineFetchingTask {
     let fetchingTask = ImagePipelineFetchingTask()
     
     firstStage.fetchDataWithRemainingPipeline(key: descriptor, task: fetchingTask, completion: completion)
