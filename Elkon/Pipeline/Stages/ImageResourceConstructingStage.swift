@@ -20,7 +20,7 @@ public final class ImageResourceConstructingStage: ImagePipelineStageProtocol {
     return outputKey.url
   }
   
-  public func searchDataAtThisStage(key: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
+  public func searchDataAtCurrentStage(key: ImageResource.Descriptor, task: ImagePipelineFetchingTask, completion: @escaping (ImageResource?) -> Void) {
     // We don't cache output at this stage
     completion(nil)
   }

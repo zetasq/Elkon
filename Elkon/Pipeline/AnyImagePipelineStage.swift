@@ -10,15 +10,15 @@ import Foundation
 
 public struct AnyImagePipelineStage<OutputKeyType: Hashable, OutputDataType>: ImagePipelineStageOutputable {
   
-  private let fetchMethod: (OutputKeyType, @escaping (OutputDataType?) -> Void) -> Void
+  private let fetchMethod: (OutputKeyType, ImagePipelineFetchingTask, ((OutputDataType?) -> Void)?) -> Void
   
   public init<T: ImagePipelineStageProtocol>(stage: T)
     where T.OutputKeyType == OutputKeyType, T.OutputDataType == OutputDataType {
       self.fetchMethod = stage.fetchDataWithRemainingPipeline
   }
   
-  public func fetchDataWithRemainingPipeline(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void) {
-    self.fetchMethod(key, completion)
+  public func fetchDataWithRemainingPipeline(key: OutputKeyType, task: ImagePipelineFetchingTask, completion: ((OutputDataType?) -> Void)?) {
+    self.fetchMethod(key, task, completion)
   }
   
 }

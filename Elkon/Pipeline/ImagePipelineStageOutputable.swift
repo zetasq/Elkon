@@ -14,6 +14,6 @@ public protocol ImagePipelineStageOutputable {
   
   associatedtype OutputDataType
   
-  func fetchDataWithRemainingPipeline(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void)
+  func fetchDataWithRemainingPipeline(key: OutputKeyType, task: ImagePipelineFetchingTask, completion: ((OutputDataType?) -> Void)?)
   
 }

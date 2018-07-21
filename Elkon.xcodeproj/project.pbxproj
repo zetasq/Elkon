@@ -22,6 +22,7 @@
 		D432DFD920BD972C0092E213 /* StaticImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D432DFD820BD972C0092E213 /* StaticImage.swift */; };
 		D44B923420C96F070045C33F /* AnimatedImage+FrameResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = D44B923320C96F070045C33F /* AnimatedImage+FrameResult.swift */; };
 		D45E582520AFCCAB009659BD /* ImageDisplayCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */; };
+		D45EAF7E2102CF4C00F9731B /* ImagePipelineFetchingTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = D45EAF7D2102CF4C00F9731B /* ImagePipelineFetchingTask.swift */; };
 		D466682020BE3D750092A100 /* StaticImageDisplayDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = D466681F20BE3D750092A100 /* StaticImageDisplayDriver.swift */; };
 		D466682220BE3EA60092A100 /* ImageDisplayDriverConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D466682120BE3EA60092A100 /* ImageDisplayDriverConfig.swift */; };
 		D47E9D3C20D50ADE0034F9A7 /* CoreGraphics+Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = D47E9D3B20D50ADE0034F9A7 /* CoreGraphics+Utils.swift */; };
@@ -104,6 +105,7 @@
 		D432DFD820BD972C0092E213 /* StaticImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticImage.swift; sourceTree = "<group>"; };
 		D44B923320C96F070045C33F /* AnimatedImage+FrameResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AnimatedImage+FrameResult.swift"; sourceTree = "<group>"; };
 		D45E582420AFCCAB009659BD /* ImageDisplayCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayCoordinator.swift; sourceTree = "<group>"; };
+		D45EAF7D2102CF4C00F9731B /* ImagePipelineFetchingTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineFetchingTask.swift; sourceTree = "<group>"; };
 		D466681F20BE3D750092A100 /* StaticImageDisplayDriver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaticImageDisplayDriver.swift; sourceTree = "<group>"; };
 		D466682120BE3EA60092A100 /* ImageDisplayDriverConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDisplayDriverConfig.swift; sourceTree = "<group>"; };
 		D47E9D3B20D50ADE0034F9A7 /* CoreGraphics+Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CoreGraphics+Utils.swift"; sourceTree = "<group>"; };
@@ -245,6 +247,7 @@
 				D4BAD88D20AE55D500A7D4D2 /* AnyImagePipelineStage.swift */,
 				D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */,
 				D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */,
+				D45EAF7D2102CF4C00F9731B /* ImagePipelineFetchingTask.swift */,
 				D44A5FC420AF1B60005420C8 /* Stages */,
 			);
 			path = Pipeline;
@@ -517,6 +520,7 @@
 				D4BAD88620ADCA4C00A7D4D2 /* AnimatedImage.swift in Sources */,
 				D4E18E9F20C1979500BAD8B0 /* WebPImageDataSource.swift in Sources */,
 				D432DF9D20B705EF0092E213 /* ElkonImageView.swift in Sources */,
+				D45EAF7E2102CF4C00F9731B /* ImagePipelineFetchingTask.swift in Sources */,
 				D499A51A20CC018B0069DEEC /* ImageResource+Descriptor.swift in Sources */,
 				D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */,
 				D4E18E6220BED7C000BAD8B0 /* Int+GCD.swift in Sources */,

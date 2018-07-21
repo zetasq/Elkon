@@ -18,7 +18,7 @@ public protocol ImagePipelineStageProtocol: AnyObject, ImagePipelineStageOutputa
   
   func transformOutputKeyToInputKey(_ outputKey: OutputKeyType) -> InputKeyType
   
-  func searchDataAtThisStage(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void)
+  func searchDataAtCurrentStage(key: OutputKeyType, task: ImagePipelineFetchingTask, completion: @escaping (OutputDataType?) -> Void)
   
   func processDataFromNextStage(
     inputKey: InputKeyType,
@@ -38,29 +38,34 @@ extension ImagePipelineStageProtocol {
       return stage
   }
 
-  public func fetchDataWithRemainingPipeline(key: OutputKeyType, completion: @escaping (OutputDataType?) -> Void) {
-    searchDataAtThisStage(key: key) { cachedData in
+  public func fetchDataWithRemainingPipeline(key: OutputKeyType, task: ImagePipelineFetchingTask, completion: ((OutputDataType?) -> Void)?) {
+    guard !task.isCanceled else {
+      completion?(nil)
+      return
+    }
+    
+    searchDataAtCurrentStage(key: key, task: task) { cachedData in
       if let cachedData = cachedData {
-        completion(cachedData)
+        completion?(cachedData)
         return
       }
       
       guard let nextStage = self.nextStage else {
         // This is the last stage of the pipeline
-        completion(nil)
+        completion?(nil)
         return
       }
       
       let inputKey = self.transformOutputKeyToInputKey(key)
       
-      nextStage.fetchDataWithRemainingPipeline(key: inputKey) { dataFromNextStage in
+      nextStage.fetchDataWithRemainingPipeline(key: inputKey, task: task) { dataFromNextStage in
         guard let dataFromNextStage = dataFromNextStage else {
-          completion(nil)
+          completion?(nil)
           return
         }
         
         self.processDataFromNextStage(inputKey: inputKey, inputData: dataFromNextStage, outputKey: key) { processedData in
-          completion(processedData)
+          completion?(processedData)
         }
       }
     }

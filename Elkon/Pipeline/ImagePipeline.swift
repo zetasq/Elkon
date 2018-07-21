@@ -29,8 +29,13 @@ public final class ImagePipeline {
     self.firstStage = AnyImagePipelineStage(stage: firstStage)
   }
   
-  public func fetchImageResource(with descriptor: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
-    firstStage.fetchDataWithRemainingPipeline(key: descriptor, completion: completion)
+  @discardableResult
+  public func fetchImageResource(with descriptor: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) -> ImagePipelineFetchingTask  {
+    let fetchingTask = ImagePipelineFetchingTask()
+    
+    firstStage.fetchDataWithRemainingPipeline(key: descriptor, task: fetchingTask, completion: completion)
+    
+    return fetchingTask
   }
   
 }

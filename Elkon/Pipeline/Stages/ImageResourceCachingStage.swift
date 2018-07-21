@@ -35,7 +35,7 @@ public final class ImageResourceCachingStage: ImagePipelineStageProtocol {
     return outputKey
   }
   
-  public func searchDataAtThisStage(key: ImageResource.Descriptor, completion: @escaping (ImageResource?) -> Void) {
+  public func searchDataAtCurrentStage(key: ImageResource.Descriptor, task: ImagePipelineFetchingTask, completion: @escaping (ImageResource?) -> Void) {
     let cachedImage = _resourceCache.fetchObject(forKey: key)
     completion(cachedImage)
   }

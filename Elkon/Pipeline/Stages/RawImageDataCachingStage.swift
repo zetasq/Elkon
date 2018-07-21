@@ -35,7 +35,7 @@ public final class RawImageDataCachingStage: ImagePipelineStageProtocol {
     return outputKey
   }
   
-  public func searchDataAtThisStage(key: URL, completion: @escaping (Data?) -> Void) {
+  public func searchDataAtCurrentStage(key: URL, task: ImagePipelineFetchingTask, completion: @escaping (Data?) -> Void) {
     _imageDataCache.asyncFetchObject(forKey: key.absoluteString) { data in
       completion(data)
     }
