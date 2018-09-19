@@ -57,7 +57,7 @@ internal final class AnimatedImageDisplayDriver: NSObject, ImageDisplayDriverPro
     _animationDisplayLink = CADisplayLink(target: weakProxy, selector: #selector(self.displayLinkDidRefresh(_:)))
     _animationDisplayLink!.preferredFramesPerSecond = max(1, min(60, Int(1.0 / animatedImage.frameDelayGCD)))
     
-    _animationDisplayLink!.add(to: .main, forMode: .commonModes)
+    _animationDisplayLink!.add(to: .main, forMode: RunLoop.Mode.common)
     _animationDisplayLink!.isPaused = false
   }
 

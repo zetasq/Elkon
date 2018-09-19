@@ -88,7 +88,7 @@ public struct StaticImage {
   public func asUIImage() -> UIImage {
     switch _storage {
     case .bitmap(let cgImage, let orientation):
-      return UIImage(cgImage: cgImage, scale: MAIN_SCREEN_SCALE, orientation: UIImageOrientation(orientation))
+      return UIImage(cgImage: cgImage, scale: MAIN_SCREEN_SCALE, orientation: UIImage.Orientation(orientation))
     case .opaque(let uiImage):
       return uiImage
     }

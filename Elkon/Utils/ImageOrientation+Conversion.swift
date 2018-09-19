@@ -10,7 +10,7 @@ import Foundation
 
 extension CGImagePropertyOrientation {
   
-  public init(_ uiOrientation: UIImageOrientation) {
+  public init(_ uiOrientation: UIImage.Orientation) {
     switch uiOrientation {
     case .up: self = .up
     case .upMirrored: self = .upMirrored
@@ -25,7 +25,7 @@ extension CGImagePropertyOrientation {
   
 }
 
-extension UIImageOrientation {
+extension UIImage.Orientation {
   
   public init(_ cgOrientation: CGImagePropertyOrientation) {
     switch cgOrientation {

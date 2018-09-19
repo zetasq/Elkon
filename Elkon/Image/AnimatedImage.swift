@@ -51,7 +51,7 @@ public final class AnimatedImage {
     self._frameIndexToImageCache[0] = self.firstFrame.frameImage
     self._maxCachedFrameCount = _imageSource.frameCount
 
-    NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveMemoryWarning(_:)), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
+    NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveMemoryWarning(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
   }
   
   // MARK: - Public Methods
