@@ -21,8 +21,8 @@ public final class AnimatedImage {
   private let _imageSource: AnimatedImageDataSource
   private let _renderConfig: ImageRenderConfig?
   
-  private let _imagePreparingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imagePreparingQueue")
-  private let _imageAccessingQueue = DispatchQueue(label: "com.zetasq.Elkon.AnimatedImage.imageAccessingQueue")
+  private let _imagePreparingQueue = AnimatedImageBackingQueuePool.randomImagePreparingQueue()
+  private let _imageAccessingQueue = AnimatedImageBackingQueuePool.randomImageAccessingQueue()
   
   // The following stored properties should be accessed on _imageAccessingQueue
   private var _frameIndexToImageCache: [Int: CGImage] = [:]
