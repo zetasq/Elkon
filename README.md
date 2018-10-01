@@ -22,7 +22,7 @@ Instead of using bare `UIImageView`, you create `ElkonImageView` (a light-weight
 let iconView = ElkonImageView()
 
 // load image by url (supports local file url)
-iconView.elkon.loadImage(at: URL(string: "my-image-url", placeholder: UIImage(named: "iconPlaceholder", animated: true)
+iconView.elkon.loadImage(at: URL(string: "my-image-url"), placeholder: UIImage(named: "iconPlaceholder", animated: true)
 
 // load UIImage directly
 let image = UIImage(named: "icon-image")
@@ -30,7 +30,7 @@ iconView.elkon.load(uiImage: image, placeholder: nil, animated: true)
 
 // Image resizing and cornerRadius support
 let renderConfig = ImageRenderConfig(sizeInPoints: CGSize(width: 50, height: 50), cornerRadiusInPoints: 5, scaleMode: .fill)
-iconView.elkon.loadImage(at: url, renderConfig: renderConfig, placeholder: nil, animated: true)
+iconView.elkon.loadImage(at: URL(string: "my-image-url"), renderConfig: renderConfig, placeholder: nil, animated: true)
 ```
 
 ## License
