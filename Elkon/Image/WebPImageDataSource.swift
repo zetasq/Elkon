@@ -14,7 +14,7 @@ internal final class WebPImageDataSource: AnimatedImageDataSource {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "WebPImageDataSource")
   
-  private static let demuxerDeleteQueue = DispatchQueue(label: "com.zetasq.Elkon.WebPImageDataSource.demuxerDeleteQueue")
+  private static let demuxerDeleteQueue = DispatchQueue(label: "com.zetasq.Elkon.WebPImageDataSource::demuxerDeleteQueue")
   
   internal let loopCount: LoopCount
   
