@@ -14,7 +14,7 @@ public final class ImageRetrievingStage: ImagePipelineStageProtocol {
 
   public typealias OutputDataType = Data
 
-  public var nextStage: AnyImagePipelineStage<URL, Void>? = nil // This should be the last stage of the image pipeline
+  public var nextStage: AnyImagePipelineStage<URL, Never>? = nil // This should be the last stage of the image pipeline
   
   private var _urlToRemoteImageDownloadTaskTable: [URL: RemoteImageDownloadTask] = [:]
   private var _tableLock = os_unfair_lock_s()
@@ -62,7 +62,7 @@ public final class ImageRetrievingStage: ImagePipelineStageProtocol {
   
   public func processDataFromNextStage(
     inputKey: URL,
-    inputData: Void,
+    inputData: Never,
     outputKey: URL,
     task: ImagePipelineFetchingTask,
     completion: @escaping (Data?) -> Void)
