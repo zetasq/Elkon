@@ -45,7 +45,7 @@ internal final class RemoteImageDownloadTask {
   private var _lock = os_unfair_lock_s()
   
   internal init(url: URL) {
-    assert(url.scheme == "http" || url.scheme == "https", "Unsupported image url: \(url)")
+    assert(!url.isFileURL)
     self.url = url
   }
   
