@@ -8,6 +8,7 @@
 
 import Foundation
 import os.log
+import SwiftCache
 
 internal final class RemoteImageDownloadTask {
   
@@ -36,7 +37,9 @@ internal final class RemoteImageDownloadTask {
   
   private static let logger = OSLog(subsystem: "com.zetasq.Elkon", category: "ImageDownloadTask")
   
-  internal let url: URL
+  private let _url: URL
+  
+  private let _downloadCache: SwiftDiskCache<Data>
   
   private var _state: State = .ready
   
@@ -44,9 +47,10 @@ internal final class RemoteImageDownloadTask {
   
   private var _lock = os_unfair_lock_s()
   
-  internal init(url: URL) {
+  internal init(url: URL, downloadCache: SwiftDiskCache<Data>) {
     assert(!url.isFileURL)
-    self.url = url
+    self._url = url
+    self._downloadCache = downloadCache
   }
   
   internal func addFinishHandler(_ handler: @escaping (Data?) -> Void) {
@@ -70,35 +74,44 @@ internal final class RemoteImageDownloadTask {
     assert(_state.isReady)
     _state = .downloading
     os_unfair_lock_unlock(&_lock)
+    
+    _downloadCache.asyncFetchObject(forKey: _url.absoluteString) { cachedData in
+      if let cachedData = cachedData {
+        self._finishFetchingData(cachedData)
+        return
+      }
+      
+      let downloadTask = URLSession.shared.downloadTask(with: self._url, completionHandler: { tempURL, response, error in
+        if let error = error {
+          os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "Transport error occured when downloading data from \(self._url): \(error)")
+          self._finishFetchingData(nil)
+          return
+        }
+        
+        guard let response = response as? HTTPURLResponse else {
+          os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "No response when downloading data from \(self._url)")
+          self._finishFetchingData(nil)
+          return
+        }
+        
+        guard response.statusCode >= 200 && response.statusCode < 300 else {
+          os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(self._url)")
+          self._finishFetchingData(nil)
+          return
+        }
+        
+        guard let tempURL = tempURL,
+          let data = self._downloadCache.syncLinkFileURL(tempURL, forKey: self._url.absoluteString) else {
+            os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "No data returned when downloading data from \(self._url)")
+            self._finishFetchingData(nil)
+            return
+        }
+        
+        self._finishFetchingData(data)
+      })
 
-    let dataTask = URLSession.shared.dataTask(with: url, completionHandler: { data, response, error in
-      if let error = error {
-        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "Transport error occured when downloading data from \(self.url): \(error)")
-        self._finishFetchingData(nil)
-        return
-      }
-      
-      guard let response = response as? HTTPURLResponse else {
-        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "No response when downloading data from \(self.url)")
-        self._finishFetchingData(nil)
-        return
-      }
-      
-      guard response.statusCode == 200 else {
-        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "StatusCode = \(response.statusCode) when downloading data from \(self.url)")
-        self._finishFetchingData(nil)
-        return
-      }
-      
-      guard let data = data else {
-        os_log("%@", log: RemoteImageDownloadTask.logger, type: .error, "No data returned when downloading data from \(self.url)")
-        self._finishFetchingData(nil)
-        return
-      }
-      
-      self._finishFetchingData(data)
-    })
-    dataTask.resume()
+      downloadTask.resume()
+    }
   }
   
   private func _finishFetchingData(_ data: Data?) {

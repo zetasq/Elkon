@@ -13,10 +13,10 @@ public final class ImagePipeline {
   
   public static let `default`: ImagePipeline = {
     let typedImageCachingStage = ImageResourceCachingStage(label: "default")
+    
     typedImageCachingStage
       .bindNext(ImageResourceConstructingStage())
-      .bindNext(RawImageDataCachingStage(label: "default"))
-      .bindNext(ImageRetrievingStage())
+      .bindNext(ImageRetrievingStage(label: "default"))
     
     let pipeline = ImagePipeline(firstStage: typedImageCachingStage)
     return pipeline

@@ -34,7 +34,6 @@
 		D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */; };
 		D4BAD87A20ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */; };
 		D4BAD87D20ADC33A00A7D4D2 /* ImageRetrievingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */; };
-		D4BAD88120ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88020ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift */; };
 		D4BAD88620ADCA4C00A7D4D2 /* AnimatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88520ADCA4C00A7D4D2 /* AnimatedImage.swift */; };
 		D4BAD88820ADCC5600A7D4D2 /* ImageResourceConstructingStage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88720ADCC5600A7D4D2 /* ImageResourceConstructingStage.swift */; };
 		D4BAD88A20ADCD1D00A7D4D2 /* ImageResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BAD88920ADCD1D00A7D4D2 /* ImageResource.swift */; };
@@ -118,7 +117,6 @@
 		D4BAD87720ADBC8600A7D4D2 /* ImagePipeline.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipeline.swift; sourceTree = "<group>"; };
 		D4BAD87920ADBCDB00A7D4D2 /* ImagePipelineStageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePipelineStageProtocol.swift; sourceTree = "<group>"; };
 		D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageRetrievingStage.swift; sourceTree = "<group>"; };
-		D4BAD88020ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawImageDataCachingStage.swift; sourceTree = "<group>"; };
 		D4BAD88520ADCA4C00A7D4D2 /* AnimatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedImage.swift; sourceTree = "<group>"; };
 		D4BAD88720ADCC5600A7D4D2 /* ImageResourceConstructingStage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResourceConstructingStage.swift; sourceTree = "<group>"; };
 		D4BAD88920ADCD1D00A7D4D2 /* ImageResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageResource.swift; sourceTree = "<group>"; };
@@ -198,7 +196,6 @@
 			children = (
 				D4BAD87C20ADC33A00A7D4D2 /* ImageRetrievingStage.swift */,
 				D4E6BF3820AB35B600AF70CD /* RemoteImageDownloadTask.swift */,
-				D4BAD88020ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift */,
 				D4BAD88720ADCC5600A7D4D2 /* ImageResourceConstructingStage.swift */,
 				D4BAD88F20AE5BF300A7D4D2 /* ImageResourceCachingStage.swift */,
 			);
@@ -537,7 +534,6 @@
 				D4E6BF3920AB35B600AF70CD /* RemoteImageDownloadTask.swift in Sources */,
 				D4BAD87820ADBC8600A7D4D2 /* ImagePipeline.swift in Sources */,
 				D4BAD88C20ADD99700A7D4D2 /* ImagePipelineStageOutputable.swift in Sources */,
-				D4BAD88120ADC6AA00A7D4D2 /* RawImageDataCachingStage.swift in Sources */,
 				D4BAD87D20ADC33A00A7D4D2 /* ImageRetrievingStage.swift in Sources */,
 				D466682220BE3EA60092A100 /* ImageDisplayDriverConfig.swift in Sources */,
 				D449BF4C2151D42F00F9C56C /* AnimatedImageBackingQueuePool.swift in Sources */,
