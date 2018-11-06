@@ -15,7 +15,7 @@ extension AnimatedImage {
     private static let _imagePreparingQueues: [DispatchQueue] = {
       var queues: [DispatchQueue] = []
       
-      for i in 0..<5 {
+      for i in 0..<ProcessInfo.processInfo.activeProcessorCount {
         let queue = DispatchQueue(
           label: "com.zetasq.Elkon.AnimatedImage.DispatchQueuePool.imagePreparingQueue-\(i)",
           qos: DispatchQoS.utility
@@ -34,7 +34,7 @@ extension AnimatedImage {
     private static let _imageAccessingQueues: [DispatchQueue] = {
       var queues: [DispatchQueue] = []
       
-      for i in 0..<5 {
+      for i in 0..<ProcessInfo.processInfo.activeProcessorCount {
         let queue = DispatchQueue(
           label: "com.zetasq.Elkon.AnimatedImage.DispatchQueuePool.imageAccessingQueue-\(i)",
           qos: DispatchQoS.userInteractive
